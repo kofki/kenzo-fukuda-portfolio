@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: theme is toggled by adding `.dark` to <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ───────────────────────────────────────────────────────────
+   Design tokens — "Golden Hour" coastal palette.
+   Light = sunlit golden hour. Dark = night ocean.
+   Each token is consumed through Tailwind via the @theme map below.
+   ─────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  --sand: #f5efe3; /* page background — warm bone */
+  --surface: #fbf7ee; /* elevated cards/panels */
+  --ink: #0e2e2c; /* primary text — deep ocean */
+  --muted: #5c6b66; /* secondary text */
+  --border: rgba(14, 46, 44, 0.12);
+
+  --coral: #e8643c; /* primary accent — sunset */
+  --teal: #0e7c7b; /* secondary accent — sea */
+  --amber: #e8b04b; /* tertiary accent — sunlight */
+  --foam: #cfe7e2; /* pale aqua — soft fills */
+
+  /* Atmospheric layers used by the hero sky. */
+  --sky-top: #fbe6c4;
+  --sky-mid: #f6b98a;
+  --sky-low: #ec8e6c;
+  --sun: #ffcf6b;
+  --sea-top: #1f7e84;
+  --sea-deep: #0d4d57;
+  --star: transparent;
+
+  --grain-opacity: 0.05;
+
+  /* Deep-ocean finale band — intentionally dark in both themes. */
+  --deep-top: #0e5c63;
+  --deep-bottom: #07262d;
+  --deep-ink: #eaf2ef;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --sand: #0a1f26;
+  --surface: #0f2a32;
+  --ink: #eaf2ef;
+  --muted: #8fa8a6;
+  --border: rgba(234, 242, 239, 0.14);
+
+  --coral: #ff7a4d;
+  --teal: #2fb8ae;
+  --amber: #f2c45a;
+  --foam: #16323a;
+
+  --sky-top: #061018;
+  --sky-mid: #0a212c;
+  --sky-low: #103a44;
+  --sun: #e9eede; /* moon */
+  --sea-top: #07252e;
+  --sea-deep: #041319;
+  --star: #f3f7f0;
+
+  --grain-opacity: 0.08;
+
+  --deep-top: #0a3942;
+  --deep-bottom: #03161b;
+  --deep-ink: #eaf2ef;
+}
+
+/* ───────────────────────────────────────────────────────────
+   Tailwind theme mapping — turns tokens into utilities
+   (bg-sand, text-ink, text-coral, font-display, animate-*, …).
+   ─────────────────────────────────────────────────────────── */
+@theme inline {
+  --color-sand: var(--sand);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-coral: var(--coral);
+  --color-teal: var(--teal);
+  --color-amber: var(--amber);
+  --color-foam: var(--foam);
+  --color-deep-top: var(--deep-top);
+  --color-deep-bottom: var(--deep-bottom);
+  --color-deep-ink: var(--deep-ink);
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-hanken);
+  --font-mono: var(--font-jetbrains);
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-bob: bob 4s ease-in-out infinite;
+  --animate-twinkle: twinkle 4s ease-in-out infinite;
+  --animate-drift: drift 18s linear infinite;
+  --animate-sheen: sheen 2.4s ease-in-out infinite;
+  --animate-wave: wave-x 14s linear infinite;
+  --animate-rise: rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+@keyframes drift {
+  from { background-position: 0 0; }
+  to { background-position: 200px 0; }
+}
+@keyframes sheen {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+@keyframes wave-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem; /* clears the sticky nav on anchor jumps */
+  }
+
+  body {
+    background-color: var(--sand);
+    color: var(--ink);
+    font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.6s ease, color 0.6s ease;
+  }
+
+  ::selection {
+    background-color: var(--coral);
+    color: var(--sand);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  /* Fine-grained film grain, layered globally for texture. */
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Faint topographic/wave contour pattern for section backgrounds. */
+  .bg-contours {
+    background-image: repeating-radial-gradient(
+      circle at 50% 120%,
+      transparent 0,
+      transparent 38px,
+      color-mix(in oklab, var(--teal) 14%, transparent) 39px,
+      transparent 40px
+    );
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
