@@ -8,18 +8,19 @@ export function Experience() {
   return (
     <section
       id="experience"
-      className="bg-contours relative scroll-mt-24 py-24 sm:py-32"
+      className="bg-contours relative scroll-mt-24 py-16 sm:py-24"
     >
       <Container>
         <Reveal>
           <SectionHeading
+            index="03"
             eyebrow="The path so far"
             title="Experience"
-            description="From a first marketing-site internship to a current engineering role — a steady climb, one wave at a time."
+            description="From early internships to leading teams and co-founding a startup. A steady climb, one wave at a time."
           />
         </Reveal>
 
-        <Reveal className="mt-14">
+        <Reveal className="mt-10">
           <ol className="max-w-3xl">
             {experiences.map((experience) => (
               <TimelineItem key={experience.id} experience={experience} />

@@ -7,9 +7,9 @@ import { profile } from "@/data/profile";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: `${profile.name} — ${profile.role}`,
+  title: `${profile.name} · ${profile.role}`,
   description:
-    "Portfolio of a software engineer who builds dependable, delightful products — projects, hackathons, and experience, with a view of the coast.",
+    "Portfolio of a software engineer who builds dependable, delightful products. Projects, hackathons, and experience, with a view of the coast.",
 };
 
 export const viewport: Viewport = {
@@ -19,8 +19,9 @@ export const viewport: Viewport = {
   ],
 };
 
-// Applies the saved/system theme to <html> before paint to avoid a flash.
-const NO_FLASH_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.classList.toggle('dark',t==='dark');}catch(e){}})();`;
+// Applies the theme to <html> before paint to avoid a flash.
+// Saved mode "light"/"dark" wins; "auto" (or none) resolves from the local hour.
+const NO_FLASH_SCRIPT = `(function(){try{var m=localStorage.getItem('theme-mode');var e;if(m==='light'||m==='dark'){e=m;}else{var h=new Date().getHours();e=(h>=7&&h<19)?'light':'dark';}document.documentElement.classList.toggle('dark',e==='dark');}catch(err){}})();`;
 
 export default function RootLayout({
   children,

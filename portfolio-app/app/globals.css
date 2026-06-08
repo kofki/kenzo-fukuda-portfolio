@@ -4,36 +4,48 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ───────────────────────────────────────────────────────────
-   Design tokens — "Golden Hour" coastal palette.
+   Design tokens - "Golden Hour" coastal palette.
    Light = sunlit golden hour. Dark = night ocean.
    Each token is consumed through Tailwind via the @theme map below.
    ─────────────────────────────────────────────────────────── */
 :root {
   color-scheme: light;
 
-  --sand: #f5efe3; /* page background — warm bone */
+  --sand: #f5efe3; /* page background - warm bone */
   --surface: #fbf7ee; /* elevated cards/panels */
-  --ink: #0e2e2c; /* primary text — deep ocean */
+  --ink: #0e2e2c; /* primary text - deep ocean */
   --muted: #5c6b66; /* secondary text */
   --border: rgba(14, 46, 44, 0.12);
 
-  --coral: #e8643c; /* primary accent — sunset */
-  --teal: #0e7c7b; /* secondary accent — sea */
-  --amber: #e8b04b; /* tertiary accent — sunlight */
-  --foam: #cfe7e2; /* pale aqua — soft fills */
+  --coral: #e8643c; /* primary accent - sunset */
+  --teal: #0e7c7b; /* secondary accent - sea */
+  --amber: #e8b04b; /* tertiary accent - sunlight */
+  --foam: #cfe7e2; /* pale aqua - soft fills */
+  --sand-deep: #ead7b3; /* warm tan - beach sand */
+  --sky-blue: #2bb3e8; /* bright coastal sky */
+  --palm: #1fa86b; /* palm green */
+  --sun-yellow: #ffc23d; /* sunlight */
+
+  /* Dive-world depth band colors (light = day dive). Tropical, not pool. */
+  --dive-shallow: #34c4c2; /* turquoise just under the surface */
+  --dive-mid: #117a8c;
+  --dive-deep: #073b49;
+  --dive-glow: #5ff0d6; /* reef-city bioluminescence */
+  --water-caustic: #7af0e4; /* sunlit shafts dancing on the water */
+  --water-haze: #bdeee6;
 
   /* Atmospheric layers used by the hero sky. */
   --sky-top: #fbe6c4;
   --sky-mid: #f6b98a;
   --sky-low: #ec8e6c;
   --sun: #ffcf6b;
-  --sea-top: #1f7e84;
-  --sea-deep: #0d4d57;
+  --sea-top: #2fb8c9;
+  --sea-deep: #0c5f72;
   --star: transparent;
 
   --grain-opacity: 0.05;
 
-  /* Deep-ocean finale band — intentionally dark in both themes. */
+  /* Deep-ocean finale band - intentionally dark in both themes. */
   --deep-top: #0e5c63;
   --deep-bottom: #07262d;
   --deep-ink: #eaf2ef;
@@ -52,13 +64,25 @@
   --teal: #2fb8ae;
   --amber: #f2c45a;
   --foam: #16323a;
+  --sand-deep: #123845;
+  --sky-blue: #1c7fb0;
+  --palm: #2bb27a;
+  --sun-yellow: #f2c45a;
+
+  /* Dive-world depth band colors (dark = night dive). */
+  --dive-shallow: #114a5a;
+  --dive-mid: #0a313c;
+  --dive-deep: #03161b;
+  --dive-glow: #36d8c6;
+  --water-caustic: #1a5f6b;
+  --water-haze: #0e3a45;
 
   --sky-top: #061018;
   --sky-mid: #0a212c;
   --sky-low: #103a44;
   --sun: #e9eede; /* moon */
-  --sea-top: #07252e;
-  --sea-deep: #041319;
+  --sea-top: #0a3540;
+  --sea-deep: #051a22;
   --star: #f3f7f0;
 
   --grain-opacity: 0.08;
@@ -69,7 +93,7 @@
 }
 
 /* ───────────────────────────────────────────────────────────
-   Tailwind theme mapping — turns tokens into utilities
+   Tailwind theme mapping - turns tokens into utilities
    (bg-sand, text-ink, text-coral, font-display, animate-*, …).
    ─────────────────────────────────────────────────────────── */
 @theme inline {
@@ -82,6 +106,12 @@
   --color-teal: var(--teal);
   --color-amber: var(--amber);
   --color-foam: var(--foam);
+  --color-sand-deep: var(--sand-deep);
+  --color-sky-blue: var(--sky-blue);
+  --color-palm: var(--palm);
+  --color-sun-yellow: var(--sun-yellow);
+  --color-water-caustic: var(--water-caustic);
+  --color-water-haze: var(--water-haze);
   --color-deep-top: var(--deep-top);
   --color-deep-bottom: var(--deep-bottom);
   --color-deep-ink: var(--deep-ink);
@@ -97,6 +127,18 @@
   --animate-sheen: sheen 2.4s ease-in-out infinite;
   --animate-wave: wave-x 14s linear infinite;
   --animate-rise: rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-sway: sway 7s ease-in-out infinite;
+  --animate-glow: glow 5s ease-in-out infinite;
+  --animate-rays: rays 12s ease-in-out infinite;
+  --animate-fall: fall 1.1s linear infinite;
+  --animate-caustic: caustic-drift 26s linear infinite;
+  --animate-walk: walk-x 26s linear infinite;
+  --animate-flap: flap 0.5s ease-in-out infinite;
+  --animate-jiggle: leg-jiggle 0.32s ease-in-out infinite;
+  --animate-aurora: aurora-shift 14s ease-in-out infinite;
+  --animate-swing: swing 0.62s ease-in-out infinite;
+  --animate-glide: glide 0.55s ease-in-out infinite;
+  --animate-bump: bump 1.1s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -127,20 +169,90 @@
   from { opacity: 0; transform: translateY(22px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes glow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+@keyframes rays {
+  0%, 100% { opacity: 0.25; transform: translateX(0); }
+  50% { opacity: 0.5; transform: translateX(14px); }
+}
+@keyframes fall {
+  from { transform: translateY(-20vh); opacity: 0; }
+  10% { opacity: 0.7; }
+  to { transform: translateY(80vh); opacity: 0; }
+}
+/* Sunlit caustics: only background-position moves (compositor-cheap). */
+@keyframes caustic-drift {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 140px 70px, -110px 50px; }
+}
+/* Horizontal traverse for crabs, birds, boats, and beachgoers. */
+@keyframes walk-x {
+  from { transform: translateX(-14vw); }
+  to { transform: translateX(114vw); }
+}
+/* Crab legs scuttling. */
+@keyframes leg-jiggle {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(7deg); }
+}
+/* Bird wing flap. */
+@keyframes flap {
+  0%, 100% { transform: rotateZ(0deg) scaleY(1); }
+  50% { transform: rotateZ(-16deg) scaleY(0.8); }
+}
+/* Limb swing for a walk cycle; legs/arms alternate via negative delay. */
+@keyframes swing {
+  0%, 100% { transform: rotate(24deg); }
+  50% { transform: rotate(-24deg); }
+}
+/* Volleyball player crouch/bump bounce. */
+@keyframes bump {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+/* A volleyball arcing between two players. X is viewport-relative (vw) so it
+   spans the gap between players on any width; Y is the up-arc over the net. */
+@keyframes ball-arc {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(10vw, -66px); }
+  50% { transform: translate(20vw, 0); }
+  75% { transform: translate(10vw, -66px); }
+  100% { transform: translate(0, 0); }
+}
+/* Aurora curtains drifting and breathing. */
+@keyframes aurora-shift {
+  0% { transform: translateX(-5%) skewX(-7deg); opacity: 0.4; }
+  50% { transform: translateX(5%) skewX(7deg); opacity: 0.85; }
+  100% { transform: translateX(-5%) skewX(-7deg); opacity: 0.4; }
+}
+/* Symmetric wing flap for a gliding bird (vertical squash only). */
+@keyframes glide {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.6); }
+}
 
 /* ─────────────────────────────────────────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 6rem; /* clears the sticky nav on anchor jumps */
+    /* Base canvas - the fixed WorldBackground paints over this on the home page,
+       and it is the fallback backdrop on routes without the dive world. */
+    background-color: var(--sand);
+    transition: background-color 0.6s ease;
   }
 
   body {
-    background-color: var(--sand);
     color: var(--ink);
     font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 0.6s ease, color 0.6s ease;
+    transition: color 0.6s ease;
   }
 
   ::selection {
@@ -163,6 +275,31 @@
 }
 
 @layer utilities {
+  /* Liquid glass: frosted, refractive surface with a bright specular edge.
+     The host element must be `relative` for the ::before sheen. */
+  .glass {
+    background-color: color-mix(in oklab, var(--surface) 58%, transparent);
+    backdrop-filter: blur(16px) saturate(135%);
+    -webkit-backdrop-filter: blur(16px) saturate(135%);
+    border: 1px solid color-mix(in oklab, white 24%, var(--border));
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, white 55%, transparent),
+      inset 0 -10px 26px -14px color-mix(in oklab, white 28%, transparent),
+      0 18px 42px -24px rgba(2, 18, 23, 0.55);
+  }
+  .glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      157deg,
+      color-mix(in oklab, white 22%, transparent) 0%,
+      transparent 38%
+    );
+    pointer-events: none;
+  }
+
   /* Fine-grained film grain, layered globally for texture. */
   .bg-grain {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");

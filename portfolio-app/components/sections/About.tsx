@@ -1,34 +1,36 @@
 import Image from "next/image";
-import { HobbyChip } from "@/components/about/HobbyChip";
 import { Reveal } from "@/components/fx/Reveal";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { icons } from "@/lib/icons";
-import { unsplash } from "@/lib/unsplash";
-import { hobbies } from "@/data/hobbies";
 import { profile } from "@/data/profile";
 
 export function About() {
-  const Sparkle = icons.sparkle;
+  const Now = icons.path;
 
   return (
-    <section id="about" className="relative scroll-mt-24 py-24 sm:py-32">
+    <section id="about" className="relative scroll-mt-24 py-16 sm:py-24">
       <Container>
         <Reveal>
-          <SectionHeading eyebrow="Who I am" title="Engineer by craft, beach kid by default." />
+          <SectionHeading
+            index="01"
+            eyebrow="Who I am"
+            title="Engineer by craft, beach kid by default."
+          />
         </Reveal>
 
-        <div className="mt-14 grid items-start gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-          <Reveal className="space-y-5">
+        <div className="mt-10 grid items-start gap-10 lg:grid-cols-12">
+          {/* Text column */}
+          <Reveal className="space-y-5 lg:col-span-6">
             {profile.about.map((paragraph) => (
               <p key={paragraph} className="text-lg leading-relaxed text-muted">
                 {paragraph}
               </p>
             ))}
 
-            <div className="!mt-8 rounded-2xl border border-border bg-surface/60 p-6">
+            <div className="glass relative !mt-8 rounded-2xl p-6">
               <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-teal">
-                <Sparkle size={15} weight="fill" />
+                <Now size={15} weight="bold" />
                 Currently
               </span>
               <ul className="mt-3 space-y-2">
@@ -44,33 +46,19 @@ export function About() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1} className="relative">
-            <span
-              aria-hidden
-              className="absolute -right-3 -top-3 size-full rounded-3xl border border-coral/40"
-            />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-border">
+          {/* One clean candid */}
+          <Reveal delay={0.1} className="lg:col-span-6 lg:pl-6">
+            <div className="relative mx-auto aspect-[4/5] max-w-sm overflow-hidden rounded-2xl border border-border shadow-xl lg:mr-0">
               <Image
-                src={unsplash("1500648767791-00dcc994a43e", 800)}
-                alt="Placeholder — swap for a friendly portrait of Kenzo."
+                src="/kenzo_sitting.jpeg"
+                alt="Kenzo by a window at golden hour"
                 fill
-                sizes="(max-width: 1024px) 100vw, 420px"
+                sizes="(max-width: 1024px) 80vw, 380px"
                 className="object-cover"
               />
             </div>
           </Reveal>
         </div>
-
-        <Reveal className="mt-16">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
-            Off the clock
-          </span>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {hobbies.map((hobby) => (
-              <HobbyChip key={hobby.label} hobby={hobby} />
-            ))}
-          </div>
-        </Reveal>
       </Container>
     </section>
   );

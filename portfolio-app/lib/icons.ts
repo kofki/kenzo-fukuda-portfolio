@@ -20,12 +20,33 @@ import { MapPinIcon } from "@phosphor-icons/react/dist/ssr/MapPin";
 import { ArrowDownIcon } from "@phosphor-icons/react/dist/ssr/ArrowDown";
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowUpRight";
 import { CodeIcon } from "@phosphor-icons/react/dist/ssr/Code";
-import { SparkleIcon } from "@phosphor-icons/react/dist/ssr/Sparkle";
+import { ChartLineIcon } from "@phosphor-icons/react/dist/ssr/ChartLine";
 import { TrophyIcon } from "@phosphor-icons/react/dist/ssr/Trophy";
 import { ListIcon } from "@phosphor-icons/react/dist/ssr/List";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
+import { CircleHalfIcon } from "@phosphor-icons/react/dist/ssr/CircleHalf";
+import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr/ArrowLeft";
+import { CaretRightIcon } from "@phosphor-icons/react/dist/ssr/CaretRight";
+import { StackIcon } from "@phosphor-icons/react/dist/ssr/Stack";
+import { CubeIcon } from "@phosphor-icons/react/dist/ssr/Cube";
+import { DatabaseIcon } from "@phosphor-icons/react/dist/ssr/Database";
+import { TerminalIcon } from "@phosphor-icons/react/dist/ssr/Terminal";
+import { CpuIcon } from "@phosphor-icons/react/dist/ssr/Cpu";
+import { GraduationCapIcon } from "@phosphor-icons/react/dist/ssr/GraduationCap";
+import { BooksIcon } from "@phosphor-icons/react/dist/ssr/Books";
+import { MedalIcon } from "@phosphor-icons/react/dist/ssr/Medal";
+import { CertificateIcon } from "@phosphor-icons/react/dist/ssr/Certificate";
+import { ScalesIcon } from "@phosphor-icons/react/dist/ssr/Scales";
+import { CreditCardIcon } from "@phosphor-icons/react/dist/ssr/CreditCard";
+import { DeviceMobileIcon } from "@phosphor-icons/react/dist/ssr/DeviceMobile";
+import { AppStoreLogoIcon } from "@phosphor-icons/react/dist/ssr/AppStoreLogo";
+import { LightbulbIcon } from "@phosphor-icons/react/dist/ssr/Lightbulb";
+import { TargetIcon } from "@phosphor-icons/react/dist/ssr/Target";
+import { PathIcon } from "@phosphor-icons/react/dist/ssr/Path";
+import { RocketIcon } from "@phosphor-icons/react/dist/ssr/Rocket";
+import { BrainIcon } from "@phosphor-icons/react/dist/ssr/Brain";
 
-/** Single source of truth — swap the icon library here without touching data. */
+/** Single source of truth - swap the icon library here without touching data. */
 export const icons: Record<IconName, Icon> = {
   github: GithubLogoIcon,
   linkedin: LinkedinLogoIcon,
@@ -45,10 +66,31 @@ export const icons: Record<IconName, Icon> = {
   arrowDown: ArrowDownIcon,
   arrowUpRight: ArrowUpRightIcon,
   code: CodeIcon,
-  sparkle: SparkleIcon,
+  chartLine: ChartLineIcon,
   trophy: TrophyIcon,
   menu: ListIcon,
   close: XIcon,
+  auto: CircleHalfIcon,
+  arrowLeft: ArrowLeftIcon,
+  caretRight: CaretRightIcon,
+  stack: StackIcon,
+  cube: CubeIcon,
+  database: DatabaseIcon,
+  terminal: TerminalIcon,
+  cpu: CpuIcon,
+  graduationCap: GraduationCapIcon,
+  books: BooksIcon,
+  medal: MedalIcon,
+  certificate: CertificateIcon,
+  scales: ScalesIcon,
+  creditCard: CreditCardIcon,
+  deviceMobile: DeviceMobileIcon,
+  appStore: AppStoreLogoIcon,
+  lightbulb: LightbulbIcon,
+  target: TargetIcon,
+  path: PathIcon,
+  rocket: RocketIcon,
+  brain: BrainIcon,
 };
 
 export type { Icon };

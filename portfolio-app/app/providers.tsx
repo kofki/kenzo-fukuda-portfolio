@@ -8,46 +8,102 @@ import {
   type ReactNode,
 } from "react";
 
-type Theme = "light" | "dark";
+export type ThemeMode = "auto" | "light" | "dark";
+type Effective = "light" | "dark";
 
-interface ThemeContextValue {
-  theme: Theme;
-  toggleTheme: () => void;
+interface ThemeState {
+  /** What the user selected. */
+  mode: ThemeMode;
+  /** What is actually applied (auto resolves to one of these). */
+  effective: Effective;
+}
+
+interface ThemeContextValue extends ThemeState {
+  cycleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
-const THEME_EVENT = "themechange";
+const EVENT = "themechange";
+const STORAGE_KEY = "theme-mode";
+const ORDER: ThemeMode[] = ["auto", "light", "dark"];
 
-/** The theme lives on <html>; these read/subscribe to it as an external store. */
+/** Daytime window for `auto`: 7am to 7pm local resolves to light. */
+function effectiveForMode(mode: ThemeMode): Effective {
+  if (mode === "light" || mode === "dark") return mode;
+  const hour = new Date().getHours();
+  return hour >= 7 && hour < 19 ? "light" : "dark";
+}
+
+function readMode(): ThemeMode {
+  try {
+    const value = localStorage.getItem(STORAGE_KEY);
+    if (value === "light" || value === "dark" || value === "auto") return value;
+  } catch {
+    /* storage unavailable */
+  }
+  return "auto";
+}
+
+function applyEffective(effective: Effective) {
+  document.documentElement.classList.toggle("dark", effective === "dark");
+}
+
+// Cached snapshot so useSyncExternalStore sees a stable reference until change.
+let cached: ThemeState = { mode: "auto", effective: "light" };
+const SERVER_STATE: ThemeState = { mode: "auto", effective: "light" };
+
+function getSnapshot(): ThemeState {
+  const mode = readMode();
+  const effective: Effective = document.documentElement.classList.contains("dark")
+    ? "dark"
+    : "light";
+  if (cached.mode !== mode || cached.effective !== effective) {
+    cached = { mode, effective };
+  }
+  return cached;
+}
+
+function getServerSnapshot(): ThemeState {
+  return SERVER_STATE;
+}
+
 function subscribe(callback: () => void): () => void {
-  window.addEventListener(THEME_EVENT, callback);
-  return () => window.removeEventListener(THEME_EVENT, callback);
-}
+  window.addEventListener(EVENT, callback);
+  // While in auto, re-evaluate as the local clock crosses day/night.
+  const interval = window.setInterval(() => {
+    if (readMode() !== "auto") return;
+    const next = effectiveForMode("auto");
+    const current = document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light";
+    if (next !== current) {
+      applyEffective(next);
+      callback();
+    }
+  }, 60_000);
 
-function getSnapshot(): Theme {
-  return document.documentElement.classList.contains("dark") ? "dark" : "light";
-}
-
-function getServerSnapshot(): Theme {
-  return "light";
+  return () => {
+    window.removeEventListener(EVENT, callback);
+    window.clearInterval(interval);
+  };
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const state = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  const toggleTheme = useCallback(() => {
-    const next: Theme = getSnapshot() === "dark" ? "light" : "dark";
-    document.documentElement.classList.toggle("dark", next === "dark");
+  const cycleTheme = useCallback(() => {
+    const next = ORDER[(ORDER.indexOf(readMode()) + 1) % ORDER.length];
     try {
-      localStorage.setItem("theme", next);
+      localStorage.setItem(STORAGE_KEY, next);
     } catch {
-      /* storage unavailable — class toggle still applies for this session */
+      /* storage unavailable */
     }
-    window.dispatchEvent(new Event(THEME_EVENT));
+    applyEffective(effectiveForMode(next));
+    window.dispatchEvent(new Event(EVENT));
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ ...state, cycleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

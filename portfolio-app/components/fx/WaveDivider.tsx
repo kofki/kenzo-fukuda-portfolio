@@ -17,7 +17,7 @@ export function WaveDivider({
   flip = false,
   height = 70,
 }: WaveDividerProps) {
-  return (
+  return (  
     <div
       aria-hidden
       className={cn(

@@ -15,7 +15,7 @@ export function Hackathons() {
           <SectionHeading
             eyebrow="Weekend builds"
             title="Hackathons"
-            description="36-hour sprints — the sandbox where I learn a new tool by shipping with it under pressure."
+            description="36 hour sprints. The sandbox where I learn a new tool by shipping with it under pressure."
           />
         </Reveal>
 

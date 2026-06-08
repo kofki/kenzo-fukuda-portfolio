@@ -1,7 +1,7 @@
 const BASE = "https://images.unsplash.com/photo-";
 
 /**
- * Builds a cropped, auto-formatted Unsplash URL — temporary stock imagery.
+ * Builds a cropped, auto-formatted Unsplash URL - temporary stock imagery.
  * Replace these with real photos by dropping files in /public and swapping
  * the `imageUrl` in the data files.
  */

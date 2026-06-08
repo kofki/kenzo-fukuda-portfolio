@@ -5,24 +5,35 @@ interface SectionHeadingProps {
   eyebrow: string;
   title: string;
   description?: string;
+  /** Editorial index, e.g. "01". */
+  index?: string;
   className?: string;
 }
 
-/** Mono eyebrow + serif title used at the top of every section. */
+/** Mono eyebrow + serif title, with an editorial index and rule. */
 export function SectionHeading({
   eyebrow,
   title,
   description,
+  index,
   className,
 }: SectionHeadingProps) {
   const Wave = icons.wave;
 
   return (
     <div className={cn("max-w-2xl", className)}>
-      <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-coral">
-        <Wave size={16} weight="bold" />
-        {eyebrow}
-      </span>
+      <div className="flex items-center gap-3">
+        {index ? (
+          <span className="font-mono text-sm font-medium tabular-nums text-coral/70">
+            {index}
+          </span>
+        ) : null}
+        <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-coral">
+          <Wave size={16} weight="bold" />
+          {eyebrow}
+        </span>
+        <span aria-hidden className="h-px flex-1 bg-border" />
+      </div>
       <h2 className="mt-4 text-balance font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
         {title}
       </h2>

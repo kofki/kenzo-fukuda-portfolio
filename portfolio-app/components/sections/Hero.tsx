@@ -1,5 +1,6 @@
-import { HorizonWave } from "@/components/hero/HorizonWave";
+import { AmbientEvents } from "@/components/hero/AmbientEvents";
 import { ParallaxSky } from "@/components/hero/ParallaxSky";
+import { WeatherLayer } from "@/components/hero/WeatherLayer";
 import { Container } from "@/components/ui/Container";
 import { IconLink } from "@/components/ui/IconLink";
 import { icons } from "@/lib/icons";
@@ -14,11 +15,13 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden"
+      className="relative flex min-h-screen flex-col overflow-hidden"
     >
       <ParallaxSky />
+      <WeatherLayer />
+      <AmbientEvents />
 
-      <Container className="relative z-10 pb-36 pt-28">
+      <Container className="relative z-10 pb-12 pt-[15vh] sm:pt-[17vh]">
         <div className="max-w-3xl">
           <span
             className="inline-flex animate-rise items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-ink/70"
@@ -87,12 +90,10 @@ export function Hero() {
       <a
         href="#about"
         aria-label="Scroll to about"
-        className="absolute bottom-28 left-1/2 z-10 hidden -translate-x-1/2 animate-bob text-ink/50 transition-colors hover:text-ink sm:block"
+        className="absolute bottom-[36vh] left-1/2 z-[4] hidden -translate-x-1/2 animate-bob text-ink/40 transition-colors hover:text-ink sm:block"
       >
         <ArrowDown size={26} weight="light" />
       </a>
-
-      <HorizonWave />
     </section>
   );
 }

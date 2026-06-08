@@ -1,0 +1,55 @@
+import type { SkillCategory } from "@/types";
+
+export const skillCategories: SkillCategory[] = [
+  {
+    title: "Languages",
+    icon: "code",
+    skills: [
+      { label: "Python", brand: "python" },
+      { label: "TypeScript", brand: "typescript" },
+      { label: "JavaScript", brand: "javascript" },
+      { label: "C", brand: "c" },
+      { label: "C++", brand: "cpp" },
+      { label: "SQL", icon: "database" },
+      { label: "Java", brand: "java" },
+      { label: "Swift", brand: "swift" },
+      { label: "R", brand: "r" },
+      { label: "HTML/CSS", brand: "html" },
+    ],
+  },
+  {
+    title: "Frameworks & Libraries",
+    icon: "stack",
+    skills: [
+      { label: "React", brand: "react" },
+      { label: "Next.js", brand: "next" },
+      { label: "React Native", brand: "react" },
+      { label: "Node.js", brand: "node" },
+      { label: "FastAPI", brand: "fastapi" },
+      { label: "Django", brand: "django" },
+      { label: "Spring Boot", brand: "spring" },
+      { label: "Flask", brand: "flask" },
+      { label: "Pandas", brand: "pandas" },
+      { label: "NumPy", brand: "numpy" },
+      { label: "Matplotlib", icon: "chartLine" },
+    ],
+  },
+  {
+    title: "Infrastructure & Tools",
+    icon: "cube",
+    skills: [
+      { label: "AWS (EKS, S3, EC2, ECR)", icon: "cube" },
+      { label: "Docker", brand: "docker" },
+      { label: "Kubernetes", brand: "kubernetes" },
+      { label: "Terraform", brand: "terraform" },
+      { label: "Flux GitOps", brand: "flux" },
+      { label: "CI/CD", icon: "rocket" },
+      { label: "RabbitMQ", brand: "rabbitmq" },
+      { label: "Elasticsearch", brand: "elasticsearch" },
+      { label: "PostgreSQL", brand: "postgresql" },
+      { label: "Supabase", brand: "supabase" },
+      { label: "Git", brand: "git" },
+      { label: "Linux", brand: "linux" },
+    ],
+  },
+];

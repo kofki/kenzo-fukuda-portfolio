@@ -19,7 +19,7 @@ function spawnRipple(layer: HTMLDivElement, x: number, y: number) {
   animation.onfinish = () => ring.remove();
 }
 
-/** Cursor ripple trail — desktop pointers only, disabled for reduced motion. */
+/** Cursor ripple trail - desktop pointers only, disabled for reduced motion. */
 export function CursorTrail() {
   const layerRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
