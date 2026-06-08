@@ -46,7 +46,10 @@ export function ProjectCard({
                 : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 700px"
             }
             priority={priority}
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className={cn(
+              "object-cover transition-transform duration-700 ease-out group-hover:scale-105",
+              featured && "object-[center_35%]",
+            )}
           />
           <span className="absolute left-4 top-4 rounded-full bg-sand/85 px-3 py-1 font-mono text-[11px] text-ink backdrop-blur">
             {project.year}
@@ -86,6 +89,16 @@ export function ProjectCard({
             />
           </span>
         </div>
+
+        {project.logo ? (
+          <Image
+            src={project.logo}
+            alt={`${project.title} logo`}
+            width={82}
+            height={91}
+            className="pointer-events-none absolute right-3 top-3 z-10 h-12 w-auto -rotate-6 drop-shadow-md transition-transform duration-300 group-hover:rotate-0"
+          />
+        ) : null}
       </Card>
     </Link>
   );

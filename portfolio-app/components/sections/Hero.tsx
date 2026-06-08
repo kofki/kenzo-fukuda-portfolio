@@ -81,9 +81,9 @@ export function Hero() {
       <a
         href="#about"
         aria-label="Scroll to about"
-        className="absolute bottom-[36vh] left-1/2 z-[4] hidden -translate-x-1/2 animate-bob text-ink/40 transition-colors hover:text-ink sm:block"
+        className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 animate-bob text-ink/50 transition-colors hover:text-ink"
       >
-        <ArrowDown size={26} weight="light" />
+        <ArrowDown size={28} weight="light" />
       </a>
     </section>
   );

@@ -11,15 +11,28 @@ export const projects: Project[] = [
     role: "Co-Founder & CTO",
     timeline: "Dec 2025 to present",
     tech: ["React Native", "Swift", "Serverless ELT", "NOAA", "TypeScript"],
-    imageUrl: "/beachlens/poster.jpg",
+    imageUrl: "/beachlens/team.jpg",
     imageAlt:
-      "The BeachLens brand illustration: a beachgoer walking the Florida shoreline.",
+      "Kenzo and his co-founder presenting BeachLens on stage at The Lab Miami.",
+    logo: "/beachlens-turtle.png",
     links: {
       live: "https://beachlens.net/",
       appStore: "https://apps.apple.com/us/app/beachlens/id6759271980",
       googlePlay:
         "https://play.google.com/store/apps/details?id=com.beachlens.mobile",
     },
+    backedBy: [
+      {
+        name: "Seaworthy Collective",
+        logo: "/seaworthy_logo.png",
+        url: "https://www.seaworthycollective.com/",
+      },
+      {
+        name: "NOAA",
+        logo: "/noaa_logo.png",
+        url: "https://www.noaa.gov/",
+      },
+    ],
     featured: true,
     year: 2026,
     gallery: [

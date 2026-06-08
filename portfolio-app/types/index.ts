@@ -110,6 +110,12 @@ export interface GalleryImage {
   aspect?: "wide" | "phone";
 }
 
+export interface Backer {
+  name: string;
+  logo: string;
+  url?: string;
+}
+
 export interface Project {
   slug: string;
   id: string;
@@ -121,7 +127,9 @@ export interface Project {
   tech: string[];
   imageUrl: string;
   imageAlt: string;
+  logo?: string;
   links: ProjectLinks;
+  backedBy?: Backer[];
   featured?: boolean;
   year: number;
   gallery: GalleryImage[];
