@@ -4,35 +4,14 @@ import { education } from "@/data/education";
 
 function Gator({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 200 96" className={className} fill="none" aria-hidden>
-      <g fill="#2c7d4d">
-        <path d="M72 66 l-4 18 11 0 2 -16z" />
-        <path d="M138 64 l-2 18 11 0 0 -16z" />
-      </g>
-      <path
-        d="M8 68 C 26 60 38 64 52 64 L 134 62 C 158 60 178 54 194 42 C 198 52 189 62 169 66 L 70 72 C 52 74 28 76 14 74 C 8 73 6 70 8 68 Z"
-        fill="#3a9c63"
-      />
-      <g fill="#3a9c63">
-        <path d="M86 68 l-4 20 12 0 2 -18z" />
-        <path d="M150 66 l-2 20 12 0 0 -18z" />
-      </g>
-      <g fill="#2c7d4d">
-        <path d="M60 62 l6 -11 6 11z" />
-        <path d="M80 61 l6 -11 6 11z" />
-        <path d="M100 60 l6 -11 6 11z" />
-        <path d="M120 60 l6 -11 6 11z" />
-      </g>
-      <circle cx="152" cy="50" r="7" fill="#3a9c63" />
-      <circle cx="153" cy="49" r="2.6" fill="#0e3a24" />
-      <path
-        d="M152 63 C 170 63 184 59 196 53"
-        stroke="#0e3a24"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <circle cx="191" cy="48" r="2" fill="#0e3a24" />
-    </svg>
+    <Image
+      src="/uf-gator.png"
+      alt=""
+      width={377}
+      height={369}
+      className={className}
+      aria-hidden
+    />
   );
 }
 
@@ -41,9 +20,8 @@ export function EducationCard() {
   const Medal = icons.medal;
 
   return (
-    <div className="glass relative overflow-hidden rounded-3xl p-6 sm:p-8">
-      <Gator className="pointer-events-none absolute -bottom-2 right-3 w-28 opacity-90 sm:w-32" />
-
+    <div className="relative">
+      <div className="glass relative overflow-hidden rounded-3xl p-6 sm:p-8">
       <div className="relative z-10 grid gap-8 md:grid-cols-[1.1fr_0.9fr]">
         <div>
           <div className="flex items-center gap-3">
@@ -107,6 +85,9 @@ export function EducationCard() {
           </ul>
         </div>
       </div>
+      </div>
+
+      <Gator className="pointer-events-none absolute -bottom-5 right-2 z-10 h-auto w-24 drop-shadow-lg sm:w-28" />
     </div>
   );
 }

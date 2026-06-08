@@ -255,11 +255,6 @@
     transition: color 0.6s ease;
   }
 
-  ::selection {
-    background-color: var(--coral);
-    color: var(--sand);
-  }
-
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;

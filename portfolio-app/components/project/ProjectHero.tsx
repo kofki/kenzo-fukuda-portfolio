@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ProjectLinks } from "@/components/project/ProjectLinks";
 import { TechBadge } from "@/components/projects/TechBadge";
 import { icons } from "@/lib/icons";
@@ -43,6 +44,35 @@ export function ProjectHero({ item }: { item: WorkItem }) {
       <div className="mt-8">
         <ProjectLinks links={item.links} />
       </div>
+
+      {item.backedBy?.length ? (
+        <div className="mt-10 border-t border-border pt-6">
+          <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
+            Backed by
+          </span>
+          <div className="mt-4 flex flex-wrap items-center gap-6">
+            {item.backedBy.map((backer) => (
+              <a
+                key={backer.name}
+                href={backer.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={backer.name}
+                className="inline-flex items-center gap-2.5 rounded-xl opacity-80 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral"
+              >
+                <Image
+                  src={backer.logo}
+                  alt={`${backer.name} logo`}
+                  width={56}
+                  height={56}
+                  className="size-12 object-contain"
+                />
+                <span className="font-medium text-ink/80">{backer.name}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </header>
   );
 }

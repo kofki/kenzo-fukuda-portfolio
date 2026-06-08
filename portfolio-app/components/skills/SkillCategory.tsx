@@ -14,11 +14,6 @@ export function SkillCategory({ category, accent, glow }: SkillCategoryProps) {
 
   return (
     <div className="glass relative h-full overflow-hidden rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-      <span
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-1"
-        style={{ background: `linear-gradient(90deg, ${glow}, transparent)` }}
-      />
       <div className="flex items-center gap-3">
         <span
           className={cn(

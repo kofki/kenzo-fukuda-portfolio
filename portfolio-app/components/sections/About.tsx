@@ -15,7 +15,12 @@ export function About() {
           <SectionHeading
             index="01"
             eyebrow="Who I am"
-            title="Engineer by craft, beach kid by default."
+            title={
+              <>
+                Software Engineer. <br />
+                I learn fast, I ship fast
+              </>
+            }
           />
         </Reveal>
 
@@ -45,7 +50,7 @@ export function About() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1} className="lg:col-span-6 lg:pl-6">
+          <Reveal delay={0.1} className="lg:col-span-6 lg:pl-6 lg:-mt-10">
             <div className="relative mx-auto aspect-[4/5] max-w-sm overflow-hidden rounded-2xl border border-border shadow-xl lg:mr-0">
               <Image
                 src="/kenzo_sitting.jpeg"

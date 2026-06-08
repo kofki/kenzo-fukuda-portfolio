@@ -31,7 +31,7 @@ export function Contact() {
                   alt="Kenzo at a conference by the river"
                   fill
                   sizes="(max-width: 768px) 85vw, 480px"
-                  className="object-cover"
+                  className="-translate-x-8 scale-[1.75] object-cover"
                 />
               </div>
 
@@ -40,12 +40,10 @@ export function Contact() {
                   05 · Say hi
                 </span>
                 <h2 className="mt-4 text-balance font-display text-4xl font-semibold tracking-tight text-deep-ink sm:text-5xl">
-                  Let&apos;s make something. Or just talk shop.
+                  Let&apos;s make something.
                 </h2>
                 <p className="mt-5 max-w-md text-lg leading-relaxed text-deep-ink/70">
-                  I&apos;m always up for a good problem, a new team, or a long
-                  tangent about the ocean. Email is the fastest way to reach me,
-                  and I read every one.
+                I&apos;m always down to chat, whatever it's about. I'm in it for the love of the game so don’t be a stranger.
                 </p>
 
                 <div className="mt-8 flex flex-col items-start gap-5">

@@ -1,9 +1,10 @@
+import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { icons } from "@/lib/icons";
 
 interface SectionHeadingProps {
   eyebrow: string;
-  title: string;
+  title: ReactNode;
   description?: string;
   index?: string;
   className?: string;
