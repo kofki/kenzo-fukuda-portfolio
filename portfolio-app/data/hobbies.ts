@@ -1,6 +1,5 @@
 import type { Hobby } from "@/types";
 
-// The "vibe as a person" content. A quiet signal of range and curiosity.
 export const hobbies: Hobby[] = [
   {
     label: "Surfing",

@@ -7,7 +7,6 @@ interface BeachgoerProps {
   flip?: boolean;
 }
 
-/** A person standing on the sand, one hand shading their eyes, idly swaying. */
 export function Beachgoer({ size = 70, className, style, flip = false }: BeachgoerProps) {
   return (
     <svg

@@ -11,8 +11,6 @@ export function Contact() {
 
   return (
     <section id="contact" className="relative scroll-mt-24">
-      {/* The frosted content sheet dissolves into the open deep water here;
-          the dive WorldBackground (deep band + glowing reef city) shows through. */}
       <WaveDivider className="-mb-px text-sand" height={80} />
 
       <div className="relative overflow-hidden">
@@ -26,19 +24,17 @@ export function Contact() {
         />
         <Container className="relative z-10 py-20 sm:py-28">
           <Reveal>
-            <div className="grid items-center gap-10 md:grid-cols-[0.9fr_1.1fr]">
-              {/* Portrait */}
-              <div className="relative mx-auto aspect-[4/3] w-full max-w-xs rotate-[-2deg] overflow-hidden rounded-2xl border border-deep-ink/20 shadow-2xl md:mx-0">
+            <div className="grid items-center gap-10 md:grid-cols-[1.05fr_0.95fr]">
+              <div className="relative mx-auto aspect-[4/3] w-full max-w-md rotate-[-2deg] overflow-hidden rounded-2xl border border-deep-ink/20 shadow-2xl md:mx-0">
                 <Image
                   src="/kenzo_suit.jpeg"
                   alt="Kenzo at a conference by the river"
                   fill
-                  sizes="(max-width: 768px) 80vw, 360px"
+                  sizes="(max-width: 768px) 85vw, 480px"
                   className="object-cover"
                 />
               </div>
 
-              {/* Invitation */}
               <div>
                 <span className="font-mono text-xs uppercase tracking-[0.25em] text-deep-ink/60">
                   05 · Say hi

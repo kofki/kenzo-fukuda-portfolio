@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-/** Centered max-width wrapper with responsive gutters. */
 export function Container({
   children,
   className,

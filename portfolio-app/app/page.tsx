@@ -7,10 +7,6 @@ import { Experience } from "@/components/sections/Experience";
 import { Work } from "@/components/sections/Work";
 import { Contact } from "@/components/sections/Contact";
 
-// Underwater frost: cool and translucent (never sandy) so the content reads as
-// descending through water; it grows clearer toward the bottom so the dive
-// world deepens and the reef city is revealed at the end. Foam is light in
-// light mode / dark in dark mode and --ink flips opposite, so text stays legible.
 const DESCENT_SHEET =
   "linear-gradient(180deg," +
   " color-mix(in oklab, var(--foam) 42%, transparent) 0%," +
@@ -26,8 +22,6 @@ export default function Home() {
       <Nav />
       <main className="relative">
         <Hero />
-        {/* The content descends from the beach surface into the water; the dive
-            world frosts through and the reef city is revealed at the bottom. */}
         <div className="relative backdrop-blur-[3px]" style={{ background: DESCENT_SHEET }}>
           <About />
           <Skills />

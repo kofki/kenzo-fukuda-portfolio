@@ -1,7 +1,6 @@
 import { icons } from "@/lib/icons";
 import type { Hobby } from "@/types";
 
-/** A single "off the clock" interest - the quiet signal of range. */
 export function HobbyChip({ hobby }: { hobby: Hobby }) {
   const Icon = icons[hobby.icon];
 

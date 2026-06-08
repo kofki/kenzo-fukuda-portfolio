@@ -1,14 +1,11 @@
 import type { CSSProperties } from "react";
 
-// Crossed repeating gradients form a netted "caustic" web. Soft-light blend +
-// a slow background-position drift make sunlight ripple on the water, cheaply.
 const net = (angle: number) =>
   `repeating-linear-gradient(${angle}deg, transparent 0 30px, color-mix(in oklab, var(--water-caustic) 20%, transparent) 38px 44px, transparent 52px)`;
 
 const LAYER_A = `${net(36)}, ${net(-44)}`;
 const LAYER_B = `${net(18)}, ${net(-68)}`;
 
-/** Sunlit caustics dancing across the shallow/mid water. */
 export function Caustics() {
   const base: CSSProperties = { mixBlendMode: "soft-light" };
   return (

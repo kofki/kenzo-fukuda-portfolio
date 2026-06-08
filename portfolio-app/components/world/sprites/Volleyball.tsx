@@ -6,7 +6,6 @@ interface VolleyballProps {
   style?: CSSProperties;
 }
 
-/** A white volleyball with the classic curved panel seams. */
 export function Volleyball({ size = 22, className, style }: VolleyballProps) {
   const seam = "color-mix(in oklab, var(--ink) 50%, transparent)";
   return (

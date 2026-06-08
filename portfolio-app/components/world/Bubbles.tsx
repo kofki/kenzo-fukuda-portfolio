@@ -1,4 +1,3 @@
-// Deterministic positions so server and client render identically.
 const BUBBLES = [
   { left: "12%", size: 8, delay: "0s", dur: "6s" },
   { left: "28%", size: 5, delay: "1.4s", dur: "7.5s" },
@@ -8,7 +7,6 @@ const BUBBLES = [
   { left: "88%", size: 7, delay: "0.3s", dur: "7s" },
 ];
 
-/** Slow rising bubbles for the shallow/mid water bands. */
 export function Bubbles() {
   return (
     <div className="absolute inset-0">

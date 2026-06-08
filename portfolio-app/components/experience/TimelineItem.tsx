@@ -13,7 +13,6 @@ const TYPE_LABEL: Record<EmploymentType, string> = {
   founder: "Founder",
 };
 
-/** One entry in the experience timeline. */
 export function TimelineItem({ experience }: { experience: Experience }) {
   const { current } = experience;
   const Pin = icons.mapPin;

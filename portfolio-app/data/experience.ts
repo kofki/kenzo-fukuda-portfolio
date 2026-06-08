@@ -1,6 +1,5 @@
 import type { Experience } from "@/types";
 
-// Newest first.
 export const experiences: Experience[] = [
   {
     id: "vobile",
@@ -28,7 +27,7 @@ export const experiences: Experience[] = [
   {
     id: "beachlens",
     company: "BeachLens",
-    role: "Co-Founder, CTO & Software Engineer",
+    role: "CTO & Software Engineer",
     type: "founder",
     start: "Dec 2025",
     end: "Present",
@@ -40,7 +39,7 @@ export const experiences: Experience[] = [
     summary:
       "Co-founding a real-time beach data app that turns messy environmental feeds into clear, safe go or no-go calls.",
     highlights: [
-      "Built and shipped a real-time beach data iOS app to 4,000+ users on the App Store with React Native.",
+      "Built and shipped a real-time beach data iOS app to 5,000+ users on the App Store with React Native.",
       "Engineered a serverless ELT pipeline that unifies 11+ heterogeneous weather and water condition streams in real time.",
       "Led a team of 11 through Agile sprints to ship a NOAA-backed beach data app.",
       "Developed a recommendation engine using predictive modeling to surface safety insights from user analytics.",

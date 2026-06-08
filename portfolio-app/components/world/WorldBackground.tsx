@@ -14,7 +14,6 @@ import { ReefCity } from "@/components/world/ReefCity";
 import { Sea } from "@/components/world/Sea";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-// Gradient bands for each depth (theme-aware via CSS vars).
 const SURFACE =
   "linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 42%, var(--sky-low) 70%, var(--sea-top) 100%)";
 const SHALLOWS =
@@ -27,7 +26,6 @@ const DEEP =
 const STATIC =
   "linear-gradient(180deg, var(--sky-top) 0%, var(--sky-low) 18%, var(--dive-shallow) 42%, var(--dive-mid) 70%, var(--deep-bottom) 100%)";
 
-/** Fixed, scroll-driven "dive" backdrop: a living beach down to a reef city. */
 export function WorldBackground() {
   const reduced = useReducedMotion();
   const { scrollYProgress } = useScroll();
@@ -44,7 +42,6 @@ export function WorldBackground() {
 
   return (
     <div aria-hidden className="fixed inset-0 -z-10 overflow-hidden">
-      {/* Depth gradient bands, cross-fading as you descend. */}
       <DepthLayer
         progress={scrollYProgress}
         opacity={{ at: [0, 0.14], to: [1, 0] }}
@@ -70,7 +67,6 @@ export function WorldBackground() {
         style={{ background: DEEP }}
       />
 
-      {/* Aurora in the night sky (self-gates to clear nights). */}
       <DepthLayer
         progress={scrollYProgress}
         opacity={{ at: [0, 0.2], to: [1, 0] }}
@@ -79,8 +75,6 @@ export function WorldBackground() {
         <Aurora />
       </DepthLayer>
 
-      {/* The beach surface: sea at the waterline (behind), then sand, props, and
-          living critters in front of it; the whole scene recedes on dive. */}
       <DepthLayer
         progress={scrollYProgress}
         opacity={{ at: [0, 0.08, 0.15], to: [1, 1, 0] }}
@@ -93,7 +87,6 @@ export function WorldBackground() {
         <Critters />
       </DepthLayer>
 
-      {/* Sunlit god-rays + caustics rippling on the water. */}
       <DepthLayer
         progress={scrollYProgress}
         opacity={{ at: [0.1, 0.28, 0.52], to: [0, 0.9, 0] }}
@@ -104,7 +97,6 @@ export function WorldBackground() {
         <Caustics />
       </DepthLayer>
 
-      {/* Fish + bubbles drifting through the mid water. */}
       <DepthLayer
         progress={scrollYProgress}
         opacity={{ at: [0.2, 0.42, 0.66], to: [0, 1, 0] }}
@@ -115,7 +107,6 @@ export function WorldBackground() {
         <Bubbles />
       </DepthLayer>
 
-      {/* The glowing sunken reef city at the deepest point. */}
       <DepthLayer
         progress={scrollYProgress}
         opacity={{ at: [0.32, 0.55], to: [0, 1] }}

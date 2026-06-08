@@ -4,7 +4,6 @@ interface CrabProps {
   size?: number;
   className?: string;
   style?: CSSProperties;
-  /** Mirror horizontally to face the other way. */
   flip?: boolean;
 }
 
@@ -14,7 +13,6 @@ const leg = (origin: string, delay: string): CSSProperties => ({
   animationDelay: delay,
 });
 
-/** A little crab, legs jiggling out of phase as it scuttles. */
 export function Crab({ size = 44, className, style, flip = false }: CrabProps) {
   return (
     <svg

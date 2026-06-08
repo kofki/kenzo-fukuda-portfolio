@@ -13,7 +13,6 @@ const limb = (origin: string, delay: string): CSSProperties => ({
   animationDelay: delay,
 });
 
-/** A person strolling, arms and legs swinging in a real walk cycle. */
 export function Walker({ size = 72, className, style, flip = false }: WalkerProps) {
   return (
     <svg

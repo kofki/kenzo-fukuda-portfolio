@@ -4,14 +4,12 @@ import { useEffect, useState } from "react";
 import { useTheme } from "@/app/providers";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-// Curtains of light: green, teal, and a touch of violet, screened over night.
 const CURTAINS = [
   { left: "6%", width: "42%", hue: "var(--palm)", dur: "13s", delay: "0s" },
   { left: "32%", width: "48%", hue: "var(--teal)", dur: "16s", delay: "-4s" },
   { left: "56%", width: "44%", hue: "#7c5cff", dur: "15s", delay: "-8s" },
 ];
 
-/** An occasional aurora that drifts across the night sky, then fades away. */
 export function Aurora() {
   const reduced = useReducedMotion();
   const { effective } = useTheme();
@@ -38,8 +36,6 @@ export function Aurora() {
 
   if (reduced) return null;
 
-  // Visibility is also gated on the live theme so it hides the moment day
-  // returns, without a synchronous setState in the effect.
   const showing = visible && effective === "dark";
 
   return (

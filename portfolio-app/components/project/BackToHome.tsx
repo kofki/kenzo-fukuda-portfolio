@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { icons } from "@/lib/icons";
 
-/** Link back to the home page from a project detail route. */
 export function BackToHome({ label = "Back to portfolio" }: { label?: string }) {
   const Arrow = icons.arrowLeft;
   return (

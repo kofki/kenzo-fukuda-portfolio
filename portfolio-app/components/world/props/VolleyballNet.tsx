@@ -6,11 +6,9 @@ interface VolleyballNetProps {
   style?: CSSProperties;
 }
 
-// Deterministic mesh lines so server and client render identically.
 const VERTICALS = Array.from({ length: 16 }, (_, i) => 22 + i * 11.6);
 const HORIZONTALS = [30, 41, 52];
 
-/** A volleyball net strung between two posts. */
 export function VolleyballNet({ width = 220, className, style }: VolleyballNetProps) {
   return (
     <svg

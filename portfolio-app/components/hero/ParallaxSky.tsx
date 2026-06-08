@@ -7,8 +7,6 @@ import { MoonPhase } from "@/components/hero/MoonPhase";
 import { Sun } from "@/components/hero/Sun";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-// Deterministic star field - fixed positions avoid SSR hydration mismatch.
-// Stars are invisible in light mode (the --star token is transparent there).
 const STARS = [
   { top: "12%", left: "18%", size: 2, delay: "0s" },
   { top: "20%", left: "62%", size: 3, delay: "0.6s" },
@@ -22,10 +20,6 @@ const STARS = [
   { top: "48%", left: "24%", size: 3, delay: "2.4s" },
 ];
 
-/**
- * The celestial layer of the hero: a textured sun by day, a real-phase moon by
- * night, plus a soft glow, stars, and scroll parallax.
- */
 export function ParallaxSky() {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -39,7 +33,6 @@ export function ParallaxSky() {
 
   return (
     <div ref={ref} aria-hidden className="absolute inset-0 overflow-hidden">
-      {/* Soft sun / horizon glow (additive over the world gradient). */}
       <div
         className="absolute inset-0"
         style={{
@@ -48,7 +41,6 @@ export function ParallaxSky() {
         }}
       />
 
-      {/* Stars (dark mode only). */}
       {STARS.map((star) => (
         <span
           key={`${star.top}-${star.left}`}
@@ -64,7 +56,6 @@ export function ParallaxSky() {
         />
       ))}
 
-      {/* Sun / moon disc with parallax. */}
       <motion.div
         style={{ y: sunY }}
         className="absolute right-[16%] top-[20%] size-28 sm:size-36"

@@ -5,12 +5,10 @@ interface SectionHeadingProps {
   eyebrow: string;
   title: string;
   description?: string;
-  /** Editorial index, e.g. "01". */
   index?: string;
   className?: string;
 }
 
-/** Mono eyebrow + serif title, with an editorial index and rule. */
 export function SectionHeading({
   eyebrow,
   title,

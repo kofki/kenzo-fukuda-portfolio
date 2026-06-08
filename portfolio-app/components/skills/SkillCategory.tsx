@@ -5,9 +5,7 @@ import type { SkillCategory as SkillCategoryType } from "@/types";
 
 interface SkillCategoryProps {
   category: SkillCategoryType;
-  /** Tailwind classes for the icon chip, e.g. "bg-teal/15 text-teal". */
   accent: string;
-  /** CSS color for the top accent bar and chip hover glow. */
   glow: string;
 }
 

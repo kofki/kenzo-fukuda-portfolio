@@ -19,7 +19,6 @@ const DROPS = Array.from({ length: 14 }, (_, i) => ({
   dur: `${0.9 + (i % 4) * 0.18}s`,
 }));
 
-/** Live-weather overlay for the hero: drifting clouds and rain (custom SVG). */
 export function WeatherLayer() {
   const { condition, cloudCover } = useWeather();
   const reduced = useReducedMotion();

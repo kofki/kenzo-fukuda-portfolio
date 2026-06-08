@@ -7,11 +7,9 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 interface RevealProps {
   children: ReactNode;
   className?: string;
-  /** Seconds of stagger before this element animates in. */
   delay?: number;
 }
 
-/** Fades + lifts children into view once, the first time they're scrolled to. */
 export function Reveal({ children, className, delay = 0 }: RevealProps) {
   const reduced = useReducedMotion();
 

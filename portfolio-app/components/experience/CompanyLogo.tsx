@@ -2,11 +2,8 @@ import Image from "next/image";
 
 interface CompanyLogoProps {
   name: string;
-  /** Two-letter monogram; derived from the name when omitted. */
   monogram?: string;
-  /** Brand color (hex or CSS color) for the monogram badge. */
   accent?: string;
-  /** /public/logos/<file>.svg; renders instead of the monogram when set. */
   logo?: string;
 }
 
@@ -21,7 +18,6 @@ function initials(name: string): string {
     .join("");
 }
 
-/** A company's logo, falling back to a brand-colored monogram badge. */
 export function CompanyLogo({ name, monogram, accent = "var(--teal)", logo }: CompanyLogoProps) {
   if (logo) {
     return (

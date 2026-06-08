@@ -1,4 +1,3 @@
-/** Underwater god-rays slanting down from the surface. */
 export function Rays() {
   const fade = "linear-gradient(180deg, rgba(0,0,0,1), transparent 72%)";
   return (

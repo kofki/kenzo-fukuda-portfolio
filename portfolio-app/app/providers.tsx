@@ -12,9 +12,7 @@ export type ThemeMode = "auto" | "light" | "dark";
 type Effective = "light" | "dark";
 
 interface ThemeState {
-  /** What the user selected. */
   mode: ThemeMode;
-  /** What is actually applied (auto resolves to one of these). */
   effective: Effective;
 }
 
@@ -27,7 +25,6 @@ const EVENT = "themechange";
 const STORAGE_KEY = "theme-mode";
 const ORDER: ThemeMode[] = ["auto", "light", "dark"];
 
-/** Daytime window for `auto`: 7am to 7pm local resolves to light. */
 function effectiveForMode(mode: ThemeMode): Effective {
   if (mode === "light" || mode === "dark") return mode;
   const hour = new Date().getHours();
@@ -39,7 +36,7 @@ function readMode(): ThemeMode {
     const value = localStorage.getItem(STORAGE_KEY);
     if (value === "light" || value === "dark" || value === "auto") return value;
   } catch {
-    /* storage unavailable */
+    return "auto";
   }
   return "auto";
 }
@@ -48,13 +45,14 @@ function applyEffective(effective: Effective) {
   document.documentElement.classList.toggle("dark", effective === "dark");
 }
 
-// Cached snapshot so useSyncExternalStore sees a stable reference until change.
 let cached: ThemeState = { mode: "auto", effective: "light" };
 const SERVER_STATE: ThemeState = { mode: "auto", effective: "light" };
 
 function getSnapshot(): ThemeState {
   const mode = readMode();
-  const effective: Effective = document.documentElement.classList.contains("dark")
+  const effective: Effective = document.documentElement.classList.contains(
+    "dark",
+  )
     ? "dark"
     : "light";
   if (cached.mode !== mode || cached.effective !== effective) {
@@ -69,7 +67,6 @@ function getServerSnapshot(): ThemeState {
 
 function subscribe(callback: () => void): () => void {
   window.addEventListener(EVENT, callback);
-  // While in auto, re-evaluate as the local clock crosses day/night.
   const interval = window.setInterval(() => {
     if (readMode() !== "auto") return;
     const next = effectiveForMode("auto");
@@ -96,7 +93,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch {
-      /* storage unavailable */
+      // ignore unavailable storage
     }
     applyEffective(effectiveForMode(next));
     window.dispatchEvent(new Event(EVENT));

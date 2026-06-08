@@ -17,7 +17,6 @@ interface Sprite {
   className: string;
 }
 
-// Sky-only crossings; boats live on the background Sea waterline now.
 const DAY: Sprite[] = [
   { kind: "bird", top: "19%", size: 24, dur: 18, className: "text-ink/45" },
   { kind: "flock", top: "15%", size: 18, dur: 21, className: "text-ink/40" },
@@ -35,7 +34,6 @@ interface ActiveEvent {
   sprite: Sprite;
 }
 
-/** Occasional crossings: boats on the water and birds by day, stars by night. */
 export function AmbientEvents() {
   const { effective } = useTheme();
   const reduced = useReducedMotion();

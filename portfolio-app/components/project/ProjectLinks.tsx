@@ -12,6 +12,7 @@ interface LinkMeta {
 const LINK_META: LinkMeta[] = [
   { key: "live", label: "Live", icon: "arrowUpRight", primary: true },
   { key: "appStore", label: "App Store", icon: "appStore", primary: true },
+  { key: "googlePlay", label: "Google Play", icon: "googlePlay", primary: true },
   { key: "devpost", label: "Devpost", icon: "external" },
   { key: "repo", label: "Code", icon: "github" },
   { key: "caseStudy", label: "Case study", icon: "external" },

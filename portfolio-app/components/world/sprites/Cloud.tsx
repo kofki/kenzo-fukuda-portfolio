@@ -6,7 +6,6 @@ interface CloudProps {
   style?: CSSProperties;
 }
 
-/** A soft, puffy cloud built from overlapping lobes (no icon library). */
 export function Cloud({ size = 90, className, style }: CloudProps) {
   return (
     <svg

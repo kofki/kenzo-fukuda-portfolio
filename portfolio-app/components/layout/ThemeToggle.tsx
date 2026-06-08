@@ -16,7 +16,6 @@ const MODE_LABEL: Record<ThemeMode, string> = {
   dark: "Dark",
 };
 
-/** Cycles Auto, then Light, then Dark. Auto tracks the real time of day. */
 export function ThemeToggle() {
   const { mode, cycleTheme } = useTheme();
   const Icon = icons[MODE_ICON[mode]];
