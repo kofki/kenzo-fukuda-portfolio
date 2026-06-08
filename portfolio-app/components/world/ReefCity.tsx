@@ -10,7 +10,6 @@ interface Building {
   spire?: boolean;
 }
 
-// A taller, denser skyline of towers, domes, and slender spires.
 const BUILDINGS: Building[] = [
   { x: 20, w: 110, top: 360, dome: true },
   { x: 122, w: 70, top: 300 },
@@ -37,7 +36,6 @@ interface Win {
   delay: string;
 }
 
-// Deterministic window grid per building (no randomness, so SSR matches).
 const WINDOWS: Win[] = [];
 BUILDINGS.forEach((b, bi) => {
   if (b.spire) return;
@@ -56,7 +54,6 @@ BUILDINGS.forEach((b, bi) => {
   }
 });
 
-// Beacon lights crowning the spires.
 const BEACONS = BUILDINGS.filter((b) => b.spire).map((b) => ({
   cx: b.x + b.w / 2,
   cy: b.top,
@@ -89,7 +86,6 @@ function Windows({ blur }: { blur?: boolean }) {
   );
 }
 
-/** The glowing sunken reef city at the deepest point of the dive. */
 export function ReefCity() {
   const fade = "linear-gradient(180deg, transparent 0, black 24%)";
 
@@ -119,11 +115,9 @@ export function ReefCity() {
           ))}
         </g>
 
-        {/* Glow bloom underneath, then the crisp windows on top. */}
         <Windows blur />
         <Windows />
 
-        {/* Spire beacons: a bright core inside a soft halo. */}
         {BEACONS.map((beacon) => (
           <g key={beacon.cx} className="animate-glow">
             <circle

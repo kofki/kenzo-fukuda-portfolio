@@ -5,8 +5,6 @@ import type { HackathonProject, Project } from "@/types";
 export type WorkKind = "project" | "hackathon";
 export type WorkItem = (Project | HackathonProject) & { kind: WorkKind };
 
-// Single source of truth for the /projects/[slug] detail route and the
-// merged "Projects" section (projects first, then hackathons).
 export const allWork: WorkItem[] = [
   ...projects.map((project) => ({ ...project, kind: "project" as const })),
   ...hackathons.map((project) => ({ ...project, kind: "hackathon" as const })),

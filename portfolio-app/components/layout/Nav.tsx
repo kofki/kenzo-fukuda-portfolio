@@ -20,7 +20,6 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Scrollspy: a section is active when it sits near the viewport's middle.
   useEffect(() => {
     const sections = navItems
       .map((item) => document.getElementById(item.sectionId))

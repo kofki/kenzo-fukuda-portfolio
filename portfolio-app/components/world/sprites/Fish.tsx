@@ -7,7 +7,6 @@ interface FishProps {
   flip?: boolean;
 }
 
-/** A simple fish whose tail wags gently (animate-sway on the tail group). */
 export function Fish({ size = 28, className, style, flip = false }: FishProps) {
   return (
     <svg

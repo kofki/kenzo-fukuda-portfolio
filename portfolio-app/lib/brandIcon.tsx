@@ -35,7 +35,6 @@ interface Brand {
   title: string;
 }
 
-// Curated, tree-shaken brand marks. Keys are the `brand` slugs used in data.
 export const BRANDS: Record<string, Brand> = {
   python: siPython,
   typescript: siTypescript,
@@ -73,7 +72,6 @@ interface BrandIconProps {
   className?: string;
 }
 
-/** Renders a Simple Icons brand mark by slug. Returns null if unknown. */
 export function BrandIcon({ slug, size = 16, className }: BrandIconProps) {
   const brand = BRANDS[slug];
   if (!brand) return null;

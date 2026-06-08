@@ -6,7 +6,6 @@ interface RainDropProps {
   style?: CSSProperties;
 }
 
-/** A single falling raindrop (teardrop shape). */
 export function RainDrop({ size = 12, className, style }: RainDropProps) {
   return (
     <svg

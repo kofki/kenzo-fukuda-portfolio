@@ -1,7 +1,6 @@
 import type { Icon } from "@phosphor-icons/react/dist/lib/types";
 import type { IconName } from "@/types";
 
-// Per-icon SSR imports (RSC-friendly, no Phosphor context, minimal bundle).
 import { GithubLogoIcon } from "@phosphor-icons/react/dist/ssr/GithubLogo";
 import { LinkedinLogoIcon } from "@phosphor-icons/react/dist/ssr/LinkedinLogo";
 import { XLogoIcon } from "@phosphor-icons/react/dist/ssr/XLogo";
@@ -40,13 +39,13 @@ import { ScalesIcon } from "@phosphor-icons/react/dist/ssr/Scales";
 import { CreditCardIcon } from "@phosphor-icons/react/dist/ssr/CreditCard";
 import { DeviceMobileIcon } from "@phosphor-icons/react/dist/ssr/DeviceMobile";
 import { AppStoreLogoIcon } from "@phosphor-icons/react/dist/ssr/AppStoreLogo";
+import { GooglePlayLogoIcon } from "@phosphor-icons/react/dist/ssr/GooglePlayLogo";
 import { LightbulbIcon } from "@phosphor-icons/react/dist/ssr/Lightbulb";
 import { TargetIcon } from "@phosphor-icons/react/dist/ssr/Target";
 import { PathIcon } from "@phosphor-icons/react/dist/ssr/Path";
 import { RocketIcon } from "@phosphor-icons/react/dist/ssr/Rocket";
 import { BrainIcon } from "@phosphor-icons/react/dist/ssr/Brain";
 
-/** Single source of truth - swap the icon library here without touching data. */
 export const icons: Record<IconName, Icon> = {
   github: GithubLogoIcon,
   linkedin: LinkedinLogoIcon,
@@ -86,6 +85,7 @@ export const icons: Record<IconName, Icon> = {
   creditCard: CreditCardIcon,
   deviceMobile: DeviceMobileIcon,
   appStore: AppStoreLogoIcon,
+  googlePlay: GooglePlayLogoIcon,
   lightbulb: LightbulbIcon,
   target: TargetIcon,
   path: PathIcon,

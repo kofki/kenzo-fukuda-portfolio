@@ -6,7 +6,6 @@ interface ShellProps {
   style?: CSSProperties;
 }
 
-/** A scallop seashell with a fan of ridges and a hinge nub. */
 export function Shell({ size = 28, className, style }: ShellProps) {
   return (
     <svg

@@ -6,7 +6,6 @@ interface BeachBallProps {
   style?: CSSProperties;
 }
 
-/** A striped beach ball. */
 export function BeachBall({ size = 40, className, style }: BeachBallProps) {
   return (
     <svg

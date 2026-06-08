@@ -9,7 +9,6 @@ interface IconLinkProps {
   className?: string;
 }
 
-/** Circular icon button for social / external links. */
 export function IconLink({ href, label, icon, className }: IconLinkProps) {
   const Icon = icons[icon];
   const isExternal = href.startsWith("http");

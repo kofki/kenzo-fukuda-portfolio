@@ -10,7 +10,6 @@ interface NavLinkProps {
   onClick?: () => void;
 }
 
-/** A single nav link with a shared "tide line" indicator that slides to it. */
 export function NavLink({ label, href, active, onClick }: NavLinkProps) {
   return (
     <a

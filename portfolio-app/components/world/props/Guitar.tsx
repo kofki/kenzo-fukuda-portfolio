@@ -6,7 +6,6 @@ interface GuitarProps {
   style?: CSSProperties;
 }
 
-/** An acoustic guitar, the kind left leaning against a cooler. */
 export function Guitar({ size = 130, className, style }: GuitarProps) {
   return (
     <svg
@@ -26,13 +25,11 @@ export function Guitar({ size = 130, className, style }: GuitarProps) {
       />
       <circle cx="27" cy="92" r="9" fill="var(--surface)" />
       <rect x="24" y="104" width="6" height="10" rx="1.5" fill="var(--surface)" opacity="0.7" />
-      {/* strings */}
       <g stroke="var(--surface)" strokeWidth="0.7" opacity="0.5">
         <path d="M24 9 L24.5 104" />
         <path d="M26.5 9 L27 104" />
         <path d="M29 9 L29.5 104" />
       </g>
-      {/* tuning pegs */}
       <g fill="var(--surface)" opacity="0.6">
         <circle cx="21" cy="5" r="1.2" />
         <circle cx="21" cy="8.5" r="1.2" />

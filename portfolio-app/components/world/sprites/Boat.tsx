@@ -6,7 +6,6 @@ interface BoatProps {
   style?: CSSProperties;
 }
 
-/** A small sailboat: hull, mast, and two sails. Bob it via animate-bob. */
 export function Boat({ size = 40, className, style }: BoatProps) {
   return (
     <svg

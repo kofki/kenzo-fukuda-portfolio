@@ -16,7 +16,7 @@ export function Experience() {
             index="03"
             eyebrow="The path so far"
             title="Experience"
-            description="From early internships to leading teams and co-founding a startup. A steady climb, one wave at a time."
+            description=""
           />
         </Reveal>
 

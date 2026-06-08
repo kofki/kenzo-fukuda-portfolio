@@ -2,16 +2,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { TechBadge } from "@/components/projects/TechBadge";
+import { cn } from "@/lib/cn";
 import { icons } from "@/lib/icons";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
   project: Project;
-  /** Eagerly load the first (featured) image. */
   priority?: boolean;
+  featured?: boolean;
 }
 
-export function ProjectCard({ project, priority = false }: ProjectCardProps) {
+export function ProjectCard({
+  project,
+  priority = false,
+  featured = false,
+}: ProjectCardProps) {
   const Arrow = icons.arrowUpRight;
 
   return (
@@ -19,13 +24,27 @@ export function ProjectCard({ project, priority = false }: ProjectCardProps) {
       href={`/projects/${project.slug}`}
       className="block h-full rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral"
     >
-      <Card className="flex h-full flex-col">
-        <div className="relative aspect-[16/9] overflow-hidden">
+      <Card
+        className={cn(
+          "flex h-full flex-col",
+          featured && "md:min-h-[300px] md:flex-row",
+        )}
+      >
+        <div
+          className={cn(
+            "relative aspect-[16/9] overflow-hidden",
+            featured && "md:aspect-auto md:w-[55%] md:self-stretch",
+          )}
+        >
           <Image
             src={project.imageUrl}
             alt={project.imageAlt}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 700px"
+            sizes={
+              featured
+                ? "(max-width: 768px) 100vw, 640px"
+                : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 700px"
+            }
             priority={priority}
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
@@ -34,8 +53,18 @@ export function ProjectCard({ project, priority = false }: ProjectCardProps) {
           </span>
         </div>
 
-        <div className="flex flex-1 flex-col gap-3 p-5">
-          <h3 className="font-display text-xl font-semibold text-ink">
+        <div
+          className={cn(
+            "flex flex-1 flex-col gap-3 p-5",
+            featured && "md:justify-center md:p-7",
+          )}
+        >
+          <h3
+            className={cn(
+              "font-display text-xl font-semibold text-ink",
+              featured && "md:text-2xl",
+            )}
+          >
             {project.title}
           </h3>
           <p className="text-sm leading-relaxed text-muted">

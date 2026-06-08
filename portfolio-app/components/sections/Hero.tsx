@@ -7,7 +7,6 @@ import { icons } from "@/lib/icons";
 import { profile } from "@/data/profile";
 
 export function Hero() {
-  const Pin = icons.mapPin;
   const ArrowDown = icons.arrowDown;
   const ArrowUpRight = icons.arrowUpRight;
   const Resume = icons.resume;
@@ -21,19 +20,11 @@ export function Hero() {
       <WeatherLayer />
       <AmbientEvents />
 
-      <Container className="relative z-10 pb-12 pt-[15vh] sm:pt-[17vh]">
+      <Container className="relative z-10 pb-12 pt-[22vh] sm:pt-[24vh]">
         <div className="max-w-3xl">
-          <span
-            className="inline-flex animate-rise items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-ink/70"
-            style={{ animationDelay: "60ms" }}
-          >
-            <Pin size={14} weight="bold" />
-            {profile.location} · Available for work
-          </span>
-
           <h1
-            className="mt-5 animate-rise text-balance font-display text-6xl font-semibold leading-[0.95] tracking-tight text-ink sm:text-7xl lg:text-8xl"
-            style={{ animationDelay: "140ms" }}
+            className="animate-rise text-balance font-display text-6xl font-semibold leading-[0.95] tracking-tight text-ink sm:text-7xl lg:text-8xl"
+            style={{ animationDelay: "60ms" }}
           >
             {profile.name}
           </h1>

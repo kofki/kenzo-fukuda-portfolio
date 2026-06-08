@@ -8,7 +8,6 @@ interface ProjectSectionProps {
   items?: string[];
 }
 
-/** A titled content block on a project detail page (About / Inspiration / Takeaways). */
 export function ProjectSection({
   icon,
   title,

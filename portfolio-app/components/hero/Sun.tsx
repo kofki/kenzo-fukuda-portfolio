@@ -5,7 +5,6 @@ interface SunProps {
   style?: CSSProperties;
 }
 
-/** A minimal sun: a flat solid disc with a soft glow halo behind it. */
 export function Sun({ className, style }: SunProps) {
   return (
     <div className={className} style={style}>

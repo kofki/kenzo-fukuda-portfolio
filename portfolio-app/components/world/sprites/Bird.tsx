@@ -6,7 +6,6 @@ interface BirdProps {
   style?: CSSProperties;
 }
 
-/** A gull silhouette whose wings flap as it glides across the sky. */
 export function Bird({ size = 26, className, style }: BirdProps) {
   return (
     <svg

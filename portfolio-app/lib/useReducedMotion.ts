@@ -18,7 +18,6 @@ function getServerSnapshot(): boolean {
   return false;
 }
 
-/** Tracks the user's reduced-motion preference so heavy FX can opt out. */
 export function useReducedMotion(): boolean {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

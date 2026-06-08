@@ -19,8 +19,6 @@ export const viewport: Viewport = {
   ],
 };
 
-// Applies the theme to <html> before paint to avoid a flash.
-// Saved mode "light"/"dark" wins; "auto" (or none) resolves from the local hour.
 const NO_FLASH_SCRIPT = `(function(){try{var m=localStorage.getItem('theme-mode');var e;if(m==='light'||m==='dark'){e=m;}else{var h=new Date().getHours();e=(h>=7&&h<19)?'light':'dark';}document.documentElement.classList.toggle('dark',e==='dark');}catch(err){}})();`;
 
 export default function RootLayout({

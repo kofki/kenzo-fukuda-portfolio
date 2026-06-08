@@ -5,11 +5,9 @@ interface VolleyballPlayerProps {
   className?: string;
   style?: CSSProperties;
   flip?: boolean;
-  /** Stagger the bump bounce between the two players. */
   delay?: string;
 }
 
-/** A player in a bump stance: knees bent, forearms clasped low, bouncing. */
 export function VolleyballPlayer({
   size = 70,
   className,

@@ -1,4 +1,3 @@
-/** Fixed film-grain layer for subtle, tactile texture across both themes. */
 export function GrainOverlay() {
   return (
     <div

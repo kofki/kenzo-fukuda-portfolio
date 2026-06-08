@@ -5,11 +5,9 @@ import type { Skill } from "@/types";
 
 interface SkillChipProps {
   skill: Skill;
-  /** CSS color used for the hover ring/glow, inherited from the category. */
   glow?: string;
 }
 
-/** A technology pill with its brand mark, lifting and glowing on hover. */
 export function SkillChip({ skill, glow = "var(--teal)" }: SkillChipProps) {
   const hasBrand = skill.brand ? Boolean(BRANDS[skill.brand]) : false;
   const Fallback = !hasBrand && skill.icon ? icons[skill.icon] : null;

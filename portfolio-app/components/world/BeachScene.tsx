@@ -1,5 +1,3 @@
-/** The sand at the surface: layered dunes, fine grain, and raked ripples.
-    The waterline itself is the Sea band rendered behind this. */
 export function BeachScene() {
   const grainMask = "linear-gradient(180deg, transparent 0, black 30%)";
   const rakeMask = "linear-gradient(180deg, transparent, black)";
@@ -32,12 +30,10 @@ export function BeachScene() {
         />
       </svg>
 
-      {/* Fine sand grain, only on the sand. */}
       <div
         className="bg-grain absolute inset-0 opacity-50 mix-blend-soft-light"
         style={{ maskImage: grainMask, WebkitMaskImage: grainMask }}
       />
-      {/* Faint raked ripples in the foreground. */}
       <div
         className="absolute inset-x-0 bottom-0 h-2/3"
         style={{

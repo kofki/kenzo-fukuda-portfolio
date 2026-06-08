@@ -6,7 +6,6 @@ interface UmbrellaProps {
   style?: CSSProperties;
 }
 
-/** A beach umbrella: a domed, scalloped canopy on a staked pole. */
 export function Umbrella({ size = 120, className, style }: UmbrellaProps) {
   return (
     <svg
@@ -18,12 +17,9 @@ export function Umbrella({ size = 120, className, style }: UmbrellaProps) {
       className={className}
       style={style}
     >
-      {/* pole + sand stake */}
       <path d="M60 40 L60 114" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
       <path d="M60 114 l-6 8 M60 114 l6 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-      {/* finial */}
       <circle cx="60" cy="34" r="3.5" fill="currentColor" />
-      {/* canopy: dome top, scalloped bottom edge */}
       <path
         d="M10 44 A52 40 0 0 1 110 44
            C101 53 93 53 85 44
@@ -33,7 +29,6 @@ export function Umbrella({ size = 120, className, style }: UmbrellaProps) {
            Z"
         fill="currentColor"
       />
-      {/* ribs */}
       <g stroke="var(--surface)" strokeWidth="1.6" opacity="0.45">
         <path d="M60 40 L37 47" />
         <path d="M60 40 L85 47" />

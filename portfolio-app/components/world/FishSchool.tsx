@@ -8,7 +8,6 @@ const FISH = [
   { top: "47%", left: "52%", size: 22, delay: "1.6s", flip: false },
 ];
 
-/** A small drifting school of fish, tails wagging, deep in the water. */
 export function FishSchool() {
   return (
     <div className="absolute inset-0">

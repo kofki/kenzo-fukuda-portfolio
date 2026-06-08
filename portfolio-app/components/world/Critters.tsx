@@ -9,7 +9,6 @@ import { VolleyballPlayer } from "@/components/world/sprites/VolleyballPlayer";
 import { VolleyballNet } from "@/components/world/props/VolleyballNet";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-// A single anchored crab that sits low on the sand and scuttles its legs.
 const CRABS = [
   { bottom: "1vh", left: "16%", size: 32, flip: false, color: "text-coral" },
 ];
@@ -22,15 +21,12 @@ interface Walker {
   dur: number;
 }
 
-/** The living surface: crabs (anchored + the occasional crosser) and a rally. */
 export function Critters() {
   const reduced = useReducedMotion();
   const { effective } = useTheme();
   const [walkers, setWalkers] = useState<Walker[]>([]);
   const idRef = useRef(0);
 
-  // Every 30s to 3min, send a single crab walking across the front from a
-  // random side. It stays in the low foreground band, below the people.
   useEffect(() => {
     if (reduced) return;
     let timer: ReturnType<typeof setTimeout>;
@@ -58,7 +54,6 @@ export function Critters() {
 
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
-      {/* People first, so the crabs (lower + later in DOM) never cover them. */}
       {day ? (
         <>
           <VolleyballNet
@@ -83,7 +78,6 @@ export function Critters() {
         </>
       ) : null}
 
-      {/* The anchored crab, low on the sand. */}
       {CRABS.map((crab, i) => (
         <div
           key={`crab-${i}`}
@@ -94,7 +88,6 @@ export function Critters() {
         </div>
       ))}
 
-      {/* The occasional crosser, scuttling along the very front edge. */}
       {walkers.map((w) => (
         <div
           key={w.id}

@@ -15,7 +15,7 @@ export function Work() {
             index="04"
             eyebrow="Things I've built"
             title="Projects"
-            description="Personal projects and hackathon wins. Every card opens its own page, with the story, the stack, and what I took away."
+            description=""
           />
         </Reveal>
 
@@ -29,7 +29,11 @@ export function Work() {
               {isHackathon(item) ? (
                 <HackathonCard project={item} />
               ) : (
-                <ProjectCard project={item} priority={index === 0} />
+                <ProjectCard
+                  project={item}
+                  priority={index === 0}
+                  featured={item.featured}
+                />
               )}
             </Reveal>
           ))}

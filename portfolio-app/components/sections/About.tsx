@@ -20,7 +20,6 @@ export function About() {
         </Reveal>
 
         <div className="mt-10 grid items-start gap-10 lg:grid-cols-12">
-          {/* Text column */}
           <Reveal className="space-y-5 lg:col-span-6">
             {profile.about.map((paragraph) => (
               <p key={paragraph} className="text-lg leading-relaxed text-muted">
@@ -46,7 +45,6 @@ export function About() {
             </div>
           </Reveal>
 
-          {/* One clean candid */}
           <Reveal delay={0.1} className="lg:col-span-6 lg:pl-6">
             <div className="relative mx-auto aspect-[4/5] max-w-sm overflow-hidden rounded-2xl border border-border shadow-xl lg:mr-0">
               <Image

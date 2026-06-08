@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-/** Spawns a single expanding ripple ring at the given coordinates. */
 function spawnRipple(layer: HTMLDivElement, x: number, y: number) {
   const ring = document.createElement("span");
   ring.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:9999px;border:1.5px solid var(--coral);`;
@@ -19,7 +18,6 @@ function spawnRipple(layer: HTMLDivElement, x: number, y: number) {
   animation.onfinish = () => ring.remove();
 }
 
-/** Cursor ripple trail - desktop pointers only, disabled for reduced motion. */
 export function CursorTrail() {
   const layerRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
@@ -31,7 +29,7 @@ export function CursorTrail() {
 
     let lastSpawn = 0;
     const onMove = (event: PointerEvent) => {
-      if (event.timeStamp - lastSpawn < 55) return; // throttle spawns
+      if (event.timeStamp - lastSpawn < 55) return;
       lastSpawn = event.timeStamp;
       spawnRipple(layer, event.clientX, event.clientY);
     };

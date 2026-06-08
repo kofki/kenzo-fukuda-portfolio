@@ -1,6 +1,5 @@
 import { cn } from "@/lib/cn";
 
-/** The dot on the timeline rail; the current role pulses. */
 export function TimelineMarker({ current = false }: { current?: boolean }) {
   return (
     <span className="relative flex size-4 items-center justify-center">

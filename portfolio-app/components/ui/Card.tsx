@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-/** Base surface shell reused by project and hackathon cards. */
 export function Card({
   children,
   className,
