@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/app/providers";
 import { Beachgoer } from "@/components/world/sprites/Beachgoer";
 import { Crab } from "@/components/world/sprites/Crab";
+import { CrabBurrow } from "@/components/world/sprites/CrabBurrow";
 import { Volleyball } from "@/components/world/sprites/Volleyball";
 import { VolleyballPlayer } from "@/components/world/sprites/VolleyballPlayer";
 import { VolleyballNet } from "@/components/world/props/VolleyballNet";
@@ -68,7 +69,7 @@ export function Critters() {
           </div>
           <div
             className="absolute bottom-[13vh] left-[30%] will-change-transform"
-            style={{ animation: "ball-arc 2.6s ease-in-out infinite" }}
+            style={{ animation: "ball-arc 2.6s linear infinite" }}
           >
             <Volleyball size={18} />
           </div>
@@ -84,7 +85,7 @@ export function Critters() {
           className="absolute"
           style={{ bottom: crab.bottom, left: crab.left }}
         >
-          <Crab size={crab.size} flip={crab.flip} className={crab.color} />
+          <CrabBurrow size={crab.size} flip={crab.flip} className={crab.color} />
         </div>
       ))}
 
