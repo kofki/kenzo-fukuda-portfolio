@@ -6,6 +6,8 @@ import { useTheme } from "@/app/providers";
 import { Bird } from "@/components/world/sprites/Bird";
 import { cn } from "@/lib/cn";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { useWorldTap } from "@/lib/useWorldTap";
+import { playChirp } from "@/lib/worldSound";
 
 type Kind = "bird" | "flock" | "shoot";
 
@@ -49,10 +51,10 @@ export function AmbientEvents() {
       const sprite = pool[Math.floor(Math.random() * pool.length)];
       idRef.current += 1;
       setEvent({ id: idRef.current, sprite });
-      timer = setTimeout(tick, sprite.dur * 1000 + 3000 + Math.random() * 6000);
+      timer = setTimeout(tick, sprite.dur * 1000 + 1200 + Math.random() * 3000);
     };
 
-    timer = setTimeout(tick, 2200 + Math.random() * 2600);
+    timer = setTimeout(tick, 1200 + Math.random() * 1800);
     return () => clearTimeout(timer);
   }, [effective, reduced]);
 
@@ -69,11 +71,20 @@ export function AmbientEvents() {
 
 function Crossing({ sprite }: { sprite: Sprite }) {
   const shoot = sprite.kind === "shoot";
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Birds chirp when tapped. Hit-tested against the live (moving) box at
+  // pointerdown via the same window-listener pattern as the other sprites;
+  // disabled for shooting stars.
+  useWorldTap(ref, () => playChirp(), { enabled: !shoot });
 
   return (
     <motion.div
+      ref={ref}
       className={cn("absolute flex items-center", sprite.className)}
-      style={{ top: sprite.top }}
+      // padding enlarges the tap target around the thin bird glyphs; the equal
+      // negative margin cancels the layout shift so they stay where placed.
+      style={{ top: sprite.top, padding: shoot ? 0 : 16, margin: shoot ? 0 : -16 }}
       initial={{ x: "-14vw", y: 0, opacity: 0 }}
       animate={{ x: "114vw", y: shoot ? "24vh" : 0, opacity: 1 }}
       exit={{ opacity: 0 }}

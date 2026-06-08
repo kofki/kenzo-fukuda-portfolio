@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { fontVariables } from "@/app/fonts";
 import { ThemeProvider } from "@/app/providers";
-import { CursorTrail } from "@/components/fx/CursorTrail";
 import { GrainOverlay } from "@/components/fx/GrainOverlay";
 import { profile } from "@/data/profile";
 import "./globals.css";
@@ -32,7 +31,6 @@ export default function RootLayout({
       <body className="min-h-screen antialiased">
         <ThemeProvider>
           {children}
-          <CursorTrail />
           <GrainOverlay />
         </ThemeProvider>
       </body>

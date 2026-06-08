@@ -41,7 +41,7 @@ export function Aurora() {
   return (
     <div
       aria-hidden
-      className="absolute inset-x-0 top-0 h-[55vh] overflow-hidden transition-opacity duration-[3000ms]"
+      className="absolute inset-x-0 top-0 h-[78vh] overflow-hidden transition-opacity duration-[3000ms]"
       style={{ opacity: showing ? 1 : 0 }}
     >
       {CURTAINS.map((c) => (
@@ -54,7 +54,7 @@ export function Aurora() {
             animationDuration: c.dur,
             animationDelay: c.delay,
             mixBlendMode: "screen",
-            background: `linear-gradient(180deg, transparent, color-mix(in oklab, ${c.hue} 62%, transparent) 42%, transparent)`,
+            background: `linear-gradient(180deg, transparent, color-mix(in oklab, ${c.hue} 62%, transparent) 38%, transparent 88%)`,
           }}
         />
       ))}

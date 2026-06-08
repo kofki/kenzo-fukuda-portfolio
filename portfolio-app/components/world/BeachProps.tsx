@@ -1,29 +1,29 @@
-import { BeachBall } from "@/components/world/props/BeachBall";
-import { Guitar } from "@/components/world/props/Guitar";
-import { Palm } from "@/components/world/props/Palm";
+import { BeachBallBounce } from "@/components/world/sprites/BeachBallBounce";
 import { Shell } from "@/components/world/props/Shell";
-import { Surfboard } from "@/components/world/props/Surfboard";
-import { Umbrella } from "@/components/world/props/Umbrella";
+import { SurfboardRock } from "@/components/world/sprites/SurfboardRock";
+import { GuitarStrum } from "@/components/world/sprites/GuitarStrum";
+import { PalmRustle } from "@/components/world/sprites/PalmRustle";
+import { UmbrellaToggle } from "@/components/world/sprites/UmbrellaToggle";
 
 export function BeachProps() {
   return (
     <div aria-hidden className="absolute inset-0">
-      <Palm size={230} className="absolute bottom-[3vh] left-[-2%] text-palm/90" />
-      <Palm
+      <PalmRustle size={230} className="absolute bottom-[3vh] left-[-2%] text-palm/90" />
+      <PalmRustle
         size={160}
         className="absolute bottom-[4vh] right-[1%] text-palm/80"
         style={{ transform: "scaleX(-1)" }}
       />
 
-      <Umbrella size={120} className="absolute bottom-[4vh] left-[13%] text-coral/90" />
-      <BeachBall size={30} className="absolute bottom-[3vh] left-[24%] text-amber" />
+      <UmbrellaToggle size={120} className="absolute bottom-[4vh] left-[13%] text-coral/90" />
+      <BeachBallBounce size={30} className="absolute bottom-[3vh] left-[24%]" />
 
-      <Surfboard
+      <SurfboardRock
         size={150}
         className="absolute bottom-[3vh] right-[17%] text-coral"
         style={{ transform: "rotate(7deg)" }}
       />
-      <Guitar
+      <GuitarStrum
         size={120}
         className="absolute bottom-[3vh] right-[28%] text-ink/75"
         style={{ transform: "rotate(-11deg)" }}

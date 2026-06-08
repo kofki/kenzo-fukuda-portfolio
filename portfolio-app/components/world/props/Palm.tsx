@@ -4,12 +4,13 @@ interface PalmProps {
   size?: number;
   className?: string;
   style?: CSSProperties;
+  rustling?: boolean;
 }
 
 const TRUNK = "#8a5a2b";
 const TRUNK_DARK = "#6e4620";
 
-export function Palm({ size = 160, className, style }: PalmProps) {
+export function Palm({ size = 160, className, style, rustling = false }: PalmProps) {
   return (
     <svg
       width={size * 0.8}
@@ -37,12 +38,20 @@ export function Palm({ size = 160, className, style }: PalmProps) {
           <path d="M56 92 l9 -1" />
           <path d="M59 72 l8 -1" />
         </g>
-        <g fill="currentColor">
-          <path d="M64 52 C44 40 26 42 12 52 C30 46 50 48 65 57 Z" />
-          <path d="M64 52 C84 40 102 44 114 56 C96 48 78 48 65 57 Z" />
-          <path d="M64 52 C58 30 46 18 30 12 C50 24 60 38 65 57 Z" />
-          <path d="M64 52 C70 30 84 20 100 16 C80 26 70 40 65 57 Z" />
-          <path d="M64 54 C62 40 62 30 64 20 C68 34 68 44 66 57 Z" />
+        <g
+          style={{
+            transformBox: "fill-box",
+            transformOrigin: "50% 100%",
+            animation: rustling ? "palm-rustle 0.9s ease-in-out" : undefined,
+          }}
+        >
+          <g fill="currentColor">
+            <path d="M64 52 C44 40 26 42 12 52 C30 46 50 48 65 57 Z" />
+            <path d="M64 52 C84 40 102 44 114 56 C96 48 78 48 65 57 Z" />
+            <path d="M64 52 C58 30 46 18 30 12 C50 24 60 38 65 57 Z" />
+            <path d="M64 52 C70 30 84 20 100 16 C80 26 70 40 65 57 Z" />
+            <path d="M64 54 C62 40 62 30 64 20 C68 34 68 44 66 57 Z" />
+          </g>
         </g>
         <circle cx="60" cy="56" r="4" fill={TRUNK} />
         <circle cx="68" cy="58" r="4" fill={TRUNK_DARK} />
