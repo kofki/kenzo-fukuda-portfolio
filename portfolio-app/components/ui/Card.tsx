@@ -12,7 +12,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-3xl border border-border bg-surface shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl",
+        "group glass relative overflow-hidden rounded-3xl transition-all duration-500 hover:-translate-y-1 hover:shadow-xl",
         className,
       )}
     >

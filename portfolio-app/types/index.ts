@@ -23,10 +23,31 @@ export type IconName =
   | "arrowDown"
   | "arrowUpRight"
   | "code"
-  | "sparkle"
+  | "chartLine"
   | "trophy"
   | "menu"
-  | "close";
+  | "close"
+  | "auto"
+  | "arrowLeft"
+  | "caretRight"
+  | "stack"
+  | "cube"
+  | "database"
+  | "terminal"
+  | "cpu"
+  | "graduationCap"
+  | "books"
+  | "medal"
+  | "certificate"
+  | "scales"
+  | "creditCard"
+  | "deviceMobile"
+  | "appStore"
+  | "lightbulb"
+  | "target"
+  | "path"
+  | "rocket"
+  | "brain";
 
 export interface Link {
   label: string;
@@ -62,7 +83,8 @@ export type EmploymentType =
   | "internship"
   | "full-time"
   | "part-time"
-  | "contract";
+  | "contract"
+  | "founder";
 
 export interface Experience {
   id: string;
@@ -78,18 +100,40 @@ export interface Experience {
   tech: string[];
   /** Marks the present role for "high tide" styling. */
   current?: boolean;
+  /** Brand color (hex) for the monogram badge. */
+  accent?: string;
+  /** Two-letter monogram shown until a real logo is supplied. */
+  monogram?: string;
+  /** Optional /public/logos/<file>.svg to swap in for the monogram. */
+  logo?: string;
 }
 
 export interface ProjectLinks {
   repo?: string;
   live?: string;
   caseStudy?: string;
+  devpost?: string;
+  appStore?: string;
+}
+
+/** One image in a project detail gallery. */
+export interface GalleryImage {
+  url: string;
+  alt: string;
+  caption?: string;
 }
 
 export interface Project {
+  /** URL segment for the detail page: /projects/[slug]. */
+  slug: string;
   id: string;
   title: string;
+  /** One-line hook shown on the card and detail hero. */
+  tagline: string;
+  /** Card summary paragraph. */
   description: string;
+  role: string;
+  timeline: string;
   tech: string[];
   imageUrl: string;
   /** Describes the photo to swap in for the placeholder. */
@@ -97,13 +141,45 @@ export interface Project {
   links: ProjectLinks;
   featured?: boolean;
   year: number;
+  /** Detail-page content. */
+  gallery: GalleryImage[];
+  about: string[];
+  inspiration: string[];
+  takeaways: string[];
 }
 
 export interface HackathonProject extends Project {
   event: string;
   award?: string;
   teammates?: number;
-  devpostUrl?: string;
+}
+
+/** A single technology, optionally carrying a brand mark or fallback icon. */
+export interface Skill {
+  label: string;
+  /** Simple Icons slug (see lib/brandIcon BRANDS). */
+  brand?: string;
+  /** Phosphor fallback when there is no brand mark. */
+  icon?: IconName;
+}
+
+/** A category of skills shown in the Skills section. */
+export interface SkillCategory {
+  title: string;
+  icon: IconName;
+  skills: Skill[];
+}
+
+export interface Education {
+  school: string;
+  degree: string;
+  minor?: string;
+  location: string;
+  start: string;
+  end: string;
+  gpa?: string;
+  coursework: string[];
+  awards: string[];
 }
 
 /** The "vibe as a person" content for the About section. */

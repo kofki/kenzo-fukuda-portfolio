@@ -1,23 +1,35 @@
 "use client";
 
-import { useTheme } from "@/app/providers";
+import { useTheme, type ThemeMode } from "@/app/providers";
 import { icons } from "@/lib/icons";
+import type { IconName } from "@/types";
 
-/** Sun ↔ moon switch — toggles golden hour and night ocean. */
+const MODE_ICON: Record<ThemeMode, IconName> = {
+  auto: "auto",
+  light: "sun",
+  dark: "moon",
+};
+
+const MODE_LABEL: Record<ThemeMode, string> = {
+  auto: "Auto (follows local time)",
+  light: "Light",
+  dark: "Dark",
+};
+
+/** Cycles Auto, then Light, then Dark. Auto tracks the real time of day. */
 export function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
-  const Sun = icons.sun;
-  const Moon = icons.moon;
-  const isDark = theme === "dark";
+  const { mode, cycleTheme } = useTheme();
+  const Icon = icons[MODE_ICON[mode]];
 
   return (
     <button
       type="button"
-      onClick={toggleTheme}
-      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+      onClick={cycleTheme}
+      aria-label={`Theme: ${MODE_LABEL[mode]}. Click to change.`}
+      title={`Theme: ${MODE_LABEL[mode]}`}
       className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-surface/60 text-ink transition-all duration-300 hover:-translate-y-0.5 hover:text-coral"
     >
-      {isDark ? <Moon size={18} weight="fill" /> : <Sun size={18} weight="fill" />}
+      <Icon size={18} weight="fill" />
     </button>
   );
 }
