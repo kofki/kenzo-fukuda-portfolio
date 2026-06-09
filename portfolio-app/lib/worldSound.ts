@@ -1,20 +1,9 @@
 "use client";
 
-/**
- * Tiny synthesized sound effects for the world's tap easter eggs.
- *
- * All voices are built with the Web Audio API — no audio assets to load. One
- * lazily-created AudioContext is shared across every sprite (browsers cap the
- * number of live contexts), and it is resumed on demand. These helpers must be
- * called from within a user gesture (the `pointerdown` tap handler) so the
- * context is allowed to start.
- *
- * Callers are already gated by `prefers-reduced-motion` (taps no-op there via
- * `useWorldTap` / `Sea`'s effect), so no extra gating is needed here.
- */
-
 let ctx: AudioContext | null = null;
 
+// One lazily-created AudioContext shared across every sprite (browsers cap live
+// contexts) and resumed on demand. Call only from within a user gesture.
 function audio(): AudioContext | null {
   if (typeof window === "undefined") return null;
   if (!ctx) {
@@ -29,13 +18,10 @@ function audio(): AudioContext | null {
   return ctx;
 }
 
-/** Shared context for callers that build their own voices (e.g. the guitar). */
 export function getAudioCtx(): AudioContext | null {
   return audio();
 }
 
-// Reusable white-noise buffer (rustle / whoosh / dig / splash). Rebuilt only if
-// the context's sample rate changes.
 let noiseBuffer: AudioBuffer | null = null;
 function noise(c: AudioContext): AudioBuffer {
   if (!noiseBuffer || noiseBuffer.sampleRate !== c.sampleRate) {
@@ -47,7 +33,6 @@ function noise(c: AudioContext): AudioBuffer {
   return noiseBuffer;
 }
 
-// A filtered burst of noise — the basis for rustle/whoosh/dig/splash textures.
 function noiseBurst(
   c: AudioContext,
   opts: {
@@ -80,7 +65,6 @@ function noiseBurst(
   src.stop(t + dur + 0.05);
 }
 
-/** Beach ball: a rubbery "boing" — pitch pops up then settles. */
 export function playBounce() {
   const c = audio();
   if (!c) return;
@@ -100,7 +84,6 @@ export function playBounce() {
   osc.stop(t + 0.4);
 }
 
-/** Bird: a couple of quick, high whistled tweets. */
 export function playChirp() {
   const c = audio();
   if (!c) return;
@@ -124,27 +107,22 @@ export function playChirp() {
   tweet(0.13, 2500);
 }
 
-/** Umbrella: a quick fabric "fwip" as it opens/closes. */
 export function playWhoosh() {
   const c = audio();
   if (!c) return;
   noiseBurst(c, { type: "bandpass", from: 480, to: 1700, q: 0.7, peak: 0.16, dur: 0.26 });
 }
 
-/** Palm: a soft, breathy leaf rustle. */
 export function playRustle() {
   const c = audio();
   if (!c) return;
   noiseBurst(c, { type: "highpass", from: 2200, q: 0.5, peak: 0.1, dur: 0.55 });
 }
 
-/** Surfboard: a hollow fibreglass "tok" knock. */
 export function playKnock() {
   const c = audio();
   if (!c) return;
-  // Bright tap transient up top.
   noiseBurst(c, { type: "bandpass", from: 2600, q: 1.4, peak: 0.09, dur: 0.05 });
-  // Hollow resonant body underneath.
   const t = c.currentTime;
   const osc = c.createOscillator();
   const gain = c.createGain();
@@ -160,14 +138,12 @@ export function playKnock() {
   osc.stop(t + 0.26);
 }
 
-/** Crab: a muffled "fwump" burrowing into the sand. */
 export function playDig() {
   const c = audio();
   if (!c) return;
   noiseBurst(c, { type: "lowpass", from: 900, to: 240, q: 1.2, peak: 0.22, dur: 0.3 });
 }
 
-/** Sea: a watery splash plus a small droplet "plip". */
 export function playSplash() {
   const c = audio();
   if (!c) return;

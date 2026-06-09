@@ -14,8 +14,6 @@ interface CrabBurrowProps {
 
 type Phase = "idle" | "digging" | "hidden" | "rising";
 
-// crab-dig's end state and crab-rise's start state match, so phase changes
-// never jump. `forwards` holds the buried pose through the 3s hidden phase.
 const ANIM: Record<Phase, string | undefined> = {
   idle: undefined,
   digging: "crab-dig 0.5s ease-in forwards",

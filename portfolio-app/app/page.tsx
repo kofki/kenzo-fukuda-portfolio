@@ -22,7 +22,7 @@ export default function Home() {
       <Nav />
       <main className="relative">
         <Hero />
-        <div className="relative backdrop-blur-[3px]" style={{ background: DESCENT_SHEET }}>
+        <div className="relative" style={{ background: DESCENT_SHEET }}>
           <About />
           <Skills />
           <Experience />

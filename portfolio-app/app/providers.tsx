@@ -92,9 +92,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const next = ORDER[(ORDER.indexOf(readMode()) + 1) % ORDER.length];
     try {
       localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // ignore unavailable storage
-    }
+    } catch {}
     applyEffective(effectiveForMode(next));
     window.dispatchEvent(new Event(EVENT));
   }, []);

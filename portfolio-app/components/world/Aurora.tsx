@@ -47,7 +47,7 @@ export function Aurora() {
       {CURTAINS.map((c) => (
         <div
           key={c.left}
-          className="animate-aurora absolute top-[-12%] h-[124%] blur-2xl will-change-transform"
+          className="animate-aurora absolute top-[-12%] h-[124%] blur-xl will-change-transform"
           style={{
             left: c.left,
             width: c.width,

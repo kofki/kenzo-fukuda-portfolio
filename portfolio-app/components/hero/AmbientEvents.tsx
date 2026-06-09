@@ -73,17 +73,12 @@ function Crossing({ sprite }: { sprite: Sprite }) {
   const shoot = sprite.kind === "shoot";
   const ref = useRef<HTMLDivElement>(null);
 
-  // Birds chirp when tapped. Hit-tested against the live (moving) box at
-  // pointerdown via the same window-listener pattern as the other sprites;
-  // disabled for shooting stars.
   useWorldTap(ref, () => playChirp(), { enabled: !shoot });
 
   return (
     <motion.div
       ref={ref}
       className={cn("absolute flex items-center", sprite.className)}
-      // padding enlarges the tap target around the thin bird glyphs; the equal
-      // negative margin cancels the layout shift so they stay where placed.
       style={{ top: sprite.top, padding: shoot ? 0 : 16, margin: shoot ? 0 : -16 }}
       initial={{ x: "-14vw", y: 0, opacity: 0 }}
       animate={{ x: "114vw", y: shoot ? "24vh" : 0, opacity: 1 }}

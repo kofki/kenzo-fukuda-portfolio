@@ -115,7 +115,6 @@ export function ReefCity() {
           ))}
         </g>
 
-        <Windows blur />
         <Windows />
 
         {BEACONS.map((beacon) => (

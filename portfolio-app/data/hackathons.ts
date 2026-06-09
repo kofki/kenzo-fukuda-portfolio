@@ -21,6 +21,7 @@ export const hackathons: HackathonProject[] = [
       devpost: "https://devpost.com/software/caseforwardai",
       repo: "https://github.com/kofki/CaseForwardAI",
     },
+    featured: true,
     year: 2026,
     gallery: [
       {

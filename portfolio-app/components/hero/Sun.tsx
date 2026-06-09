@@ -9,7 +9,7 @@ export function Sun({ className, style }: SunProps) {
   return (
     <div className={className} style={style}>
       <span
-        className="absolute inset-0 rounded-full blur-2xl"
+        className="absolute inset-0 rounded-full blur-xl"
         style={{ backgroundColor: "color-mix(in oklab, var(--sun) 60%, transparent)" }}
       />
       <span

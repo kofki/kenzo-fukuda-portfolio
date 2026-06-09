@@ -45,12 +45,15 @@ export function DepthLayer({
   const y = useTransform(progress, (v) =>
     parallax ? rampValue(v, parallax.at, parallax.to) : 0,
   );
+  const display = useTransform(opacityValue, (o) =>
+    o <= 0.001 ? "none" : "block",
+  );
 
   return (
     <motion.div
       aria-hidden
       className={className}
-      style={{ opacity: opacityValue, y, ...style }}
+      style={{ opacity: opacityValue, y, display, ...style }}
     >
       {children}
     </motion.div>

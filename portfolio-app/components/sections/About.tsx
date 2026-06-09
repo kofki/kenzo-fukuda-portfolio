@@ -56,6 +56,7 @@ export function About() {
                 src="/kenzo_sitting.jpeg"
                 alt="Kenzo by a window at golden hour"
                 fill
+                priority
                 sizes="(max-width: 1024px) 80vw, 380px"
                 className="object-cover"
               />

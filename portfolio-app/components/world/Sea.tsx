@@ -35,7 +35,6 @@ export function Sea() {
   const reduced = useReducedMotion();
   const waterRef = useRef<HTMLDivElement>(null);
   const swellRef = useRef<HTMLSpanElement>(null);
-  // Tapping the water briefly agitates the waves (bigger + faster), then settles.
   const [agitated, setAgitated] = useState(false);
   const agitateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -45,11 +44,15 @@ export function Sea() {
     if (!water || reduced) return;
     if (!window.matchMedia("(pointer: fine)").matches) return;
 
+    let rect = water.getBoundingClientRect();
+    const measure = () => {
+      rect = water.getBoundingClientRect();
+    };
+
     let last = 0;
     const onMove = (event: PointerEvent) => {
-      if (event.timeStamp - last < 30) return;
+      if (event.timeStamp - last < 50) return;
       last = event.timeStamp;
-      const rect = water.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
       const inside = x >= 0 && x <= rect.width && y >= 0 && y <= rect.height;
@@ -59,18 +62,16 @@ export function Sea() {
     };
 
     const onDown = (event: PointerEvent) => {
-      // Don't react (or play a splash) once the sea has scrolled out of view —
-      // the layer fades to opacity 0 but this window listener stays attached.
       if (
         typeof water.checkVisibility === "function" &&
         !water.checkVisibility({ opacityProperty: true, visibilityProperty: true })
       ) {
         return;
       }
-      const rect = water.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      if (x < 0 || x > rect.width || y < 0 || y > rect.height) return;
+      const r = water.getBoundingClientRect();
+      const x = event.clientX - r.left;
+      const y = event.clientY - r.top;
+      if (x < 0 || x > r.width || y < 0 || y > r.height) return;
       spawnRipple(water, x, y);
       playSplash();
       setAgitated(true);
@@ -80,9 +81,13 @@ export function Sea() {
 
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerdown", onDown, { passive: true });
+    window.addEventListener("scroll", measure, { passive: true });
+    window.addEventListener("resize", measure, { passive: true });
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("scroll", measure);
+      window.removeEventListener("resize", measure);
       if (agitateTimer.current) clearTimeout(agitateTimer.current);
     };
   }, [reduced]);
@@ -93,10 +98,6 @@ export function Sea() {
         <div
           className="absolute inset-0"
           style={{
-            // Ride the swell when the water is agitated. The lift is a % of the
-            // sea band (not a fixed px) so it scales with the wave's scaleY surge
-            // and the boats actually rise with the crest. A constant translate
-            // (never "none") keeps this from toggling as a containing block.
             transform: `translateY(${agitated ? -18 : 0}%)`,
             transition: "transform 320ms ease",
           }}
@@ -156,7 +157,7 @@ export function Sea() {
       <div ref={waterRef} className="absolute inset-x-0 bottom-0 h-[58%]">
         <span
           ref={swellRef}
-          className="absolute left-0 top-1/2 h-12 w-44 rounded-full bg-foam blur-2xl transition-[transform,opacity] duration-300 will-change-transform"
+          className="absolute left-0 top-1/2 h-12 w-44 rounded-full bg-foam blur-xl transition-[transform,opacity] duration-300 will-change-transform"
           style={{ opacity: 0 }}
         />
       </div>
