@@ -43,7 +43,7 @@ export function Contact() {
                   Let&apos;s make something.
                 </h2>
                 <p className="mt-5 max-w-md text-lg leading-relaxed text-deep-ink/70">
-                I&apos;m always down to chat, whatever it's about. I'm in it for the love of the game so don’t be a stranger.
+                I&apos;m always down to chat, whatever it&apos;s about. I&apos;m in it for the love of the game so don’t be a stranger.
                 </p>
 
                 <div className="mt-8 flex flex-col items-start gap-5">

@@ -27,7 +27,11 @@ export function Work() {
               className={cn(item.featured && "sm:col-span-2")}
             >
               {isHackathon(item) ? (
-                <HackathonCard project={item} />
+                <HackathonCard
+                  project={item}
+                  priority={index === 0}
+                  featured={item.featured}
+                />
               ) : (
                 <ProjectCard
                   project={item}

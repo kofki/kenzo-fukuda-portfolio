@@ -16,7 +16,7 @@ const CLOUD_SPOTS = [
   { top: "5%", left: "36%", size: 92, delay: "2.6s", dur: "9.2s" },
 ];
 
-const DROPS = Array.from({ length: 38 }, (_, i) => ({
+const DROPS = Array.from({ length: 16 }, (_, i) => ({
   left: `${(i * 53 + 7) % 100}%`,
   delay: `${((i % 7) * 0.13).toFixed(2)}s`,
   dur: `${(0.5 + (i % 5) * 0.11).toFixed(2)}s`,
@@ -28,17 +28,14 @@ export function WeatherLayer() {
   const reduced = useReducedMotion();
 
   const stormy = condition === "rain";
-  // Fuller skies: denser scaling for overcast, and the whole bank when it rains.
   const cloudCount = stormy
     ? CLOUD_SPOTS.length
     : Math.min(CLOUD_SPOTS.length, Math.round(cloudCover / 14));
 
-  // Storm clouds read grey and solid; fair-weather clouds stay soft and white.
   const cloud = stormy
     ? { color: "color-mix(in oklab, var(--ink) 46%, white)", opacity: 0.95 }
     : { color: "white", opacity: 0.82 };
 
-  // Darken/overcast the sky — heavier for rain, a lighter pall for clouds.
   const gloom = stormy
     ? "linear-gradient(180deg, color-mix(in oklab, var(--ink) 36%, transparent), color-mix(in oklab, var(--ink) 12%, transparent) 52%, transparent 82%)"
     : "linear-gradient(180deg, color-mix(in oklab, var(--ink) 18%, transparent), transparent 58%)";

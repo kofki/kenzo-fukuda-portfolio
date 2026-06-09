@@ -20,7 +20,7 @@ export const experiences: Experience[] = [
       "Grew weekly video metadata discovery by 300k+ records by tapping YouTube recommendation signals and optimizing a Conductor workflow deployed via Helm and Flux GitOps on Kubernetes.",
       "Cut $15,000 in monthly cost and enabled daily processing of 1,000+ assets by engineering TypeScript batching and compression for clients like Netflix, Disney, Sony, and Warner Bros.",
       "Achieved 3.5x throughput and resolved 100+ errors by overhauling a Celery and RabbitMQ pipeline.",
-      "Resolved 30+ media endpoints in Node.js using an agentic Claude Skill web scraper generator and prompt tuning.",
+      "Resolved 30+ media endpoints in Node.js using an agentic LLM-based web scraper generator and prompt tuning.",
     ],
     tech: ["Python", "Django", "RabbitMQ", "Kubernetes", "Helm", "TypeScript"],
   },

@@ -11,7 +11,6 @@ interface GuitarStrumProps {
   style?: CSSProperties;
 }
 
-// A short ascending arpeggio (G-major pentatonic, Hz) — pleasant and guitar-y.
 const NOTES = [392.0, 440.0, 493.88, 587.33, 659.25];
 
 function pluck(ctx: AudioContext, dest: AudioNode, freq: number, time: number) {
@@ -19,7 +18,6 @@ function pluck(ctx: AudioContext, dest: AudioNode, freq: number, time: number) {
   const gain = ctx.createGain();
   osc.type = "triangle";
   osc.frequency.setValueAtTime(freq, time);
-  // Fast pluck attack, exponential decay.
   gain.gain.setValueAtTime(0.0001, time);
   gain.gain.exponentialRampToValueAtTime(0.22, time + 0.012);
   gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.4);
@@ -31,7 +29,6 @@ function pluck(ctx: AudioContext, dest: AudioNode, freq: number, time: number) {
 
 export function GuitarStrum({ size = 120, className, style }: GuitarStrumProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  // Bumping the key remounts the animated span so the wobble replays every tap.
   const [strumKey, setStrumKey] = useState(0);
 
   function spawnNotes() {

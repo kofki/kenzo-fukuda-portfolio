@@ -1,40 +1,32 @@
 @import "tailwindcss";
 
-/* Class-based dark mode: theme is toggled by adding `.dark` to <html>. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ───────────────────────────────────────────────────────────
-   Design tokens - "Golden Hour" coastal palette.
-   Light = sunlit golden hour. Dark = night ocean.
-   Each token is consumed through Tailwind via the @theme map below.
-   ─────────────────────────────────────────────────────────── */
 :root {
   color-scheme: light;
 
-  --sand: #f5efe3; /* page background - warm bone */
-  --surface: #fbf7ee; /* elevated cards/panels */
-  --ink: #0e2e2c; /* primary text - deep ocean */
-  --muted: #5c6b66; /* secondary text */
+  --sand: #f5efe3;
+  --surface: #fbf7ee;
+  --ink: #0e2e2c;
+  --muted: #5c6b66;
   --border: rgba(14, 46, 44, 0.12);
 
-  --coral: #e8643c; /* primary accent - sunset */
-  --teal: #0e7c7b; /* secondary accent - sea */
-  --amber: #e8b04b; /* tertiary accent - sunlight */
-  --foam: #cfe7e2; /* pale aqua - soft fills */
-  --sand-deep: #ead7b3; /* warm tan - beach sand */
-  --sky-blue: #2bb3e8; /* bright coastal sky */
-  --palm: #1fa86b; /* palm green */
-  --sun-yellow: #ffc23d; /* sunlight */
+  --coral: #e8643c;
+  --teal: #0e7c7b;
+  --amber: #e8b04b;
+  --foam: #cfe7e2;
+  --sand-deep: #ead7b3;
+  --sky-blue: #2bb3e8;
+  --palm: #1fa86b;
+  --sun-yellow: #ffc23d;
 
-  /* Dive-world depth band colors (light = day dive). Tropical, not pool. */
-  --dive-shallow: #34c4c2; /* turquoise just under the surface */
+  --dive-shallow: #34c4c2;
   --dive-mid: #117a8c;
   --dive-deep: #073b49;
-  --dive-glow: #5ff0d6; /* reef-city bioluminescence */
-  --water-caustic: #7af0e4; /* sunlit shafts dancing on the water */
+  --dive-glow: #5ff0d6;
+  --water-caustic: #7af0e4;
   --water-haze: #bdeee6;
 
-  /* Atmospheric layers used by the hero sky. */
   --sky-top: #fbe6c4;
   --sky-mid: #f6b98a;
   --sky-low: #ec8e6c;
@@ -45,7 +37,6 @@
 
   --grain-opacity: 0.05;
 
-  /* Deep-ocean finale band - intentionally dark in both themes. */
   --deep-top: #0e5c63;
   --deep-bottom: #07262d;
   --deep-ink: #eaf2ef;
@@ -69,7 +60,6 @@
   --palm: #2bb27a;
   --sun-yellow: #f2c45a;
 
-  /* Dive-world depth band colors (dark = night dive). */
   --dive-shallow: #114a5a;
   --dive-mid: #0a313c;
   --dive-deep: #03161b;
@@ -80,7 +70,7 @@
   --sky-top: #061018;
   --sky-mid: #0a212c;
   --sky-low: #103a44;
-  --sun: #e9eede; /* moon */
+  --sun: #e9eede;
   --sea-top: #0a3540;
   --sea-deep: #051a22;
   --star: #f3f7f0;
@@ -92,10 +82,6 @@
   --deep-ink: #eaf2ef;
 }
 
-/* ───────────────────────────────────────────────────────────
-   Tailwind theme mapping - turns tokens into utilities
-   (bg-sand, text-ink, text-coral, font-display, animate-*, …).
-   ─────────────────────────────────────────────────────────── */
 @theme inline {
   --color-sand: var(--sand);
   --color-surface: var(--surface);
@@ -187,40 +173,33 @@
   85% { opacity: 0.9; }
   to { transform: translateY(85vh); opacity: 0; }
 }
-/* Sunlit caustics: only background-position moves (compositor-cheap). */
 @keyframes caustic-drift {
   0% { background-position: 0 0, 0 0; }
   100% { background-position: 140px 70px, -110px 50px; }
 }
-/* Horizontal traverse for crabs, birds, boats, and beachgoers. */
 @keyframes walk-x {
   from { transform: translateX(-14vw); }
   to { transform: translateX(114vw); }
 }
-/* Crab legs scuttling. */
 @keyframes leg-jiggle {
   0%, 100% { transform: rotate(-7deg); }
   50% { transform: rotate(7deg); }
 }
-/* Bird wing flap. */
 @keyframes flap {
   0%, 100% { transform: rotateZ(0deg) scaleY(1); }
   50% { transform: rotateZ(-16deg) scaleY(0.8); }
 }
-/* Limb swing for a walk cycle; legs/arms alternate via negative delay. */
 @keyframes swing {
   0%, 100% { transform: rotate(24deg); }
   50% { transform: rotate(-24deg); }
 }
-/* Volleyball player crouch/bump bounce. */
 @keyframes bump {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-7px); }
 }
-/* A volleyball arcing between two players. X is viewport-relative (vw) so it
-   spans the gap between players on any width; Y traces a parabola (sampled at
-   even steps) so the path is a rounded arc, not a straight up/down tent. Pair
-   with linear timing so the horizontal speed stays constant like a real toss. */
+/* X is viewport-relative (vw) so the toss spans the gap on any width; Y is a
+   parabola sampled at even steps so the path is a rounded arc, not a tent.
+   Pair with linear timing to keep horizontal speed constant. */
 @keyframes ball-arc {
   0%      { transform: translate(0, 0); }
   6.25%   { transform: translate(2.5vw, -47px); }
@@ -240,18 +219,15 @@
   93.75%  { transform: translate(2.5vw, -47px); }
   100%    { transform: translate(0, 0); }
 }
-/* Aurora curtains drifting and breathing. */
 @keyframes aurora-shift {
   0% { transform: translateX(-5%) skewX(-7deg); opacity: 0.4; }
   50% { transform: translateX(5%) skewX(7deg); opacity: 0.85; }
   100% { transform: translateX(-5%) skewX(-7deg); opacity: 0.4; }
 }
-/* Symmetric wing flap for a gliding bird (vertical squash only). */
 @keyframes glide {
   0%, 100% { transform: scaleY(1); }
   50% { transform: scaleY(0.6); }
 }
-/* Guitar easter egg: a quick strum wobble when tapped. */
 @keyframes guitar-strum {
   0% { transform: rotate(0deg); }
   25% { transform: rotate(-4deg); }
@@ -259,7 +235,6 @@
   80% { transform: rotate(-1.5deg); }
   100% { transform: rotate(0deg); }
 }
-/* Palm fronds shaken harder than the idle sway when the tree is tapped. */
 @keyframes palm-rustle {
   0%, 100% { transform: rotate(0deg); }
   20% { transform: rotate(-6deg); }
@@ -267,19 +242,16 @@
   70% { transform: rotate(-3deg); }
   88% { transform: rotate(1.5deg); }
 }
-/* Crab burrowing: squash down into the sand and fade out. */
 @keyframes crab-dig {
   0% { transform: translateY(0) scaleY(1); opacity: 1; }
   60% { transform: translateY(10px) scaleY(0.6); opacity: 0.6; }
   100% { transform: translateY(20px) scaleY(0.25); opacity: 0; }
 }
-/* Crab re-emerging from its hole. */
 @keyframes crab-rise {
   0% { transform: translateY(20px) scaleY(0.25); opacity: 0; }
   40% { transform: translateY(8px) scaleY(0.7); opacity: 0.7; }
   100% { transform: translateY(0) scaleY(1); opacity: 1; }
 }
-/* Beach ball easter egg: a squash-and-stretch hop when tapped. */
 @keyframes ball-bounce {
   0%   { transform: translateY(0) scale(1, 1); }
   12%  { transform: translateY(0) scale(1.12, 0.86); }
@@ -288,8 +260,6 @@
   80%  { transform: translateY(-10px) scale(0.98, 1.03); }
   100% { transform: translateY(0) scale(1, 1); }
 }
-/* Beach ball easter egg, grounded variant: a squash-and-stretch wobble in
-   place (no translateY) for a ball resting in the sand that shouldn't hop. */
 @keyframes ball-squash {
   0%   { transform: scale(1, 1); }
   18%  { transform: scale(1.16, 0.82); }
@@ -297,7 +267,6 @@
   70%  { transform: scale(1.07, 0.95); }
   100% { transform: scale(1, 1); }
 }
-/* Surfboard easter egg: a planted board rocks at its base when tapped. */
 @keyframes surf-wobble {
   0%   { transform: rotate(0deg); }
   22%  { transform: rotate(5deg); }
@@ -306,13 +275,10 @@
   100% { transform: rotate(0deg); }
 }
 
-/* ─────────────────────────────────────────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem; /* clears the sticky nav on anchor jumps */
-    /* Base canvas - the fixed WorldBackground paints over this on the home page,
-       and it is the fallback backdrop on routes without the dive world. */
+    scroll-padding-top: 6rem;
     background-color: var(--sand);
     transition: background-color 0.6s ease;
   }
@@ -339,12 +305,10 @@
 }
 
 @layer utilities {
-  /* Liquid glass: frosted, refractive surface with a bright specular edge.
-     The host element must be `relative` for the ::before sheen. */
   .glass {
     background-color: color-mix(in oklab, var(--surface) 58%, transparent);
-    backdrop-filter: blur(16px) saturate(135%);
-    -webkit-backdrop-filter: blur(16px) saturate(135%);
+    backdrop-filter: blur(11px);
+    -webkit-backdrop-filter: blur(11px);
     border: 1px solid color-mix(in oklab, white 24%, var(--border));
     box-shadow:
       inset 0 1px 0 color-mix(in oklab, white 55%, transparent),
@@ -363,7 +327,6 @@
     );
     pointer-events: none;
   }
-  /* Night ocean: dial back the white specular so the glass reads cool, not glossy. */
   .dark .glass {
     border-color: color-mix(in oklab, white 11%, var(--border));
     box-shadow:
@@ -379,12 +342,10 @@
     );
   }
 
-  /* Fine-grained film grain, layered globally for texture. */
   .bg-grain {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* Faint topographic/wave contour pattern for section backgrounds. */
   .bg-contours {
     background-image: repeating-radial-gradient(
       circle at 50% 120%,

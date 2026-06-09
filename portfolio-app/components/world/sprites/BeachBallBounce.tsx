@@ -13,7 +13,6 @@ interface BeachBallBounceProps {
 
 export function BeachBallBounce({ size, className, style }: BeachBallBounceProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  // Bumping the key remounts the animated span so the hop replays every tap.
   const [bounceKey, setBounceKey] = useState(0);
 
   useWorldTap(wrapperRef, () => {
@@ -26,8 +25,6 @@ export function BeachBallBounce({ size, className, style }: BeachBallBounceProps
       ref={wrapperRef}
       aria-hidden
       className={className}
-      // Transparent padding enlarges the tap target — the ball itself is only
-      // ~30px, far too small to reliably hit on the -z-10 background.
       style={{ padding: 18, ...style }}
     >
       <span
