@@ -2,18 +2,27 @@
 
 import { Cloud } from "@/components/world/sprites/Cloud";
 import { RainDrop } from "@/components/world/sprites/RainDrop";
+import { cn } from "@/lib/cn";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useWeather } from "@/lib/useWeather";
 
+// Clouds must stay out from behind the hero copy — a white shape at 0.82 opacity
+// behind the name washes it out, and on a phone the text column is full width so
+// there is no safe middle. Two rules:
+//   - anything at or above 12% is always fine (it clears the h1, which starts
+//     around 17vh)
+//   - anything lower must sit in the right-hand third, where the desktop text
+//     column (max-w-3xl) does not reach, and is hidden below `sm` where that
+//     column goes full width.
 const CLOUD_SPOTS = [
   { top: "10%", left: "6%", size: 124, delay: "0s", dur: "8s" },
-  { top: "20%", left: "28%", size: 100, delay: "1.5s", dur: "10s" },
-  { top: "7%", left: "50%", size: 150, delay: "0.8s", dur: "9s" },
-  { top: "26%", left: "72%", size: 118, delay: "2.2s", dur: "11s" },
-  { top: "15%", left: "88%", size: 104, delay: "1.1s", dur: "9.5s" },
-  { top: "32%", left: "16%", size: 110, delay: "0.5s", dur: "10.5s" },
-  { top: "30%", left: "58%", size: 126, delay: "1.8s", dur: "8.5s" },
   { top: "5%", left: "36%", size: 92, delay: "2.6s", dur: "9.2s" },
+  { top: "7%", left: "52%", size: 150, delay: "0.8s", dur: "9s" },
+  { top: "11%", left: "22%", size: 100, delay: "1.5s", dur: "10s" },
+  { top: "8%", left: "88%", size: 104, delay: "1.1s", dur: "9.5s" },
+  { top: "26%", left: "74%", size: 118, delay: "2.2s", dur: "11s", lower: true },
+  { top: "34%", left: "68%", size: 110, delay: "0.5s", dur: "10.5s", lower: true },
+  { top: "19%", left: "90%", size: 126, delay: "1.8s", dur: "8.5s", lower: true },
 ];
 
 const DROPS = Array.from({ length: 16 }, (_, i) => ({
@@ -49,7 +58,10 @@ export function WeatherLayer() {
       {CLOUD_SPOTS.slice(0, cloudCount).map((spot) => (
         <span
           key={spot.left}
-          className="absolute animate-float drop-shadow-md"
+          className={cn(
+            "absolute animate-float drop-shadow-md",
+            spot.lower && "hidden sm:block",
+          )}
           style={{
             top: spot.top,
             left: spot.left,

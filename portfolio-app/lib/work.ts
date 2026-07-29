@@ -14,7 +14,13 @@ const hackathonItems: WorkItem[] = hackathons.map((project) => ({
   kind: "hackathon" as const,
 }));
 
-const WORK_ORDER = ["beachlens", "caseforward-ai", "subscriptos", "ai-advisor"];
+const WORK_ORDER = [
+  "beachlens",
+  "caseforward-ai",
+  "ai-advisor",
+  "subscriptos",
+  "ufsase",
+];
 
 const rank = (slug: string): number => {
   const index = WORK_ORDER.indexOf(slug);

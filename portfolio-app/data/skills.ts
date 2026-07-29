@@ -38,7 +38,7 @@ export const skillCategories: SkillCategory[] = [
     title: "Infrastructure & Tools",
     icon: "cube",
     skills: [
-      { label: "AWS (EKS, S3, EC2, ECR)", icon: "cube" },
+      { label: "AWS", icon: "cube" },
       { label: "Docker", brand: "docker" },
       { label: "Kubernetes", brand: "kubernetes" },
       { label: "Terraform", brand: "terraform" },

@@ -21,6 +21,7 @@ import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr/ArrowUpRight";
 import { CodeIcon } from "@phosphor-icons/react/dist/ssr/Code";
 import { ChartLineIcon } from "@phosphor-icons/react/dist/ssr/ChartLine";
 import { TrophyIcon } from "@phosphor-icons/react/dist/ssr/Trophy";
+import { StarIcon } from "@phosphor-icons/react/dist/ssr/Star";
 import { ListIcon } from "@phosphor-icons/react/dist/ssr/List";
 import { XIcon } from "@phosphor-icons/react/dist/ssr/X";
 import { CircleHalfIcon } from "@phosphor-icons/react/dist/ssr/CircleHalf";
@@ -67,6 +68,7 @@ export const icons: Record<IconName, Icon> = {
   code: CodeIcon,
   chartLine: ChartLineIcon,
   trophy: TrophyIcon,
+  star: StarIcon,
   menu: ListIcon,
   close: XIcon,
   auto: CircleHalfIcon,

@@ -56,9 +56,13 @@ export function ParallaxSky() {
         />
       ))}
 
+      {/* Original desktop placement, but raised and shrunk below lg. On a phone
+          the h1 is full-width from ~17vh, so a moon at top-20% lands straight on
+          "Fukuda" — and its lit face is --sun, within ~1:1 of --ink at night.
+          The h1 also carries a dark text-shadow halo (Hero.tsx) as insurance. */}
       <motion.div
         style={{ y: sunY }}
-        className="absolute right-[16%] top-[20%] size-28 sm:size-36"
+        className="absolute right-[10%] top-[6%] size-20 sm:size-24 lg:right-[16%] lg:top-[20%] lg:size-36"
       >
         {effective === "dark" ? (
           <MoonPhase className="absolute inset-0 h-full w-full" />

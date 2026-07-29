@@ -6,7 +6,7 @@ export function BackToHome({ label = "Back to portfolio" }: { label?: string }) 
   return (
     <Link
       href="/"
-      className="inline-flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-coral"
+      className="inline-flex items-center gap-2 font-mono text-sm text-muted transition-colors hover:text-coral-ink"
     >
       <Arrow size={16} weight="bold" />
       {label}

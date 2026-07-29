@@ -13,7 +13,7 @@ export function SkillCategory({ category, accent, glow }: SkillCategoryProps) {
   const Icon = icons[category.icon];
 
   return (
-    <div className="glass relative h-full overflow-hidden rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <div className="panel relative h-full overflow-hidden rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       <div className="flex items-center gap-3">
         <span
           className={cn(

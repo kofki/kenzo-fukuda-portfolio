@@ -5,6 +5,12 @@
 :root {
   color-scheme: light;
 
+  /* Archivo's width axis. 100 is normal, 125 is the widest the family goes.
+     Started at 120 (full Expanded), which set the name far too wide. 102 keeps
+     Archivo's character without the poster stretch. Single knob for all display
+     type — tune here rather than per-heading. */
+  --display-wdth: 102;
+
   --sand: #f5efe3;
   --surface: #fbf7ee;
   --ink: #0e2e2c;
@@ -15,6 +21,24 @@
   --teal: #0e7c7b;
   --amber: #e8b04b;
   --foam: #cfe7e2;
+
+  /* Text-safe accents. The plain accents above are tuned for the beach
+     illustration and fall to 1.7-2.9:1 on --sand, so they fail WCAG AA at
+     small sizes. Use these wherever an accent carries text or an icon; each
+     clears 4.5:1 on --sand, --surface, and its own /15-/20 tint. */
+  --coral-ink: #af3815;
+  --teal-ink: #0c6a69;
+  --palm-ink: #157048;
+  --amber-ink: #865c11;
+
+  /* Card surfaces. These must step *away* from --sand, not toward it — a panel
+     tinted warmer than the page reads as no card at all. Light panels are
+     sun-bleached paper sitting on sand, so they go brighter than the page. */
+  --panel: #fdfaf2;
+  --panel-raised: #fffefa;
+  --panel-border: rgba(14, 46, 44, 0.22);
+  --panel-lift: rgba(120, 96, 56, 0.3);
+
   --sand-deep: #ead7b3;
   --sky-blue: #2bb3e8;
   --palm: #1fa86b;
@@ -55,6 +79,19 @@
   --teal: #2fb8ae;
   --amber: #f2c45a;
   --foam: #16323a;
+
+  /* Night accents already clear 6.2-6.9:1 on --sand, so text reuses them. */
+  --coral-ink: var(--coral);
+  --teal-ink: var(--teal);
+  --palm-ink: var(--palm);
+  --amber-ink: var(--amber);
+
+  /* At night the page is the deep water, so panels rise out of it instead. */
+  --panel: #123037;
+  --panel-raised: #163a43;
+  --panel-border: rgba(234, 242, 239, 0.16);
+  --panel-lift: rgba(0, 0, 0, 0.55);
+
   --sand-deep: #123845;
   --sky-blue: #1c7fb0;
   --palm: #2bb27a;
@@ -91,6 +128,10 @@
   --color-coral: var(--coral);
   --color-teal: var(--teal);
   --color-amber: var(--amber);
+  --color-coral-ink: var(--coral-ink);
+  --color-teal-ink: var(--teal-ink);
+  --color-palm-ink: var(--palm-ink);
+  --color-amber-ink: var(--amber-ink);
   --color-foam: var(--foam);
   --color-sand-deep: var(--sand-deep);
   --color-sky-blue: var(--sky-blue);
@@ -102,9 +143,10 @@
   --color-deep-bottom: var(--deep-bottom);
   --color-deep-ink: var(--deep-ink);
 
-  --font-display: var(--font-fraunces);
-  --font-sans: var(--font-hanken);
+  --font-display: var(--font-archivo);
+  --font-sans: var(--font-instrument);
   --font-mono: var(--font-jetbrains);
+  --font-hand: var(--font-caveat);
 
   --animate-float: float 7s ease-in-out infinite;
   --animate-bob: bob 4s ease-in-out infinite;
@@ -278,16 +320,42 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
+    /* Clearance for the fixed nav capsule, which occupies ~56px. This is the
+       single source of anchor offset — it STACKS with any scroll-mt on a
+       section, so sections deliberately carry none. At 6rem it combined with a
+       section's own vertical padding to leave ~200px of dead space above every
+       heading after a nav jump. */
+    scroll-padding-top: 1.5rem;
     background-color: var(--sand);
     transition: background-color 0.6s ease;
   }
 
   body {
     color: var(--ink);
-    font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     transition: color 0.6s ease;
+  }
+
+  /* Tailwind's font-display utility sets font-family only; this adds the width
+     axis on top, so "Archivo Expanded" comes through everywhere display type is
+     used without needing a second class at every call site. Wide letterforms
+     also need the optical tightening — at 120 wdth the default spacing reads
+     loose above ~40px. */
+  .font-display {
+    font-variation-settings: "wdth" var(--display-wdth);
+    letter-spacing: -0.025em;
+  }
+
+  /* The default UA ring disappears against the animated world backdrop, so
+     every focusable element gets an explicit one. Components may still opt
+     into a tighter radius with their own focus-visible: utilities. */
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--coral-ink);
+    outline-offset: 2px;
+    border-radius: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -305,41 +373,132 @@
 }
 
 @layer utilities {
-  .glass {
-    background-color: color-mix(in oklab, var(--surface) 58%, transparent);
-    backdrop-filter: blur(11px);
-    -webkit-backdrop-filter: blur(11px);
-    border: 1px solid color-mix(in oklab, white 24%, var(--border));
+  /* Replaces the old .glass. That put an identical backdrop-blur, inset white
+     highlight and 157deg sheen on every single card, so nothing could read as
+     more important than anything else — and it stacked a dozen backdrop-filter
+     regions. These are near-solid so the dive gradient still tints them
+     slightly, but there is no blur and no sheen.
+
+     Two levels, on purpose: .panel-raised for things you click into,
+     .panel for supporting content. */
+  /* Sun-bleached card stock with a tide line, replacing the old .glass.
+     .glass put an identical backdrop-blur, inset white highlight and 157deg
+     sheen on every card, so nothing could read as more important than anything
+     else — and it stacked a dozen backdrop-filter regions.
+
+     Instead: warm sand-tinted stock, a damp "wet sand" gradient rising off the
+     bottom edge like a receding waterline, and a warm sun-cast shadow rather
+     than a cold grey one. The inset-shadow approach follows border-radius on
+     its own, so it needs no pseudo-element and cannot clip card content.
+
+     Two levels on purpose: .panel-raised for things you click into,
+     .panel for supporting content. */
+  .panel {
+    background-color: var(--panel);
+    border: 1px solid var(--panel-border);
+    /* Tide line: damp sand rising off the bottom edge, like a receding
+       waterline. An inset shadow follows border-radius on its own, so this
+       needs no pseudo-element and cannot clip card content. */
+    box-shadow: inset 0 -36px 26px -26px var(--foam);
+  }
+  /* Vintage Polaroid, for the cards that hold a photo. A real Polaroid is cream
+     in any light, so this pins the light palette in both themes — redefining
+     the tokens on the frame re-tints every Tailwind utility inside it without
+     touching a single component. Verified: every text token clears 5.6:1 on the
+     frame, and the frame reads 16.4:1 against the night page. */
+  .polaroid {
+    --ink: #241f17;
+    --muted: #6d6455;
+    --border: rgba(36, 31, 23, 0.14);
+    --surface: #f6f0e2;
+    --sand: #f1e9d6;
+    --coral-ink: #a8360f;
+    --teal-ink: #0c6a69;
+    --palm-ink: #157048;
+    --amber-ink: #7d550f;
+
+    background-color: #fdfbf4;
+    /* Sharp corners — a Polaroid has no radius at all. */
+    border-radius: 0;
+    /* Real SX-70 geometry: an 88x107mm print with a 79mm square window, so the
+       side and top gutters are 5.1% of the width. Percentage padding resolves
+       against inline size in CSS, so the gutters stay proportional at any width.
+
+       The aspect-ratio is pinned so the ledge is whatever is left over after the
+       square window — that keeps every print identically shaped no matter how
+       much caption it holds, which a padding-driven ledge could not. */
+    aspect-ratio: 88 / 107;
+    display: flex;
+    flex-direction: column;
+    padding: 5.1% 5.1% 0;
     box-shadow:
-      inset 0 1px 0 color-mix(in oklab, white 55%, transparent),
-      inset 0 -10px 26px -14px color-mix(in oklab, white 28%, transparent),
-      0 18px 42px -24px rgba(2, 18, 23, 0.55);
+      0 1px 1px rgba(35, 30, 20, 0.22),
+      0 18px 32px -16px rgba(35, 30, 20, 0.45);
   }
-  .glass::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      157deg,
-      color-mix(in oklab, white 22%, transparent) 0%,
-      transparent 38%
-    );
-    pointer-events: none;
-  }
-  .dark .glass {
-    border-color: color-mix(in oklab, white 11%, var(--border));
+  .dark .polaroid {
     box-shadow:
-      inset 0 1px 0 color-mix(in oklab, white 22%, transparent),
-      inset 0 -10px 26px -14px color-mix(in oklab, white 11%, transparent),
-      0 18px 42px -24px rgba(2, 18, 23, 0.6);
+      0 1px 1px rgba(0, 0, 0, 0.45),
+      0 20px 38px -14px rgba(0, 0, 0, 0.65);
   }
-  .dark .glass::before {
-    background: linear-gradient(
-      157deg,
-      color-mix(in oklab, white 9%, transparent) 0%,
-      transparent 38%
-    );
+
+  /* The emulsion window: square, sharp, slightly recessed in the frame. */
+  .polaroid-window {
+    position: relative;
+    flex: none;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #e8e2d2;
+    border-radius: 0;
+    box-shadow: inset 0 0 0 1px rgba(36, 31, 23, 0.12);
+  }
+
+  /* The deep bottom ledge. Takes exactly the space the square window leaves.
+     Everything on it is handwritten — a caption on a photo print should look
+     written on, not typeset. Caveat has a small x-height, so it needs a size
+     and line-height bump to stay as readable as the sans it replaces. */
+  .polaroid-caption {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    padding: 6% 1% 0;
+    font-family: var(--font-caveat), ui-rounded, cursive;
+    font-size: 1.0625rem;
+    line-height: 1.25;
+  }
+
+  /* Daylight keeps the name plain — every BeachLens colour lands under 4:1 on
+     --sand, so brand colour there would only make it harder to read. */
+  .brand-name {
+    color: var(--ink);
+  }
+
+  /* At night --ink is already near-white; the halo keeps it clear of the moon. */
+  .dark .brand-name {
+    text-shadow: 0 2px 22px color-mix(in oklab, var(--sky-top) 85%, transparent);
+  }
+
+  /* Experience timeline metrics. Column widths and duration-bar widths are both
+     derived from these, so a card slot and a bar segment always line up. */
+  .timeline-track {
+    --card-w: 17rem;
+    --card-gap: 1.25rem;
+  }
+  @media (min-width: 40rem) {
+    .timeline-track {
+      --card-w: 18rem;
+    }
+  }
+
+  /* Post-it stickers for tech tags: square paper, not pills. Fixed pastels,
+     since they always sit on the cream frame regardless of theme — all clear
+     10:1 against the sticker ink. The paired shadows read as paper thickness
+     plus a lift off the card, so they look stuck on rather than printed. */
+  .sticker {
+    border-radius: 1px;
+    color: #241f17;
+    box-shadow:
+      0 1px 0 rgba(35, 30, 20, 0.14),
+      0 2px 5px -1px rgba(35, 30, 20, 0.3);
   }
 
   .bg-grain {

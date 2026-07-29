@@ -17,27 +17,25 @@ function Gator({ className }: { className?: string }) {
 
 export function EducationCard() {
   const Cap = icons.graduationCap;
-  const Medal = icons.medal;
 
   return (
     <div className="relative">
-      <div className="glass relative overflow-hidden rounded-3xl p-6 sm:p-8">
-      <div className="relative z-10 grid gap-8 md:grid-cols-[1.1fr_0.9fr]">
-        <div>
+      <div className="panel relative overflow-hidden rounded-3xl p-6 sm:p-8">
+        <div className="relative z-10 max-w-xl">
           <div className="flex items-center gap-3">
-            <span className="flex size-11 items-center justify-center rounded-2xl bg-amber/20 text-amber">
+            <span className="flex size-11 items-center justify-center rounded-2xl bg-amber/20 text-amber-ink">
               <Cap size={22} weight="duotone" />
             </span>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-              Education
-            </span>
+            <span className="text-xs text-muted">Education</span>
           </div>
 
           <div className="mt-4 flex items-center gap-3">
             <span className="inline-flex shrink-0 items-center rounded-md bg-white p-1.5 ring-1 ring-black/5">
+              {/* alt="" — the school name is in the heading right beside it, so a
+                  label here would just be announced twice. */}
               <Image
                 src="/uf-monogram.png"
-                alt="University of Florida"
+                alt=""
                 width={784}
                 height={584}
                 className="h-6 w-auto"
@@ -55,36 +53,7 @@ export function EducationCard() {
             {education.start} to {education.end}
             {education.gpa ? ` · GPA ${education.gpa}` : ""}
           </p>
-
-          <div className="mt-5 flex flex-wrap gap-2">
-            {education.coursework.map((course) => (
-              <span
-                key={course}
-                className="rounded-lg border border-border bg-sand/60 px-2.5 py-1 font-mono text-[11px] text-muted"
-              >
-                {course}
-              </span>
-            ))}
-          </div>
         </div>
-
-        <div className="rounded-2xl border border-border bg-sand/40 p-5">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-teal">
-            Awards & Certificates
-          </span>
-          <ul className="mt-3 space-y-2.5">
-            {education.awards.map((award) => (
-              <li
-                key={award}
-                className="flex items-start gap-2 text-sm text-ink/80"
-              >
-                <Medal size={16} weight="fill" className="mt-0.5 shrink-0 text-amber" />
-                {award}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
       </div>
 
       <Gator className="pointer-events-none absolute -bottom-5 right-2 z-10 h-auto w-24 drop-shadow-lg sm:w-28" />

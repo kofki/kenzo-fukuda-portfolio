@@ -2,103 +2,68 @@ import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@/components/ui/Card";
 import { TechBadge } from "@/components/projects/TechBadge";
-import { cn } from "@/lib/cn";
-import { icons } from "@/lib/icons";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
   project: Project;
   priority?: boolean;
-  featured?: boolean;
 }
 
-export function ProjectCard({
-  project,
-  priority = false,
-  featured = false,
-}: ProjectCardProps) {
-  const Arrow = icons.arrowUpRight;
-
+export function ProjectCard({ project, priority = false }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="block h-full rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral"
+      className="block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral-ink"
     >
-      <Card
-        className={cn(
-          "flex h-full flex-col",
-          featured && "md:min-h-[300px] md:flex-row",
-        )}
-      >
-        <div
-          className={cn(
-            "relative aspect-[16/9] overflow-hidden",
-            featured && "md:aspect-auto md:w-[55%] md:self-stretch",
-          )}
-        >
+      <Card seed={project.slug}>
+        <div className="polaroid-window">
           <Image
             src={project.imageUrl}
             alt={project.imageAlt}
             fill
-            sizes={
-              featured
-                ? "(max-width: 768px) 100vw, 640px"
-                : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 700px"
-            }
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
             priority={priority}
-            className={cn(
-              "object-cover transition-transform duration-700 ease-out group-hover:scale-105",
-              featured && "object-[center_35%]",
-            )}
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
-          <span className="absolute left-4 top-4 rounded-full bg-sand/85 px-3 py-1 font-mono text-[11px] text-ink backdrop-blur">
+          <span className="absolute left-2 top-2 rounded-full bg-sand/90 px-2 py-0.5 font-mono text-xs text-ink">
             {project.year}
+          </span>
+          {project.logo ? (
+            <Image
+              src={project.logo}
+              alt=""
+              width={82}
+              height={91}
+              className="pointer-events-none absolute right-1 top-1 h-14 w-auto -rotate-6 drop-shadow-md transition-transform duration-300 group-hover:rotate-0"
+            />
+          ) : null}
+
+          {/* Tagline over the photo on hover. The ledge has no room for prose, so
+              it borrows the window. Hidden from AT: the same text is on the
+              detail page, and the card's own link already names the project.
+              Also gated behind `hover:hover` so it never sticks open after a tap
+              on touch, where there is no pointer to leave. */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-black/85 via-black/45 to-transparent p-3 opacity-0 transition-opacity duration-300 [@media(hover:hover)]:group-hover:opacity-100"
+          >
+            <span className="text-xs leading-snug text-white">
+              {project.tagline}
+            </span>
           </span>
         </div>
 
-        <div
-          className={cn(
-            "flex flex-1 flex-col gap-3 p-5",
-            featured && "md:justify-center md:p-7",
-          )}
-        >
-          <h3
-            className={cn(
-              "font-display text-xl font-semibold text-ink",
-              featured && "md:text-2xl",
-            )}
-          >
+        {/* Name and tag stickers only — the prose lives on the detail page. */}
+        <div className="polaroid-caption">
+          <h3 className="font-hand text-xl font-bold leading-none text-ink">
             {project.title}
           </h3>
-          <p className="text-sm leading-relaxed text-muted">
-            {project.description}
-          </p>
-
-          <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
-            {project.tech.map((tech) => (
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {project.tech.slice(0, 3).map((tech) => (
               <TechBadge key={tech} label={tech} />
             ))}
           </div>
-
-          <span className="inline-flex items-center gap-1 pt-1 font-mono text-xs text-coral">
-            View project
-            <Arrow
-              size={14}
-              weight="bold"
-              className="transition-transform duration-300 group-hover:translate-x-0.5"
-            />
-          </span>
         </div>
-
-        {project.logo ? (
-          <Image
-            src={project.logo}
-            alt={`${project.title} logo`}
-            width={82}
-            height={91}
-            className="pointer-events-none absolute right-3 top-3 z-10 h-12 w-auto -rotate-6 drop-shadow-md transition-transform duration-300 group-hover:rotate-0"
-          />
-        ) : null}
       </Card>
     </Link>
   );

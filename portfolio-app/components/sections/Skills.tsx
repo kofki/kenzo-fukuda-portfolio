@@ -5,28 +5,33 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { skillCategories } from "@/data/skills";
 
-const CATEGORIES = [
-  { accent: "bg-teal/15 text-teal", glow: "var(--teal)" },
-  { accent: "bg-coral/15 text-coral", glow: "var(--coral)" },
-  { accent: "bg-palm/15 text-palm", glow: "var(--palm)" },
-];
+// One accent per category, keyed by title rather than array position so
+// reordering data/skills.ts can't silently reassign colours.
+const ACCENTS: Record<string, { accent: string; glow: string }> = {
+  Languages: { accent: "bg-teal/15 text-teal-ink", glow: "var(--teal)" },
+  "Frameworks & Libraries": {
+    accent: "bg-coral/15 text-coral-ink",
+    glow: "var(--coral)",
+  },
+  "Infrastructure & Tools": {
+    accent: "bg-palm/15 text-palm-ink",
+    glow: "var(--palm)",
+  },
+};
+
+const FALLBACK = { accent: "bg-teal/15 text-teal-ink", glow: "var(--teal)" };
 
 export function Skills() {
   return (
-    <section id="skills" className="relative scroll-mt-24 py-16 sm:py-24">
+    <section id="skills" className="relative py-16 sm:py-24">
       <Container>
         <Reveal>
-          <SectionHeading
-            index="02"
-            eyebrow="The toolkit"
-            title="Skills & Technologies"
-            description="The languages, frameworks, and infrastructure I reach for, plus the ones I am happy to learn next."
-          />
+          <SectionHeading eyebrow="The toolkit" title="Skills & Technologies" />
         </Reveal>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {skillCategories.map((category, index) => {
-            const theme = CATEGORIES[index % CATEGORIES.length];
+            const theme = ACCENTS[category.title] ?? FALLBACK;
             return (
               <Reveal key={category.title} delay={index * 0.08}>
                 <SkillCategory

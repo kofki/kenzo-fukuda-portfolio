@@ -14,37 +14,40 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen flex-col overflow-hidden"
+      className="relative flex min-h-[100dvh] flex-col overflow-hidden"
     >
       <ParallaxSky />
       <WeatherLayer />
       <AmbientEvents />
 
-      <Container className="relative z-10 pb-12 pt-[22vh] sm:pt-[24vh]">
+      <Container className="relative z-10 pb-12 pt-[24vh] sm:pt-[25vh]">
         <div className="max-w-3xl">
+          {/* Back at 6xl/7xl/8xl. That overflowed while --display-wdth was 120,
+              but at 102 Archivo sets close enough to the old Fraunces width for
+              these steps to fit inside max-w-3xl again. */}
           <h1
-            className="animate-rise text-balance font-display text-6xl font-semibold leading-[0.95] tracking-tight text-ink sm:text-7xl lg:text-8xl"
+            className="brand-name animate-rise text-balance font-display text-6xl font-semibold leading-[0.95] sm:text-7xl lg:text-8xl"
             style={{ animationDelay: "60ms" }}
           >
             {profile.name}
           </h1>
 
           <p
-            className="mt-5 animate-rise font-mono text-sm uppercase tracking-[0.3em] text-coral"
+            className="mt-4 animate-rise text-sm font-medium text-coral-ink"
             style={{ animationDelay: "240ms" }}
           >
             {profile.role}
           </p>
 
           <p
-            className="mt-6 max-w-xl animate-rise text-lg leading-relaxed text-ink/80 sm:text-xl"
+            className="mt-5 max-w-xl animate-rise text-lg leading-relaxed text-ink/80"
             style={{ animationDelay: "320ms" }}
           >
             {profile.tagline}
           </p>
 
           <div
-            className="mt-9 flex animate-rise flex-wrap items-center gap-4"
+            className="mt-7 flex animate-rise flex-wrap items-center gap-4"
             style={{ animationDelay: "420ms" }}
           >
             <a

@@ -10,7 +10,7 @@ export function ProjectHero({ item }: { item: WorkItem }) {
 
   return (
     <header className="max-w-3xl">
-      <span className="font-mono text-xs uppercase tracking-[0.25em] text-coral">
+      <span className="text-xs text-coral-ink">
         {eyebrow} · {item.timeline}
       </span>
 
@@ -25,7 +25,7 @@ export function ProjectHero({ item }: { item: WorkItem }) {
           {item.role}
         </span>
         {isHackathon(item) && item.award ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-amber/20 px-3 py-1 text-amber">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-amber/20 px-3 py-1 text-amber-ink">
             <Trophy size={13} weight="fill" />
             {item.award}
           </span>
@@ -47,7 +47,7 @@ export function ProjectHero({ item }: { item: WorkItem }) {
 
       {item.backedBy?.length ? (
         <div className="mt-10 border-t border-border pt-6">
-          <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
+          <span className="text-xs text-muted">
             Backed by
           </span>
           <div className="mt-4 flex flex-wrap items-center gap-6">
@@ -58,7 +58,7 @@ export function ProjectHero({ item }: { item: WorkItem }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={backer.name}
-                className="inline-flex items-center gap-2.5 rounded-xl opacity-80 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral"
+                className="inline-flex items-center gap-2.5 rounded-xl opacity-80 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral-ink"
               >
                 <Image
                   src={backer.logo}

@@ -9,18 +9,12 @@ export function About() {
   const Now = icons.path;
 
   return (
-    <section id="about" className="relative scroll-mt-24 py-16 sm:py-24">
+    <section id="about" className="relative py-16 sm:py-24">
       <Container>
         <Reveal>
           <SectionHeading
-            index="01"
             eyebrow="Who I am"
-            title={
-              <>
-                Software Engineer. <br />
-                I learn fast, I ship fast
-              </>
-            }
+            title="Mostly I just like building the thing"
           />
         </Reveal>
 
@@ -32,8 +26,8 @@ export function About() {
               </p>
             ))}
 
-            <div className="glass relative !mt-8 rounded-2xl p-6">
-              <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-teal">
+            <div className="panel relative !mt-8 rounded-2xl p-6">
+              <span className="inline-flex items-center gap-2 text-sm font-medium text-teal-ink">
                 <Now size={15} weight="bold" />
                 Currently
               </span>
@@ -50,16 +44,27 @@ export function About() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1} className="lg:col-span-6 lg:pl-6 lg:-mt-10">
-            <div className="relative mx-auto aspect-[4/5] max-w-sm overflow-hidden rounded-2xl border border-border shadow-xl lg:mr-0">
-              <Image
-                src="/kenzo_sitting.jpeg"
-                alt="Kenzo by a window at golden hour"
-                fill
-                priority
-                sizes="(max-width: 1024px) 80vw, 380px"
-                className="object-cover"
-              />
+          <Reveal delay={0.1} className="lg:col-span-6 lg:pl-6 lg:-mt-6">
+            <div
+              className="polaroid mx-auto max-w-md rotate-[1.8deg] transition-transform duration-500 hover:rotate-0 lg:mr-0"
+            >
+              <div className="polaroid-window">
+                <Image
+                  src="/kenzo_sitting.jpeg"
+                  alt="Kenzo by a window at golden hour"
+                  fill
+                  sizes="(max-width: 1024px) 80vw, 420px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="polaroid-caption">
+                {/* Inherits the handwriting font from .polaroid-caption. Sized
+                    to fill the ledge, and --ink rather than --muted so it reads
+                    as written on the print (15.8:1 on the cream frame). */}
+                <p className="text-4xl leading-none text-ink">
+                  learn fast, build fast
+                </p>
+              </div>
             </div>
           </Reveal>
         </div>
