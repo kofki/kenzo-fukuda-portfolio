@@ -26,7 +26,7 @@ export function ThemeToggle() {
       onClick={cycleTheme}
       aria-label={`Theme: ${MODE_LABEL[mode]}. Click to change.`}
       title={`Theme: ${MODE_LABEL[mode]}`}
-      className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-surface/60 text-ink transition-all duration-300 hover:-translate-y-0.5 hover:text-coral"
+      className="inline-flex size-10 items-center justify-center rounded-full border border-border bg-surface/60 text-ink transition-all duration-300 hover:-translate-y-0.5 hover:text-coral-ink"
     >
       <Icon size={18} weight="fill" />
     </button>

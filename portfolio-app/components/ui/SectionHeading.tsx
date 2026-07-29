@@ -1,12 +1,25 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { icons } from "@/lib/icons";
+import type { Tone } from "@/components/ui/IconLink";
+
+const TONE: Record<Tone, { eyebrow: string; title: string; body: string }> = {
+  default: {
+    eyebrow: "text-coral-ink",
+    title: "text-ink",
+    body: "text-muted",
+  },
+  deep: {
+    eyebrow: "text-deep-ink/70",
+    title: "text-deep-ink",
+    body: "text-deep-ink/70",
+  },
+};
 
 interface SectionHeadingProps {
   eyebrow: string;
   title: ReactNode;
   description?: string;
-  index?: string;
+  tone?: Tone;
   className?: string;
 }
 
@@ -14,30 +27,24 @@ export function SectionHeading({
   eyebrow,
   title,
   description,
-  index,
+  tone = "default",
   className,
 }: SectionHeadingProps) {
-  const Wave = icons.wave;
+  const t = TONE[tone];
 
   return (
     <div className={cn("max-w-2xl", className)}>
-      <div className="flex items-center gap-3">
-        {index ? (
-          <span className="font-mono text-sm font-medium tabular-nums text-coral/70">
-            {index}
-          </span>
-        ) : null}
-        <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-coral">
-          <Wave size={16} weight="bold" />
-          {eyebrow}
-        </span>
-        <span aria-hidden className="h-px flex-1 bg-border" />
-      </div>
-      <h2 className="mt-4 text-balance font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+      <p className={cn("text-sm font-medium", t.eyebrow)}>{eyebrow}</p>
+      <h2
+        className={cn(
+          "mt-3 text-balance font-display text-3xl font-semibold sm:text-4xl",
+          t.title,
+        )}
+      >
         {title}
       </h2>
       {description ? (
-        <p className="mt-4 text-lg leading-relaxed text-muted">{description}</p>
+        <p className={cn("mt-4 text-lg leading-relaxed", t.body)}>{description}</p>
       ) : null}
     </div>
   );

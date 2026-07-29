@@ -17,10 +17,29 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const item = getWorkBySlug(slug);
-  if (!item) return {};
+  // Keep a stray slug out of the index rather than letting it inherit the
+  // site-wide title.
+  if (!item) return { robots: { index: false } };
+
+  const url = `/projects/${slug}`;
+  // The title template in app/layout.tsx appends "· Kenzo Fukuda" already.
   return {
-    title: `${item.title} · Kenzo Fukuda`,
+    title: item.title,
     description: item.tagline,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title: item.title,
+      description: item.tagline,
+      images: [{ url: item.imageUrl, alt: item.imageAlt }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: item.title,
+      description: item.tagline,
+      images: [{ url: item.imageUrl, alt: item.imageAlt }],
+    },
   };
 }
 
@@ -30,7 +49,7 @@ export default async function ProjectPage({ params }: Params) {
   if (!item) notFound();
 
   return (
-    <main className="relative min-h-screen pb-24">
+    <main className="relative min-h-[100dvh] pb-24">
       <div
         aria-hidden
         className="absolute inset-x-0 top-0 h-[460px]"

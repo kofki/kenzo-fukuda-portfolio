@@ -13,6 +13,7 @@ export const hackathons: HackathonProject[] = [
     event: "SwampHacks XI",
     award: "1st Place",
     teammates: 4,
+    domains: ["ML/AI", "Backend", "Fullstack"],
     tech: ["Next.js", "React", "MongoDB", "Gemini", "Cloudflare R2", "MCP"],
     imageUrl: "/swamphacks_win.jpeg",
     imageAlt: "The CaseForward AI team winning 1st place at SwampHacks XI.",
@@ -73,6 +74,7 @@ export const hackathons: HackathonProject[] = [
     timeline: "Mar 2026",
     event: "SASEHacks 2026",
     teammates: 4,
+    domains: ["Frontend", "ML/AI"],
     tech: [
       "React",
       "TypeScript",

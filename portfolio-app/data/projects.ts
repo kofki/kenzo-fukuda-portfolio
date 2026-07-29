@@ -7,14 +7,16 @@ export const projects: Project[] = [
     title: "BeachLens",
     tagline: "Real-time beach conditions you can actually trust.",
     description:
-      "An iOS and Android app that unifies 11+ environmental feeds into one honest read on the water. Live on the App Store and Google Play with 5,000+ users.",
+      "An iOS and Android app that unifies 11+ environmental feeds into one honest read on the water. Live on the App Store and Google Play with 20,000+ users.",
     role: "Co-Founder & CTO",
     timeline: "Dec 2025 to present",
-    tech: ["React Native", "Swift", "Serverless ELT", "NOAA", "TypeScript"],
+    domains: ["Mobile", "Fullstack", "Backend"],
+    // Kept in step with the BeachLens entry in data/experience.ts.
+    tech: ["React Native", "iOS", "Android", "TypeScript"],
     imageUrl: "/beachlens/team.jpg",
     imageAlt:
       "Kenzo and his co-founder presenting BeachLens on stage at The Lab Miami.",
-    logo: "/beachlens-turtle.png",
+    logo: "/beachlens_logo.png",
     links: {
       live: "https://beachlens.net/",
       appStore: "https://apps.apple.com/us/app/beachlens/id6759271980",
@@ -69,7 +71,7 @@ export const projects: Project[] = [
     ],
     about: [
       "BeachLens answers one question well: is it actually a good time to go to the beach? It pulls real-time conditions, including weather, water temperature, wave height, wind, UV, tides, rip-current risk, red tide, water quality, and beach-flag status, into one honest read, then adds planning tools (beach maps, amenities, parking, lifeguards) and a Waze-style community feed where beachgoers report water clarity, crowds, marine life, hazards, and parking from the shoreline.",
-      "As co-founder and CTO, I built the serverless ELT pipeline that ingests and validates 11+ heterogeneous feeds, anchored by NOAA and environmental monitoring systems, and keeps them fresh in real time, plus a recommendation layer that turns real usage into safety insight. It is live on the App Store and Google Play with 5,000+ users across Florida, and I lead an 11-person team shipping it in Agile sprints.",
+      "As co-founder and CTO, I built the serverless ELT pipeline that ingests and validates 11+ heterogeneous feeds, anchored by NOAA and environmental monitoring systems, and keeps them fresh in real time, plus a recommendation layer that turns real usage into safety insight. It is live on the App Store and Google Play with 20,000+ users across Florida, and I lead an 11-person team shipping it in Agile sprints.",
     ],
     inspiration: [
       "Deciding whether a beach trip was worth it meant juggling NOAA tide tables, a weather app, and water-quality advisories. The data existed, it was just scattered and hard to trust.",
@@ -92,6 +94,8 @@ export const projects: Project[] = [
       "A web app that reads a student's transcript and turns it into personalized semester plans: degree progress, course suggestions, and a balanced workload. Built with the UF SASE Web Development Team.",
     role: "Frontend Lead",
     timeline: "2025 to 2026",
+    featured: true,
+    domains: ["Frontend", "Fullstack", "Backend"],
     tech: [
       "React",
       "React Router",
@@ -142,5 +146,29 @@ export const projects: Project[] = [
       "Coordinating a large SASE team taught me a shared component vocabulary and clear interfaces matter more than any single feature.",
       "Designing AI as an advisor, not an authority, kept the scope honest and the recommendations something students could actually rely on.",
     ],
+  },
+  // PLACEHOLDER — copy still to be written. `about`, `inspiration`, `takeaways`
+  // and `gallery` are intentionally empty; the detail page skips empty sections,
+  // so /projects/ufsase renders the hero alone rather than empty headings.
+  // Swap imageUrl for a real screenshot when there is one.
+  {
+    slug: "ufsase",
+    id: "ufsase",
+    title: "ufsase.com",
+    tagline: "The chapter site for UF SASE.",
+    description: "The UF SASE chapter website, which I maintain as webmaster.",
+    role: "Webmaster",
+    timeline: "2026 to present",
+    domains: ["Frontend", "Fullstack"],
+    tech: ["Next.js", "TypeScript", "Tailwind CSS"],
+    imageUrl: "/sase_logo.png",
+    imageAlt: "The SASE logo",
+    logo: "/sase_logo.png",
+    links: { live: "https://ufsase.com" },
+    year: 2026,
+    gallery: [],
+    about: [],
+    inspiration: [],
+    takeaways: [],
   },
 ];

@@ -20,8 +20,11 @@ function initials(name: string): string {
 
 export function CompanyLogo({ name, monogram, accent = "var(--teal)", logo }: CompanyLogoProps) {
   if (logo) {
+    // inline-block is required: a bare inline span ignores width/height, so the
+    // `fill` Image below would have no sized parent to fill. This only worked
+    // implicitly while the logo was a flex child.
     return (
-      <span className="relative size-11 shrink-0 overflow-hidden rounded-xl border border-border bg-white">
+      <span className="relative inline-block size-11 shrink-0 overflow-hidden rounded-xl border border-border bg-white">
         <Image src={logo} alt={`${name} logo`} fill className="object-contain p-1.5" sizes="44px" />
       </span>
     );
@@ -30,7 +33,7 @@ export function CompanyLogo({ name, monogram, accent = "var(--teal)", logo }: Co
   return (
     <span
       aria-hidden
-      className="flex size-11 shrink-0 items-center justify-center rounded-xl font-display text-sm font-semibold"
+      className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl font-display text-sm font-semibold"
       style={{
         backgroundColor: `color-mix(in oklab, ${accent} 16%, transparent)`,
         color: accent,
