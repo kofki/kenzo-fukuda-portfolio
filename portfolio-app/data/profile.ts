@@ -13,7 +13,6 @@ export const profile: Profile = {
   siteUrl: "https://www.kfukuda.com",
   headshot: "/kenzo_headshot.jpg",
   updated: "2026-11-04",
-  email: "kenzof28@gmail.com",
   businessEmail: "kenzo@beachlens.net",
   resumeUrl: "/Kenzo_Resume.pdf",
   about: [

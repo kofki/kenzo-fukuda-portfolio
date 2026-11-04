@@ -8,21 +8,29 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { icons } from "@/lib/icons";
 import { profile } from "@/data/profile";
 
-const INBOXES = [
+// Recruiters go to LinkedIn on purpose: no personal inbox is published here.
+const linkedin = profile.socials.find((social) => social.label === "LinkedIn");
+
+const CHANNELS = [
   {
     label: "Recruiters & opportunities",
-    email: profile.email,
+    href: linkedin?.href ?? "#",
+    display: "Message me on LinkedIn",
+    icon: "linkedin" as const,
     note: "Internships, new-grad roles, referrals.",
+    external: true,
   },
   {
     label: "BeachLens & business",
-    email: profile.businessEmail,
+    href: `mailto:${profile.businessEmail}`,
+    display: profile.businessEmail,
+    icon: "email" as const,
     note: "Partnerships, press, data, anything about the app.",
+    external: false,
   },
 ];
 
 export function Contact() {
-  const Email = icons.email;
 
   return (
     <section className="relative">
@@ -58,30 +66,36 @@ export function Contact() {
                   tone="deep"
                   eyebrow="Say hi"
                   title="Let's make something."
-                  description="I'm always down to chat. Two inboxes so the right thing lands in the right place: recruiting goes to the first, anything BeachLens goes to the second."
+                  description="I'm always down to chat. Recruiting and career stuff goes through LinkedIn; anything BeachLens goes to the inbox."
                 />
 
                 <div className="mt-8 flex flex-col items-start gap-5">
                   <ul className="grid w-full gap-3 sm:grid-cols-2">
-                    {INBOXES.map((inbox) => (
-                      <li key={inbox.email}>
-                        <a
-                          href={`mailto:${inbox.email}`}
-                          className="group flex h-full flex-col gap-1.5 rounded-2xl border border-deep-ink/20 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-deep-ink"
-                        >
-                          <span className="font-mono text-xs text-deep-ink/60">
-                            {inbox.label}
-                          </span>
-                          <span className="inline-flex items-center gap-2 text-sm font-medium text-deep-ink">
-                            <Email size={16} weight="bold" />
-                            {inbox.email}
-                          </span>
-                          <span className="text-xs leading-relaxed text-deep-ink/60">
-                            {inbox.note}
-                          </span>
-                        </a>
-                      </li>
-                    ))}
+                    {CHANNELS.map((channel) => {
+                      const Icon = icons[channel.icon];
+                      return (
+                        <li key={channel.label}>
+                          <a
+                            href={channel.href}
+                            {...(channel.external
+                              ? { target: "_blank", rel: "noreferrer noopener" }
+                              : {})}
+                            className="group flex h-full flex-col gap-1.5 rounded-2xl border border-deep-ink/20 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-deep-ink"
+                          >
+                            <span className="font-mono text-xs text-deep-ink/60">
+                              {channel.label}
+                            </span>
+                            <span className="inline-flex items-center gap-2 text-sm font-medium text-deep-ink">
+                              <Icon size={16} weight="bold" />
+                              {channel.display}
+                            </span>
+                            <span className="text-xs leading-relaxed text-deep-ink/60">
+                              {channel.note}
+                            </span>
+                          </a>
+                        </li>
+                      );
+                    })}
                   </ul>
 
                   <div className="flex items-center gap-3">
