@@ -5,7 +5,9 @@ import { ProjectGallery } from "@/components/project/ProjectGallery";
 import { ProjectHero } from "@/components/project/ProjectHero";
 import { ProjectSection } from "@/components/project/ProjectSection";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Container } from "@/components/ui/Container";
+import { projectSchema } from "@/lib/seo";
 import { allWorkSlugs, getWorkBySlug } from "@/lib/work";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -26,6 +28,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return {
     title: item.title,
     description: item.tagline,
+    keywords: item.tech,
     alternates: { canonical: url },
     openGraph: {
       type: "article",
@@ -50,6 +53,7 @@ export default async function ProjectPage({ params }: Params) {
 
   return (
     <main className="relative min-h-[100dvh] pb-24">
+      <JsonLd data={projectSchema(item)} />
       <div
         aria-hidden
         className="absolute inset-x-0 top-0 h-[460px]"

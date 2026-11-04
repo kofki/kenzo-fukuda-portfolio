@@ -6,7 +6,7 @@ export const profile: Profile = {
   tagline:
     "I work across the whole stack, and I love learning fast and shipping products people actually use.",
   location: "Gainesville, Florida",
-  siteUrl: "https://kenzo-fukuda-portfolio.vercel.app",
+  siteUrl: "https://www.kfukuda.com",
   email: "kenzof28@gmail.com",
   resumeUrl: "/Kenzo_Resume.pdf",
   about: [
