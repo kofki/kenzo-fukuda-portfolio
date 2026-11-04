@@ -79,6 +79,8 @@ export interface Profile {
   about: string[];
   now: string[];
   socials: SocialLink[];
+  /** X handle including the @, for Twitter card metadata. */
+  xHandle?: string;
   /**
    * Every public profile that is this same person, for schema.org sameAs and
    * rel="me". Add each new profile (X, Devpost, Crunchbase, ...) here as soon

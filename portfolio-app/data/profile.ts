@@ -30,13 +30,19 @@ export const profile: Profile = {
       href: "https://www.linkedin.com/in/kenzo-fukuda",
       icon: "linkedin",
     },
+    { label: "X", href: "https://x.com/kenzof28", icon: "twitter" },
     { label: "Email", href: "mailto:kenzof28@gmail.com", icon: "email" },
   ],
+  /** X handle with the @, for twitter:creator / twitter:site cards. */
+  xHandle: "@kenzof28",
   // Same person, other sites. Keep the name on each one exactly "Kenzo Fukuda".
-  // TODO: add X, Devpost, Crunchbase and Product Hunt profiles once created.
+  // TODO: add Crunchbase and Product Hunt profiles once created.
   profiles: [
     "https://github.com/kofki",
-    "https://www.linkedin.com/in/kenzo-fukuda",
+    "https://www.linkedin.com/in/kenzo-fukuda/",
+    "https://x.com/kenzof28",
+    "https://www.instagram.com/kenzo.fukuda_/",
+    "https://devpost.com/kofki",
     "https://beachlens.net/",
   ],
 };
