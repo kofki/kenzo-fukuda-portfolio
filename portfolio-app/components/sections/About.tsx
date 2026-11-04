@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Reveal } from "@/components/fx/Reveal";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -25,6 +26,13 @@ export function About() {
                 {paragraph}
               </p>
             ))}
+            <Link
+              href="/about"
+              className="inline-flex items-center gap-1 font-mono text-sm text-coral-ink transition-colors hover:text-ink"
+            >
+              More about me
+              <span aria-hidden>→</span>
+            </Link>
 
             <div className="panel relative !mt-8 rounded-2xl p-6">
               <span className="inline-flex items-center gap-2 text-sm font-medium text-teal-ink">

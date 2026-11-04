@@ -61,16 +61,49 @@ export interface NavItem {
 
 export interface Profile {
   name: string;
+  givenName: string;
+  familyName: string;
   role: string;
+  /** Position only, for schema.org jobTitle: "Co-Founder & CTO". */
+  jobTitle: string;
+  /** Position plus company, for titles and bylines: "Co-Founder & CTO of BeachLens". */
+  headline: string;
   tagline: string;
   location: string;
   /** Absolute origin of the deployed site; feeds metadataBase, sitemap, and JSON-LD. */
   siteUrl: string;
+  /** Square headshot under public/, used as the Person schema image and on /about. */
+  headshot: string;
+  /** ISO date of the last meaningful content edit. Feeds sitemap lastModified. */
+  updated: string;
   about: string[];
   now: string[];
   socials: SocialLink[];
+  /**
+   * Every public profile that is this same person, for schema.org sameAs and
+   * rel="me". Add each new profile (X, Devpost, Crunchbase, ...) here as soon
+   * as it exists so search engines can merge them into one entity.
+   */
+  profiles: string[];
   email: string;
   resumeUrl: string;
+}
+
+export interface PostSection {
+  heading?: string;
+  paragraphs: string[];
+}
+
+/** One article under /writing. Content is typed data, same as the logbook. */
+export interface Post {
+  slug: string;
+  title: string;
+  description: string;
+  /** ISO dates (YYYY-MM-DD). */
+  publishedAt: string;
+  updatedAt?: string;
+  tags: string[];
+  sections: PostSection[];
 }
 
 export type EmploymentType =

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { cn } from "@/lib/cn";
@@ -88,12 +89,18 @@ export function Nav() {
             );
           })}
         </nav>
-        <a
+        <Link
+          href="/writing"
+          className="hidden shrink-0 rounded-full px-3 py-1.5 text-sm text-ink/65 transition-colors hover:text-ink md:inline"
+        >
+            Writing
+          </Link>
+        <Link
           href="/logbook"
           className="hidden shrink-0 rounded-full px-3 py-1.5 text-sm text-ink/65 transition-colors hover:text-ink md:inline"
         >
-          Logbook
-        </a>
+            Logbook
+          </Link>
 
         <button
           type="button"
@@ -163,13 +170,20 @@ export function Nav() {
               {item.label}
             </a>
           ))}
-          <a
-            href="/logbook"
+          <Link
+            href="/writing"
             onClick={() => setMenuOpen(false)}
             className="mt-1 flex border-t border-border px-3 pb-1 pt-3 text-sm text-ink/70"
           >
+            Writing
+          </Link>
+          <Link
+            href="/logbook"
+            onClick={() => setMenuOpen(false)}
+            className="flex px-3 py-2.5 text-sm text-ink/70"
+          >
             Logbook
-          </a>
+          </Link>
           {/* The right-hand pills are hidden below `sm`, so the sheet carries them. */}
           <a
             href={profile.resumeUrl}

@@ -27,7 +27,6 @@ export const metadata: Metadata = {
   publisher: profile.name,
   category: "technology",
   keywords: SITE_KEYWORDS,
-  alternates: { canonical: "/" },
   robots: {
     index: true,
     follow: true,
@@ -71,6 +70,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={fontVariables}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: NO_FLASH_SCRIPT }} />
+        {/* rel="me" ties these profiles to this site for identity verification. */}
+        {profile.profiles.map((href) => (
+          <link key={href} rel="me" href={href} />
+        ))}
         <JsonLd data={SITE_SCHEMA} />
       </head>
       <body className="min-h-[100dvh] antialiased">

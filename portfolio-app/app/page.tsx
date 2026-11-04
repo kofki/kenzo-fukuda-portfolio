@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { WorldBackground } from "@/components/world/WorldBackground";
 import { Nav } from "@/components/layout/Nav";
 import { Hero } from "@/components/sections/Hero";
@@ -14,6 +15,12 @@ const DESCENT_SHEET =
   " color-mix(in oklab, var(--dive-shallow) 24%, transparent) 64%," +
   " color-mix(in oklab, var(--dive-mid) 16%, transparent) 84%," +
   " transparent 100%)";
+
+// The layout supplies title and description; the canonical belongs to this
+// route rather than every route that inherits the layout.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function Home() {
   return (

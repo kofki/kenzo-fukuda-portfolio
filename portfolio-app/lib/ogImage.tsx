@@ -50,7 +50,7 @@ export function renderOgImage() {
               letterSpacing: 1,
             }}
           >
-            {profile.role}
+            {profile.headline}
           </div>
           <div
             style={{
