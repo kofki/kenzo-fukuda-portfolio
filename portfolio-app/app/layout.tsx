@@ -51,6 +51,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
+    ...(profile.xHandle
+      ? { site: profile.xHandle, creator: profile.xHandle }
+      : {}),
   },
 };
 
