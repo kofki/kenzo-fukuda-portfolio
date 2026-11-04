@@ -35,6 +35,9 @@ export const metadata: Metadata = {
   },
 };
 
+// Recruiters are sent to LinkedIn; no personal inbox is published on the site.
+const linkedin = profile.socials.find((social) => social.label === "LinkedIn");
+
 const FACTS = [
   { label: "Role", value: profile.headline },
   { label: "Also", value: `${profile.role}, Vobile intern` },
@@ -100,10 +103,12 @@ export default function AboutPage() {
                     </dt>
                     <dd className="mt-1">
                       <a
-                        href={`mailto:${profile.email}`}
+                        href={linkedin?.href ?? "#"}
+                        target="_blank"
+                        rel="noreferrer noopener"
                         className="text-sm font-medium text-ink transition-colors hover:text-coral-ink"
                       >
-                        {profile.email}
+                        Message me on LinkedIn
                       </a>
                     </dd>
                   </div>
