@@ -62,8 +62,8 @@ const PERSON = {
   image: {
     "@type": "ImageObject",
     url: absolute(profile.headshot),
-    width: 400,
-    height: 400,
+    width: 800,
+    height: 800,
     caption: `${profile.name}, ${profile.headline}`,
   },
   jobTitle: profile.jobTitle,
