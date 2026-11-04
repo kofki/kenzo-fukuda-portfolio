@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Recruiters are sent to LinkedIn; no personal inbox is published on the site.
+// LinkedIn is the only contact path; no email address is published on the site.
 const linkedin = profile.socials.find((social) => social.label === "LinkedIn");
 
 const FACTS = [
@@ -96,36 +96,17 @@ export default function AboutPage() {
                   ))}
                 </dl>
 
-                <dl className="mt-8 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-border p-4">
-                    <dt className="font-mono text-xs text-muted">
-                      Recruiters & opportunities
-                    </dt>
-                    <dd className="mt-1">
-                      <a
-                        href={linkedin?.href ?? "#"}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="text-sm font-medium text-ink transition-colors hover:text-coral-ink"
-                      >
-                        Message me on LinkedIn
-                      </a>
-                    </dd>
-                  </div>
-                  <div className="rounded-2xl border border-border p-4">
-                    <dt className="font-mono text-xs text-muted">
-                      BeachLens & business
-                    </dt>
-                    <dd className="mt-1">
-                      <a
-                        href={`mailto:${profile.businessEmail}`}
-                        className="text-sm font-medium text-ink transition-colors hover:text-coral-ink"
-                      >
-                        {profile.businessEmail}
-                      </a>
-                    </dd>
-                  </div>
-                </dl>
+                {linkedin ? (
+                  <a
+                    href={linkedin.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-mono text-sm text-sand transition-transform duration-300 hover:-translate-y-0.5"
+                  >
+                    Message me on LinkedIn
+                    <ArrowUpRight size={14} weight="bold" aria-hidden />
+                  </a>
+                ) : null}
 
                 <div className="mt-6 flex items-center gap-2">
                   {profile.socials.map((social) => (
