@@ -8,11 +8,24 @@ import { Reveal } from "@/components/fx/Reveal";
 import { hobbies } from "@/data/hobbies";
 import { logbook, logbookEntries } from "@/data/logbook";
 
+const LOGBOOK_DESCRIPTION =
+  "The part that does not fit on a resume: surfing, skating, guitar, volleyball, and the people I have built things with.";
+
 export const metadata: Metadata = {
   title: logbook.title,
-  description:
-    "The part that does not fit on a resume: surfing, skating, guitar, volleyball, and the people I have built things with.",
+  description: LOGBOOK_DESCRIPTION,
   alternates: { canonical: "/logbook" },
+  openGraph: {
+    type: "website",
+    url: "/logbook",
+    title: logbook.title,
+    description: LOGBOOK_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: logbook.title,
+    description: LOGBOOK_DESCRIPTION,
+  },
 };
 
 export default function LogbookPage() {

@@ -1,36 +1,57 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { fontVariables } from "@/app/fonts";
 import { ThemeProvider } from "@/app/providers";
 import { GrainOverlay } from "@/components/fx/GrainOverlay";
-import { education } from "@/data/education";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { profile } from "@/data/profile";
+import {
+  SITE_DESCRIPTION,
+  SITE_KEYWORDS,
+  SITE_SCHEMA,
+  SITE_TITLE,
+} from "@/lib/seo";
 import "./globals.css";
-
-const DESCRIPTION =
-  "Kenzo Fukuda is a full-stack software engineer and CS student at the University of Florida. Co-founder and CTO of BeachLens (20,000+ users), software engineering intern at Vobile, and 1st place at SwampHacks XI.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),
   title: {
-    default: `${profile.name} · ${profile.role}`,
+    default: SITE_TITLE,
     template: `%s · ${profile.name}`,
   },
-  description: DESCRIPTION,
+  description: SITE_DESCRIPTION,
+  applicationName: profile.name,
   authors: [{ name: profile.name, url: profile.siteUrl }],
   creator: profile.name,
+  publisher: profile.name,
+  category: "technology",
+  keywords: SITE_KEYWORDS,
   alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: { email: false, address: false, telephone: false },
   openGraph: {
     type: "website",
     url: "/",
     siteName: profile.name,
-    title: `${profile.name} · ${profile.role}`,
-    description: DESCRIPTION,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${profile.name} · ${profile.role}`,
-    description: DESCRIPTION,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
 };
 
@@ -43,28 +64,6 @@ export const viewport: Viewport = {
 
 const NO_FLASH_SCRIPT = `(function(){try{var m=localStorage.getItem('theme-mode');var e;if(m==='light'||m==='dark'){e=m;}else{var h=new Date().getHours();e=(h>=7&&h<19)?'light':'dark';}document.documentElement.classList.toggle('dark',e==='dark');}catch(err){}})();`;
 
-// Built from data/ so it can never drift from what the page actually says.
-const PERSON_SCHEMA = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: profile.name,
-  url: profile.siteUrl,
-  email: `mailto:${profile.email}`,
-  jobTitle: profile.role,
-  description: profile.tagline,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: profile.location,
-  },
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: education.school,
-  },
-  sameAs: profile.socials
-    .filter((social) => social.href.startsWith("http"))
-    .map((social) => social.href),
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -72,16 +71,15 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={fontVariables}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: NO_FLASH_SCRIPT }} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
-        />
+        <JsonLd data={SITE_SCHEMA} />
       </head>
       <body className="min-h-[100dvh] antialiased">
         <ThemeProvider>
           {children}
           <GrainOverlay />
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
