@@ -44,6 +44,7 @@ export const profile: Profile = {
     "https://www.instagram.com/kenzo.fukuda_/",
     "https://devpost.com/kofki",
     "https://www.crunchbase.com/person/kenzo-fukuda",
+    "https://www.youtube.com/@kenzo.fukuda",
     "https://beachlens.net/",
   ],
 };
