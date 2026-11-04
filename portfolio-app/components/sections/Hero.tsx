@@ -4,6 +4,7 @@ import { WeatherLayer } from "@/components/hero/WeatherLayer";
 import { Container } from "@/components/ui/Container";
 import { IconLink } from "@/components/ui/IconLink";
 import { icons } from "@/lib/icons";
+import { education } from "@/data/education";
 import { profile } from "@/data/profile";
 
 export function Hero() {
@@ -36,7 +37,7 @@ export function Hero() {
             className="mt-4 animate-rise text-sm font-medium text-coral-ink"
             style={{ animationDelay: "240ms" }}
           >
-            {profile.role}
+            {profile.headline} · {profile.role} · {education.school}
           </p>
 
           <p
