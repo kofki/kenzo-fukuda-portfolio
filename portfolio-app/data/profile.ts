@@ -14,6 +14,7 @@ export const profile: Profile = {
   headshot: "/kenzo_headshot.jpg",
   updated: "2026-11-04",
   email: "kenzof28@gmail.com",
+  businessEmail: "kenzo@beachlens.net",
   resumeUrl: "/Kenzo_Resume.pdf",
   about: [
     "I'm Kenzo Fukuda, a CS student at the University of Florida and the co-founder and CTO of BeachLens. I develop full-stack and mobile apps, and I love making software that helps people. Off the clock I'm on the volleyball court, in the water surfing, on a board, or back home cooking, gaming, and playing guitar.",
@@ -31,7 +32,7 @@ export const profile: Profile = {
       icon: "linkedin",
     },
     { label: "X", href: "https://x.com/kenzof28", icon: "twitter" },
-    { label: "Email", href: "mailto:kenzof28@gmail.com", icon: "email" },
+    // No bare email icon: the Contact section labels which inbox is for what.
   ],
   /** X handle with the @, for twitter:creator / twitter:site cards. */
   xHandle: "@kenzof28",

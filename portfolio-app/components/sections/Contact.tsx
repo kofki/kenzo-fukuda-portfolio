@@ -8,6 +8,19 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { icons } from "@/lib/icons";
 import { profile } from "@/data/profile";
 
+const INBOXES = [
+  {
+    label: "Recruiters & opportunities",
+    email: profile.email,
+    note: "Internships, new-grad roles, referrals.",
+  },
+  {
+    label: "BeachLens & business",
+    email: profile.businessEmail,
+    note: "Partnerships, press, data, anything about the app.",
+  },
+];
+
 export function Contact() {
   const Email = icons.email;
 
@@ -45,17 +58,31 @@ export function Contact() {
                   tone="deep"
                   eyebrow="Say hi"
                   title="Let's make something."
-                  description="I'm always down to chat, whatever it's about. I'm in it for the love of the game, so don't be a stranger."
+                  description="I'm always down to chat. Two inboxes so the right thing lands in the right place: recruiting goes to the first, anything BeachLens goes to the second."
                 />
 
                 <div className="mt-8 flex flex-col items-start gap-5">
-                  <a
-                    href={`mailto:${profile.email}`}
-                    className="inline-flex items-center gap-2 rounded-full bg-deep-ink px-7 py-3.5 text-sm font-medium text-deep-bottom transition-transform duration-300 hover:-translate-y-0.5"
-                  >
-                    <Email size={18} weight="bold" />
-                    {profile.email}
-                  </a>
+                  <ul className="grid w-full gap-3 sm:grid-cols-2">
+                    {INBOXES.map((inbox) => (
+                      <li key={inbox.email}>
+                        <a
+                          href={`mailto:${inbox.email}`}
+                          className="group flex h-full flex-col gap-1.5 rounded-2xl border border-deep-ink/20 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-deep-ink"
+                        >
+                          <span className="font-mono text-xs text-deep-ink/60">
+                            {inbox.label}
+                          </span>
+                          <span className="inline-flex items-center gap-2 text-sm font-medium text-deep-ink">
+                            <Email size={16} weight="bold" />
+                            {inbox.email}
+                          </span>
+                          <span className="text-xs leading-relaxed text-deep-ink/60">
+                            {inbox.note}
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
 
                   <div className="flex items-center gap-3">
                     {profile.socials.map((social) => (
