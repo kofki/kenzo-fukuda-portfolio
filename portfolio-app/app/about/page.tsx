@@ -93,25 +93,44 @@ export default function AboutPage() {
                   ))}
                 </dl>
 
-                <div className="mt-8 flex flex-wrap items-center gap-3">
-                  <a
-                    href={`mailto:${profile.email}`}
-                    className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-mono text-sm text-sand transition-transform duration-300 hover:-translate-y-0.5"
-                  >
-                    {profile.email}
-                  </a>
-                  <div className="flex items-center gap-2">
-                    {profile.socials
-                      .filter((social) => social.label !== "Email")
-                      .map((social) => (
-                        <IconLink
-                          key={social.label}
-                          href={social.href}
-                          label={social.label}
-                          icon={social.icon}
-                        />
-                      ))}
+                <dl className="mt-8 grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-border p-4">
+                    <dt className="font-mono text-xs text-muted">
+                      Recruiters & opportunities
+                    </dt>
+                    <dd className="mt-1">
+                      <a
+                        href={`mailto:${profile.email}`}
+                        className="text-sm font-medium text-ink transition-colors hover:text-coral-ink"
+                      >
+                        {profile.email}
+                      </a>
+                    </dd>
                   </div>
+                  <div className="rounded-2xl border border-border p-4">
+                    <dt className="font-mono text-xs text-muted">
+                      BeachLens & business
+                    </dt>
+                    <dd className="mt-1">
+                      <a
+                        href={`mailto:${profile.businessEmail}`}
+                        className="text-sm font-medium text-ink transition-colors hover:text-coral-ink"
+                      >
+                        {profile.businessEmail}
+                      </a>
+                    </dd>
+                  </div>
+                </dl>
+
+                <div className="mt-6 flex items-center gap-2">
+                  {profile.socials.map((social) => (
+                    <IconLink
+                      key={social.label}
+                      href={social.href}
+                      label={social.label}
+                      icon={social.icon}
+                    />
+                  ))}
                 </div>
               </header>
 

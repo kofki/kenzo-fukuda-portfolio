@@ -87,7 +87,10 @@ export interface Profile {
    * as it exists so search engines can merge them into one entity.
    */
   profiles: string[];
+  /** Recruiting and career inbox. Shown only behind an explicit "recruiters" label. */
   email: string;
+  /** BeachLens and business inbox; also the address published in the Person schema. */
+  businessEmail: string;
   resumeUrl: string;
 }
 

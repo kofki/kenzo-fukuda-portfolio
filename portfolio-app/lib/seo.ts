@@ -58,7 +58,18 @@ const PERSON = {
   givenName: profile.givenName,
   familyName: profile.familyName,
   url: profile.siteUrl,
-  email: `mailto:${profile.email}`,
+  // The BeachLens address is the one published in structured data: it ties
+  // the person to the company's domain and keeps the personal inbox out of
+  // scraped JSON-LD.
+  email: `mailto:${profile.businessEmail}`,
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "business",
+      email: profile.businessEmail,
+      availableLanguage: ["en"],
+    },
+  ],
   image: {
     "@type": "ImageObject",
     url: absolute(profile.headshot),
