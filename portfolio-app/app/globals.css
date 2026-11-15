@@ -692,3 +692,11 @@
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
+
+/* Hero: the overlays wait for the print they sit on (BeachScene). */
+[data-scene-overlay] { opacity: 0; transition: opacity 0.5s ease; }
+[data-day-ready] [data-scene-overlay] { opacity: 1; }
+.dark [data-scene-overlay] { opacity: 0; }
+.dark [data-night-ready] [data-scene-overlay] { opacity: 1; }
+/* While the dive zooms, the cut-out waves rest where they were cut from. */
+[data-diving] [data-wave] { animation: none !important; }

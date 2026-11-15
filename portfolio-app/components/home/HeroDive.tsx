@@ -1,29 +1,48 @@
 "use client";
 
-import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "motion/react";
 import { useRef, type ReactNode } from "react";
 import { BeachScene } from "@/components/home/BeachScene";
-import { Bubbles } from "@/components/home/Bubbles";
-import { WaterMood } from "@/components/home/WaterMood";
 import { LiveScene } from "@/components/home/LiveScene";
-import { LightRays } from "@/components/home/SeaLife";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 /** 0 → 1 as scroll progress goes from `from` to `to`, clamped. */
 const ramp = (v: number, from: number, to: number) => clamp01((v - from) / (to - from));
 
-function useRamp(progress: MotionValue<number>, map: (v: number) => number | string) {
-  return useTransform(progress, map);
+// A foam line that repeats every 1440 units, drawn twice so it can scroll
+// sideways forever without a visible seam.
+function foamPath(phase: number, amp: number) {
+  const pts: string[] = [];
+  for (let x = 0; x <= 2880; x += 24) {
+    const t = (x / 1440) * Math.PI * 2;
+    const y = 18 + amp * Math.sin(3 * t + phase) + amp * 0.6 * Math.sin(7 * t + 1 + phase) + amp * 0.35 * Math.sin(13 * t + 2 + phase);
+    pts.push(`${x} ${y.toFixed(1)}`);
+  }
+  return `M0 40 L${pts.join(" L")} L2880 40 Z`;
 }
+const FOAM_FRONT = foamPath(0, 6);
+const FOAM_BACK = foamPath(1.7, 5);
+
+/** Where the waterline starts climbing the screen, as a share of the scroll. */
+const DIP = 0.5;
 
 /**
- * Transition 1, the dive. The hero holds still for a stretch of scrolling
- * while the camera plunges into the sea: the beach zooms in on the water just
- * below the horizon, faster and faster, the name falls away, and the screen
- * goes under. Underneath, light comes down through the water and bubbles
- * rise. Then the frame releases and Projects carries on from the same water
- * colour, so the dive keeps going down without a line.
+ * Where the dive breaks the surface, as a share of the hero's pinned scroll.
+ * `SeaBackdrop` starts at exactly this point, so keep the two in step.
+ */
+export const SURFACE = 0.86;
+
+/**
+ * Transition 1, the dive. The hero holds still while the camera leans in
+ * towards the sea and the name falls away. Then the camera dips under: the
+ * waterline, edged with foam, climbs up the screen. Below it is the water
+ * itself (`SeaBackdrop`, the surface seen from below with sunlight coming
+ * down); above it the beach is still there, until the line passes the top.
+ * From there you just keep sinking into Projects.
+ *
+ * The zoom stays gentle, so the print never looks soft, and the cut-out waves
+ * hold still while it runs, so their edges never come apart.
  *
  * The sticky frame is a size container: the beach and the hero text both size
  * themselves from it (cqh / cqw), so they stay locked together even when the
@@ -33,20 +52,28 @@ function useRamp(progress: MotionValue<number>, map: (v: number) => number | str
  */
 export function HeroDive({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
+  const frame = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
-  // Accelerating zoom, like falling towards the water.
-  const zoom = useRamp(p, (v) => 1 + 11 * Math.pow(ramp(v, 0.03, 0.78), 2.4));
-  const textOpacity = useRamp(p, (v) => 1 - ramp(v, 0.02, 0.22));
-  const textY = useRamp(p, (v) => `${-ramp(v, 0.02, 0.3) * 18}%`);
-  // The surface: a bright flash of foam as you break through it.
-  const splash = useRamp(p, (v) => {
-    const t = ramp(v, 0.5, 0.74);
-    return Math.sin(t * Math.PI) * 0.85;
+  const zoom = useTransform(p, (v) => 1 + 0.4 * Math.pow(ramp(v, 0.02, SURFACE), 1.4));
+  const textOpacity = useTransform(p, (v) => 1 - ramp(v, 0.02, 0.24));
+  const textY = useTransform(p, (v) => `${-ramp(v, 0.02, 0.3) * 18}%`);
+  // The waterline: 0 at the bottom of the screen, 1 past the top. The beach
+  // sits in a box whose bottom edge rides up with it (the box moves up, its
+  // contents move back down by the same amount), all in transforms.
+  const line = (v: number) => Math.pow(ramp(v, DIP, SURFACE), 0.9);
+  const boxY = useTransform(p, (v) => `${-line(v) * 100}%`);
+  const innerY = useTransform(p, (v) => `${line(v) * 100}%`);
+  const foamY = useTransform(p, (v) => `${-line(v) * 100}cqh`);
+  const foamOpacity = useTransform(p, (v) => (v < DIP || v > SURFACE + 0.02 ? 0 : 1));
+
+  useMotionValueEvent(p, "change", (v) => {
+    const el = frame.current;
+    if (!el) return;
+    if (v > 0.015) el.dataset.diving = "";
+    else delete el.dataset.diving;
   });
-  const under = useRamp(p, (v) => ramp(v, 0.56, 0.76));
-  const underScale = useRamp(p, (v) => 1.25 - 0.25 * ramp(v, 0.56, 1));
 
   if (reduced) {
     return (
@@ -60,38 +87,39 @@ export function HeroDive({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div ref={ref} className="relative h-[220svh] max-sm:h-[190svh]">
-      <LiveScene className="sticky top-0 h-[100svh] min-h-[620px] overflow-hidden bg-[#2f6f8c] [container-type:size]">
-        {/* Zoom aims at the sea a little below the horizon (the horizon is
-            max(24.6cqh, 16.4cqw) up from the bottom of the frame). */}
-        <motion.div
-          className="absolute inset-0 will-change-transform"
-          style={{ scale: zoom, transformOrigin: "50% calc(100% - max(15cqh, 10cqw))" }}
-        >
-          <BeachScene />
-        </motion.div>
-        <motion.div className="pointer-events-none absolute inset-0 z-20 will-change-transform [&>*]:h-full" style={{ opacity: textOpacity, y: textY }}>
-          {children}
-        </motion.div>
-
-        {/* Breaking the surface. */}
-        <motion.div
-          aria-hidden
-          style={{ opacity: splash }}
-          className="pointer-events-none absolute inset-0 z-30 bg-[radial-gradient(ellipse_at_50%_70%,#f2ead6_0%,#c9e0dc_35%,#6fa8b6_75%,#3f7f98_100%)]"
-        />
-
-        {/* Under the water: the same colours Projects starts with. */}
-        <motion.div aria-hidden style={{ opacity: under }} className="pointer-events-none absolute inset-0 z-30">
-          <motion.div style={{ scale: underScale }} className="absolute inset-0 will-change-transform">
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,#5d9db0_0%,#3c7f9a_30%,#2a6888_65%,#1f5a80_100%)]" />
-            <LightRays side="right" />
-            <LightRays side="left" />
+    <div ref={ref} className="relative h-[200svh] max-sm:h-[170svh]">
+      <div ref={frame} className="sticky top-0 h-[100svh] min-h-[620px]">
+        <LiveScene className="absolute inset-0 overflow-hidden [container-type:size]">
+          <motion.div className="absolute inset-0 overflow-hidden will-change-transform" style={{ y: boxY }}>
+            <motion.div className="absolute inset-0 will-change-transform" style={{ y: innerY }}>
+              {/* Lean in on the sea a little below the horizon (the horizon
+                  is max(24.6cqh, 16.4cqw) up from the bottom of the frame). */}
+              <motion.div
+                className="absolute inset-0 will-change-transform"
+                style={{ scale: zoom, transformOrigin: "50% calc(100% - max(15cqh, 10cqw))" }}
+              >
+                <BeachScene />
+              </motion.div>
+              <motion.div className="pointer-events-none absolute inset-0 z-20 will-change-transform [&>*]:h-full" style={{ opacity: textOpacity, y: textY }}>
+                {children}
+              </motion.div>
+            </motion.div>
           </motion.div>
-          <Bubbles count={6} />
-          <WaterMood />
-        </motion.div>
-      </LiveScene>
+          {/* The foam along the waterline as it climbs. */}
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-[30px] translate-y-[60%] overflow-hidden will-change-transform"
+            style={{ y: foamY, opacity: foamOpacity }}
+          >
+            <svg viewBox="0 0 2880 40" preserveAspectRatio="none" className="absolute inset-y-0 left-0 h-full w-[200%] animate-[wave-x_19s_linear_infinite] opacity-70">
+              <path d={FOAM_BACK} fill="#c9d6d4" />
+            </svg>
+            <svg viewBox="0 0 2880 40" preserveAspectRatio="none" className="absolute inset-y-0 left-0 h-full w-[200%] animate-[wave-x_12s_linear_infinite_reverse]">
+              <path d={FOAM_FRONT} fill="#e9dcc0" />
+            </svg>
+          </motion.div>
+        </LiveScene>
+      </div>
     </div>
   );
 }

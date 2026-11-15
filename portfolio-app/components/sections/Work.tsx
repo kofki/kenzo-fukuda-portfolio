@@ -1,9 +1,5 @@
-import Image from "next/image";
 import { Bubbles } from "@/components/home/Bubbles";
-import { LiveScene } from "@/components/home/LiveScene";
-import { seaBubbles, seaFish } from "@/components/home/liveLayers";
-import { FishSchool, LightRays, PrintBubbles } from "@/components/home/SeaLife";
-import { Eyebrow, SectionTitle, Underwater, fadeEdges } from "@/components/home/Underwater";
+import { Eyebrow, SectionTitle, Underwater } from "@/components/home/Underwater";
 import { ProjectCards, type CardData } from "@/components/home/ProjectCards";
 import { Container } from "@/components/ui/Container";
 import { allWork, isHackathon } from "@/lib/work";
@@ -31,34 +27,17 @@ const cards: CardData[] = allWork.map((item) => {
   };
 });
 
-/**
- * Projects is the first thing below the surface: the scene is the ocean seen
- * from just underneath, with light coming down through it.
- */
+/** Projects is the first thing below the surface, just under the dive. */
 export function Work() {
   return (
     <Underwater
       id="projects"
       label="Projects"
-      // Starts at the colour the hero's dive ends on.
-      background="linear-gradient(180deg,#1f5a80 0%,#18507a 18%,#0e3560 55%,#0c2f59 100%)"
-      scenery={
-        <LiveScene className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 overflow-hidden" style={fadeEdges(16, 62)}>
-            {/* The print is cropped like object-cover at 70%; the creatures
-                share the same 3:2 frame so they stay where drawn. It is lifted
-                by 13% so the surface waves along its top stay above the
-                section: the dive has already gone through the surface. */}
-            <div className="absolute left-[70%] top-0 aspect-[3/2] min-h-full min-w-full -translate-x-[70%] -translate-y-[13%]">
-              <Image src="/scenes/sea.webp" alt="" fill sizes="100vw" className="object-cover" />
-              <LightRays side="right" />
-              <PrintBubbles bubbles={seaBubbles} />
-              <FishSchool fish={seaFish} />
-            </div>
-          </div>
-          <Bubbles />
-        </LiveScene>
-      }
+      // The water and its light come from SeaBackdrop, shared with the end
+      // of the dive and About.
+      background="transparent"
+      mood={false}
+      scenery={<Bubbles />}
     >
       <Container className="pb-20 pt-[clamp(5rem,12vw,8rem)] sm:pb-28">
         <Eyebrow>things I&apos;ve built</Eyebrow>

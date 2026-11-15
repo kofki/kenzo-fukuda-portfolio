@@ -23,6 +23,7 @@ export function Underwater({
   label,
   background,
   spill = false,
+  mood = true,
   glow,
   scenery,
   children,
@@ -34,6 +35,8 @@ export function Underwater({
   background: string;
   /** Let grounded scenery reach down past the bottom edge (clips sideways only). */
   spill?: boolean;
+  /** Draw this section's own day/night water. Off where `SeaBackdrop` does it. */
+  mood?: boolean;
   /** Lights that shine through the night water, drawn above it. */
   glow?: ReactNode;
   /** Images and moving layers behind the content. */
@@ -50,9 +53,11 @@ export function Underwater({
       style={{ background }}
     >
       {scenery}
-      <div aria-hidden>
-        <WaterMood />
-      </div>
+      {mood ? (
+        <div aria-hidden>
+          <WaterMood />
+        </div>
+      ) : null}
       {glow}
       {/* Taps pass through empty space to the creatures behind; text and
           controls still catch them. */}

@@ -3,7 +3,7 @@ import { PhotoPrint } from "@/components/home/PhotoPrint";
 import { Bubbles } from "@/components/home/Bubbles";
 import { reefFish, seaFish } from "@/components/home/liveLayers";
 import { ReefLedge } from "@/components/home/ReefLedge";
-import { LightRays, Swimmers } from "@/components/home/SeaLife";
+import { Swimmers } from "@/components/home/SeaLife";
 import {
   Eyebrow,
   SectionTitle,
@@ -32,14 +32,14 @@ export function About() {
       id="about"
       label="About"
       spill
-      background="linear-gradient(180deg,#0c2f59 0%,#0c3160 40%,#0c3160 75%,#0b2a4c 100%)"
+      background="transparent"
+      mood={false}
       scenery={
         <>
           <Bubbles count={5} />
-          {/* Open water on the way down: the light and the fish from
-              Projects carry on until the reef comes up from below. */}
+          {/* Open water on the way down (the water and light are SeaBackdrop):
+              fish cross until the reef comes up from below. */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-[60%]">
-            <LightRays side="right" />
             <Swimmers fish={[seaFish[1], seaFish[3], reefFish[2]]} flip />
           </div>
           <ReefLedge />

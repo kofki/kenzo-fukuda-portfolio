@@ -130,6 +130,7 @@ function Waves({ layers, className, ready }: { layers: WaveLayer[]; className: s
           src={layer.src}
           alt=""
           decoding="async"
+          data-wave
           className="absolute max-w-none will-change-transform"
           style={waveStyle(layer, index)}
         />
@@ -163,7 +164,13 @@ export function BeachScene() {
   }, []);
 
   return (
-    <div ref={sceneRef} className="absolute bottom-0 left-1/2 aspect-[3/2] h-[max(100cqh,66.67cqw)] -translate-x-1/2 max-sm:-translate-x-[71%]">
+    <div
+      ref={sceneRef}
+      data-day-ready={dayReady ? "" : undefined}
+      data-night-ready={nightReady ? "" : undefined}
+      // The sky's own colours stand in until the print arrives.
+      className="absolute bottom-0 left-1/2 aspect-[3/2] h-[max(100cqh,66.67cqw)] -translate-x-1/2 bg-[linear-gradient(180deg,#f1d5ac_0%,#f59b69_62%,#305670_76%,#a6967e_100%)] max-sm:-translate-x-[71%] dark:bg-[linear-gradient(180deg,#08172b_0%,#143f67_62%,#0a2c4e_76%,#2b4761_100%)]"
+    >
       <Image
         src="/scenes/beach-day.webp"
         alt=""
@@ -183,13 +190,17 @@ export function BeachScene() {
         sizes="(max-width: 640px) 260vw, 100vw"
         className="object-cover opacity-0 transition-opacity duration-700 dark:opacity-100"
       />
-      <HeroSky />
-      <Waves layers={dayWaves} ready={dayReady} className="dark:hidden" />
-      <Waves layers={nightWaves} ready={nightReady} className="hidden dark:block" />
-      {PROPS.map((prop) => (
-        <PropButton key={prop.key} prop={prop} />
-      ))}
-      <Volleyball />
+      {/* Everything drawn on top of the print waits for it, so nothing
+          appears floating on an empty sky while it loads. */}
+      <div data-scene-overlay className="absolute inset-0">
+        <HeroSky />
+        <Waves layers={dayWaves} ready={dayReady} className="dark:hidden" />
+        <Waves layers={nightWaves} ready={nightReady} className="hidden dark:block" />
+        {PROPS.map((prop) => (
+          <PropButton key={prop.key} prop={prop} />
+        ))}
+        <Volleyball />
+      </div>
     </div>
   );
 }
