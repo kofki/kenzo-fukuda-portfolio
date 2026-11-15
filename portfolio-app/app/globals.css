@@ -584,3 +584,93 @@
 
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ---------- Living scenery ----------
+   Every loop below animates transform and opacity only, so it stays on the
+   compositor. Scenes mark themselves data-offscreen when scrolled away and
+   their loops pause. Reduced motion collapses all of it (see base layer). */
+[data-offscreen] * { animation-play-state: paused !important; }
+
+/* A breaking wave: swells in, rolls toward the shore, then foams away. */
+@keyframes crest-roll {
+  0%   { opacity: 0; transform: translate(-6%, -10%) scale(0.86, 0.7); }
+  22%  { opacity: 1; transform: translate(-2%, 0) scale(1, 1); }
+  68%  { opacity: 1; transform: translate(4%, 14%) scale(1.04, 1.02); }
+  100% { opacity: 0; transform: translate(8%, 26%) scale(1.08, 0.8); }
+}
+/* Sun or moon glitter on the water. */
+@keyframes glint {
+  0%, 100% { opacity: 0.35; transform: scaleX(0.9); }
+  50% { opacity: 1; transform: scaleX(1.06); }
+}
+/* The shoreline foam washes up the sand and sinks in. */
+@keyframes shore-wash {
+  0%, 100% { opacity: 0; transform: translateY(0) scaleX(1); }
+  12% { opacity: 0.95; }
+  45% { opacity: 0.85; transform: translateY(32%) scaleX(1.01); }
+  80% { opacity: 0; transform: translateY(14%) scaleX(1); }
+}
+@keyframes kelp-sway {
+  0%, 100% { transform: skewX(0deg) rotate(0deg); }
+  50% { transform: skewX(-3deg) rotate(0.6deg); }
+}
+@keyframes fish-swim {
+  0%   { transform: translateX(0) translateY(0); }
+  25%  { transform: translateX(var(--swim, 30vw)) translateY(-8px); }
+  50%  { transform: translateX(calc(var(--swim, 30vw) * 2)) translateY(0); }
+  50.01% { transform: translateX(calc(var(--swim, 30vw) * 2)) translateY(0) scaleX(-1); }
+  75%  { transform: translateX(var(--swim, 30vw)) translateY(6px) scaleX(-1); }
+  100% { transform: translateX(0) translateY(0) scaleX(-1); }
+}
+@keyframes fish-dart {
+  0% { transform: translateX(0); }
+  30% { transform: translateX(-18%) scaleX(1.1); }
+  100% { transform: translateX(0); }
+}
+@keyframes jelly-drift {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(var(--drift, -18px)) rotate(var(--tilt, 1deg)); }
+}
+@keyframes jelly-pulse {
+  0%   { transform: scale(1, 1); }
+  25%  { transform: scale(1.08, 0.86); }
+  55%  { transform: translateY(-9%) scale(0.95, 1.08); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+@keyframes ray-glide {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-6%, 8%) rotate(-3deg); }
+}
+@keyframes bubble-rise {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  10%  { opacity: 0.85; }
+  50%  { transform: translate(var(--wobble, 10px), -50vh); }
+  90%  { opacity: 0.7; }
+  100% { opacity: 0; transform: translate(0, -100vh); }
+}
+@keyframes bubble-pop {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+/* Props idle a little so the beach never looks frozen. */
+@keyframes umbrella-idle {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-1.6deg); }
+}
+@keyframes crab-idle {
+  0%, 70%, 100% { transform: translateX(0); }
+  76% { transform: translateX(-12%); }
+  82% { transform: translateX(-12%) translateY(-4%); }
+  88% { transform: translateX(0); }
+}
+@keyframes crab-poke {
+  0%   { transform: translateY(0) scaleY(1); opacity: 1; }
+  30%  { transform: translateY(45%) scaleY(0.4); opacity: 0.4; }
+  55%  { transform: translateY(70%) scaleY(0.2); opacity: 0; }
+  80%  { transform: translateY(20%) scaleY(0.8); opacity: 0.9; }
+  100% { transform: translateY(0) scaleY(1); opacity: 1; }
+}
+@keyframes surf-idle {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(0.8deg); }
+}

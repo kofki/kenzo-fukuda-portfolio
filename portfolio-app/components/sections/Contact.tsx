@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Footer } from "@/components/layout/Footer";
 import { PhotoPrint } from "@/components/home/PhotoPrint";
 import { ScrollLayer } from "@/components/home/ScrollLayer";
-import { Eyebrow, Underwater } from "@/components/home/Underwater";
+import { Eyebrow, Underwater, fadeEdges } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
 import { icons } from "@/lib/icons";
 import { profile } from "@/data/profile";
@@ -21,12 +21,11 @@ export function Contact() {
     <Underwater
       id="contact"
       label="Contact"
-      background="linear-gradient(180deg,#0b1d3a 0%,#061932 40%,#061932 100%)"
+      background="linear-gradient(180deg,#081e3a 0%,#061932 35%,#061932 100%)"
       scenery={
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center">
-          <div className="relative aspect-[3/2] w-[max(100%,62rem)]">
+          <div className="relative aspect-[3/2] w-[max(100%,62rem)]" style={fadeEdges(28, 100)}>
             <Image src="/scenes/city.webp" alt="" fill sizes="100vw" className="object-cover object-bottom" />
-            <div className="absolute inset-x-0 top-0 h-1/3 bg-[linear-gradient(180deg,#061932,transparent)]" />
             <ScrollLayer
               className="absolute inset-0 bg-[#030a18]"
               opacity={[0.75, 0]}

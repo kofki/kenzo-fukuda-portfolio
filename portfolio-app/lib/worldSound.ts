@@ -192,3 +192,48 @@ export function playStrum() {
     osc.stop(t + 0.45);
   });
 }
+
+/** A soft, sinking bloop for the jellyfish. */
+export function playBloop() {
+  const c = audio();
+  if (!c) return;
+  const t = c.currentTime;
+  const osc = c.createOscillator();
+  const gain = c.createGain();
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(520, t);
+  osc.frequency.exponentialRampToValueAtTime(170, t + 0.32);
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.exponentialRampToValueAtTime(0.2, t + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.42);
+  osc.connect(gain);
+  gain.connect(c.destination);
+  osc.start(t);
+  osc.stop(t + 0.46);
+}
+
+/** A tiny high pop, for bubbles. */
+export function playPop() {
+  const c = audio();
+  if (!c) return;
+  const t = c.currentTime;
+  const osc = c.createOscillator();
+  const gain = c.createGain();
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(900 + Math.random() * 500, t);
+  osc.frequency.exponentialRampToValueAtTime(1900, t + 0.05);
+  gain.gain.setValueAtTime(0.0001, t);
+  gain.gain.exponentialRampToValueAtTime(0.14, t + 0.006);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+  osc.connect(gain);
+  gain.connect(c.destination);
+  osc.start(t);
+  osc.stop(t + 0.1);
+}
+
+/** A quick underwater swish, for a fish darting off. */
+export function playSwish() {
+  const c = audio();
+  if (!c) return;
+  noiseBurst(c, { type: "bandpass", from: 300, to: 900, q: 1.1, peak: 0.12, dur: 0.22 });
+}

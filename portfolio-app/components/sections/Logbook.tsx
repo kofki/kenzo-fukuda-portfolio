@@ -1,6 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Underwater } from "@/components/home/Underwater";
+import { KelpForest } from "@/components/home/KelpForest";
+import { LiveScene } from "@/components/home/LiveScene";
+import { Underwater, fadeEdges } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
 import { allPosts, formatDate } from "@/lib/writing";
 
@@ -16,20 +17,15 @@ export function Logbook() {
     <Underwater
       id="logbook"
       label="Logbook"
-      background="#0c2947"
+      background="linear-gradient(180deg,#0a2442 0%,#0a2442 60%,#081e3a 100%)"
       scenery={
-        <>
-          {/* The kelp print is lighter than the water around it, and its
-              bottom 14% is sea floor, so it is stretched past the bottom
-              edge and darkened to keep the dive getting deeper. */}
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[116%]">
-            <Image src="/scenes/kelp.webp" alt="" fill sizes="100vw" className="object-cover" />
+        <LiveScene className="pointer-events-none absolute inset-0">
+          {/* The water is the section's own gradient; only the kelp and fish
+              are drawn, so nothing here can show a lighter block. */}
+          <div className="absolute inset-0" style={fadeEdges(8, 82)}>
+            <KelpForest />
           </div>
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(12,41,71,0.95)_0%,rgba(15,28,56,0.62)_30%,rgba(15,28,56,0.7)_100%)]"
-          />
-        </>
+        </LiveScene>
       }
     >
       <Container className="max-w-3xl py-20 sm:py-24">
