@@ -240,6 +240,9 @@ export function SwayLayers({ layers, imgClassName = "" }: { layers: Layer[]; img
  * Fish crossing a whole section, each at its own depth and pace, gliding
  * with a gentle wave. Tap one and it darts ahead.
  */
+// The prints draw almost every fish facing left; these few face right.
+const FACES_RIGHT = new Set(["/scenes/live/city-fish-1.webp"]);
+
 export function Swimmers({ fish, flip = false }: { fish: Layer[]; flip?: boolean }) {
   const root = useRef<HTMLDivElement>(null);
   useSceneGsap(root, (q) => {
@@ -277,7 +280,8 @@ export function Swimmers({ fish, flip = false }: { fish: Layer[]; flip?: boolean
         >
           <span className="block h-full w-full">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={f.src} alt="" decoding="async" draggable={false} className="block h-full w-full" style={{ transform: flip ? "scaleX(-1)" : undefined }} />
+            <img src={f.src} alt="" decoding="async" draggable={false} className="block h-full w-full" // Head first: mirror the sprite when it faces away from where it swims.
+                style={{ transform: !flip !== FACES_RIGHT.has(f.src) ? "scaleX(-1)" : undefined }} />
           </span>
         </button>
       ))}

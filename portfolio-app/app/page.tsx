@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BubbleTrail } from "@/components/home/BubbleTrail";
+import { SeaBackdrop } from "@/components/home/SeaBackdrop";
 import { Nav } from "@/components/layout/Nav";
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
@@ -25,9 +26,13 @@ export default function Home() {
     <>
       <Nav />
       <main className="relative">
-        <Hero />
-        <Work />
-        <About />
+        {/* The dive, Projects and About share one body of water. */}
+        <div className="relative">
+          <SeaBackdrop />
+          <Hero />
+          <Work />
+          <About />
+        </div>
         <Experience />
         <Logbook />
         <Contact />

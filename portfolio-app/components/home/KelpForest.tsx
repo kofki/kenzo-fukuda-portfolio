@@ -31,6 +31,9 @@ function Fish({ index }: { index: number }) {
           setDart((d) => d + 1);
         }}
         className="pointer-events-auto block h-full w-full cursor-pointer"
+        // Both fish face left in the print. The swim mirrors them on the way
+        // back, so the one that sets off rightwards starts mirrored.
+        style={{ transform: fromLeft ? "scaleX(-1)" : undefined }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
