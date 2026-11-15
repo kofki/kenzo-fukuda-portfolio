@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { HeroSky } from "@/components/home/HeroSky";
 import { dayWaves, nightWaves, type WaveLayer } from "@/components/home/waveLayers";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import {
@@ -179,6 +180,7 @@ export function BeachScene() {
         sizes="(max-width: 640px) 260vw, 100vw"
         className="object-cover opacity-0 transition-opacity duration-700 dark:opacity-100"
       />
+      <HeroSky />
       <Waves layers={dayWaves} ready={dayReady} className="dark:hidden" />
       <Waves layers={nightWaves} ready={nightReady} className="hidden dark:block" />
       {PROPS.map((prop) => (

@@ -237,3 +237,52 @@ export function playSwish() {
   if (!c) return;
   noiseBurst(c, { type: "bandpass", from: 300, to: 900, q: 1.1, peak: 0.12, dur: 0.22 });
 }
+
+/** A bright falling shimmer, for a shooting star or the aurora flaring. */
+export function playSparkle() {
+  const c = audio();
+  if (!c) return;
+  [1568, 2093, 2637, 3136].forEach((freq, i) => {
+    const t = c.currentTime + i * 0.06;
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(freq, t);
+    osc.frequency.exponentialRampToValueAtTime(freq * 0.7, t + 0.5);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.07, t + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
+    osc.connect(gain);
+    gain.connect(c.destination);
+    osc.start(t);
+    osc.stop(t + 0.6);
+  });
+}
+
+/** A gust of wind through the palm. */
+export function playGust() {
+  const c = audio();
+  if (!c) return;
+  noiseBurst(c, { type: "bandpass", from: 300, to: 1100, q: 0.5, peak: 0.12, dur: 0.9 });
+  noiseBurst(c, { type: "highpass", from: 2600, q: 0.4, peak: 0.05, dur: 0.7, delay: 0.25 });
+}
+
+/** Three soft bells, for the city lighting up. */
+export function playChime() {
+  const c = audio();
+  if (!c) return;
+  [659.25, 880, 1318.5].forEach((freq, i) => {
+    const t = c.currentTime + i * 0.12;
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(freq, t);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.12, t + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
+    osc.connect(gain);
+    gain.connect(c.destination);
+    osc.start(t);
+    osc.stop(t + 1.3);
+  });
+}

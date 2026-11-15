@@ -37,6 +37,7 @@ export function Underwater({
   return (
     <section
       id={id}
+      data-underwater
       aria-label={label}
       className={cn("relative overflow-clip text-cream", className)}
       style={{ background }}
