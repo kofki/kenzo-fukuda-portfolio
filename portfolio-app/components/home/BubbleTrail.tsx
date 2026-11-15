@@ -70,7 +70,7 @@ export function BubbleTrail() {
   return (
     <div ref={layer} aria-hidden className="pointer-events-none fixed inset-0 z-40 overflow-hidden">
       {Array.from({ length: POOL }, (_, i) => (
-        <span key={i} className="absolute left-0 top-0 rounded-full border-[1.5px] border-[#e9dcc0]/85 bg-[#e9dcc0]/10 opacity-0 will-change-transform" />
+        <span key={i} className="absolute left-0 top-0 rounded-full border-[1.5px] border-[#e9dcc0]/85 bg-[#e9dcc0]/10 opacity-0 dark:border-[#9ff3ff]/80 dark:bg-[#9ff3ff]/25 dark:shadow-[0_0_10px_2px_rgba(110,235,255,0.55)] will-change-transform" />
       ))}
     </div>
   );

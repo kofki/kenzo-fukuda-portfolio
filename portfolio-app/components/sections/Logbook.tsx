@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { KelpForest } from "@/components/home/KelpForest";
+import { KelpBed, KelpFish } from "@/components/home/KelpForest";
 import { cityFish, seaFish } from "@/components/home/liveLayers";
 import { Swimmers } from "@/components/home/SeaLife";
 import { LiveScene } from "@/components/home/LiveScene";
-import { Underwater, fadeEdges } from "@/components/home/Underwater";
+import { Underwater } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
 import { allPosts, formatDate } from "@/lib/writing";
 
@@ -20,15 +20,15 @@ export function Logbook() {
       id="logbook"
       label="Logbook"
       background="linear-gradient(180deg,#0a2442 0%,#0a2442 60%,#081e3a 100%)"
+      spill
       scenery={
+        <>
         <LiveScene className="pointer-events-none absolute inset-0">
-          {/* The water is the section's own gradient; only the kelp and fish
-              are drawn, so nothing here can show a lighter block. */}
-          <div className="absolute inset-0" style={fadeEdges(8, 82)}>
-            <KelpForest />
-          </div>
+          <KelpFish />
           <Swimmers fish={[seaFish[4], cityFish[0]]} flip />
         </LiveScene>
+        <KelpBed />
+      </>
       }
     >
       <Container className="max-w-3xl py-20 sm:py-24">
