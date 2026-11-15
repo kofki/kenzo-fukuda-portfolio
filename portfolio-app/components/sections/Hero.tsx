@@ -1,94 +1,77 @@
-import { AmbientEvents } from "@/components/hero/AmbientEvents";
-import { ParallaxSky } from "@/components/hero/ParallaxSky";
-import { WeatherLayer } from "@/components/hero/WeatherLayer";
+import { NameUnderline, PointerArrow } from "@/components/home/Doodles";
+import { HeroDive } from "@/components/home/HeroDive";
+import { PhotoPrint } from "@/components/home/PhotoPrint";
 import { Container } from "@/components/ui/Container";
-import { IconLink } from "@/components/ui/IconLink";
-import { icons } from "@/lib/icons";
-import { education } from "@/data/education";
 import { profile } from "@/data/profile";
 
 export function Hero() {
-  const ArrowDown = icons.arrowDown;
-  const ArrowUpRight = icons.arrowUpRight;
-  const Resume = icons.resume;
-
   return (
-    <section
-      id="top"
-      className="relative flex min-h-[100dvh] flex-col overflow-hidden"
-    >
-      <ParallaxSky />
-      <WeatherLayer />
-      <AmbientEvents />
+    <section id="top" aria-label="Kenzo Fukuda">
+      <HeroDive>
+        {/* Bottom padding keeps every line in the sky, above the water. The
+            sea line sits a quarter of the way up the scene, and the scene is
+            at least 66.67vw tall, so 17vw clears it on wide screens. */}
+        <Container
+          className="relative z-10 flex h-full flex-col justify-center pt-24"
+          style={{ paddingBottom: "max(27svh, 17.5vw)" }}
+        >
+          <div className="grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-6">
+            <div>
+              <p
+                className="font-hand text-[clamp(1.6rem,3.4vh,2.4rem)] leading-none text-hand animate-rise"
+                style={{ rotate: "-3deg", animationDelay: "60ms" }}
+              >
+                hi, I&apos;m
+              </p>
+              <h1
+                className="mt-2 font-display text-[clamp(3rem,min(9vw,11.5vh),6.8rem)] leading-[1.02] text-ink animate-rise"
+                style={{ animationDelay: "140ms" }}
+              >
+                Kenzo
+                <br />
+                Fukuda
+              </h1>
+              <NameUnderline className="mt-2 h-3.5 w-[min(100%,24rem)] text-hand" />
+              <p
+                className="mt-4 text-[clamp(0.95rem,2vh,1.15rem)] font-medium text-ink animate-rise"
+                style={{ animationDelay: "260ms" }}
+              >
+                {profile.headline} · CS at UF
+              </p>
+              <div
+                className="mt-6 flex items-center gap-6 animate-rise"
+                style={{ animationDelay: "340ms" }}
+              >
+                <a
+                  href="#projects"
+                  className="inline-flex min-h-11 items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-bold text-sand transition-transform duration-300 hover:-translate-y-0.5"
+                >
+                  View work <span aria-hidden>→</span>
+                </a>
+                <span
+                  aria-hidden
+                  className="relative hidden font-hand text-3xl leading-none text-hand lg:inline-block"
+                  style={{ rotate: "-4deg" }}
+                >
+                  that&apos;s me
+                  <PointerArrow className="absolute bottom-3 left-[105%] h-20 w-32" />
+                </span>
+              </div>
+            </div>
 
-      <Container className="relative z-10 pb-12 pt-[24vh] sm:pt-[25vh]">
-        <div className="max-w-3xl">
-          {/* Back at 6xl/7xl/8xl. That overflowed while --display-wdth was 120,
-              but at 102 Archivo sets close enough to the old Fraunces width for
-              these steps to fit inside max-w-3xl again. */}
-          <h1
-            className="brand-name animate-rise text-balance font-display text-6xl font-semibold leading-[0.95] sm:text-7xl lg:text-8xl"
-            style={{ animationDelay: "60ms" }}
-          >
-            {profile.name}
-          </h1>
-
-          <p
-            className="mt-4 animate-rise text-sm font-medium text-coral-ink"
-            style={{ animationDelay: "240ms" }}
-          >
-            {profile.headline} · {profile.role} · {education.school}
-          </p>
-
-          <p
-            className="mt-5 max-w-xl animate-rise text-lg leading-relaxed text-ink/80"
-            style={{ animationDelay: "320ms" }}
-          >
-            {profile.tagline}
-          </p>
-
-          <div
-            className="mt-7 flex animate-rise flex-wrap items-center gap-4"
-            style={{ animationDelay: "420ms" }}
-          >
-            <a
-              href="#projects"
-              className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 font-mono text-sm text-sand transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              View work
-              <ArrowUpRight size={16} weight="bold" />
-            </a>
-            <a
-              href={profile.resumeUrl}
-              className="inline-flex items-center gap-2 rounded-full border border-ink/30 px-6 py-3 font-mono text-sm text-ink transition-colors duration-300 hover:border-ink hover:bg-ink/5"
-            >
-              <Resume size={16} weight="bold" />
-              Résumé
-            </a>
-
-            <span className="hidden h-6 w-px bg-ink/20 sm:block" />
-
-            <div className="flex items-center gap-2">
-              {profile.socials.map((social) => (
-                <IconLink
-                  key={social.label}
-                  href={social.href}
-                  label={social.label}
-                  icon={social.icon}
-                />
-              ))}
+            <div className="flex justify-center lg:justify-end">
+              <PhotoPrint
+                src={profile.headshot}
+                alt="Kenzo Fukuda"
+                rotate={3}
+                eager
+                sizes="(max-width: 1024px) 220px, 320px"
+                className="w-[min(58vw,32vh,13rem)] lg:w-[min(22rem,40vh)]"
+              />
             </div>
           </div>
-        </div>
-      </Container>
-
-      <a
-        href="#about"
-        aria-label="Scroll to about"
-        className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 animate-bob text-ink/50 transition-colors hover:text-ink"
-      >
-        <ArrowDown size={28} weight="light" />
-      </a>
+        </Container>
+      </HeroDive>
     </section>
   );
 }

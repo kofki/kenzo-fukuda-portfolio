@@ -16,6 +16,8 @@ export const hackathons: HackathonProject[] = [
     domains: ["ML/AI", "Backend", "Fullstack"],
     tech: ["Next.js", "React", "MongoDB", "Gemini", "Cloudflare R2", "MCP"],
     imageUrl: "/swamphacks_win.jpeg",
+    cover: "/caseforward/dashboard.jpg",
+    coverAlt: "The CaseForward AI case dashboard.",
     imageAlt: "The CaseForward AI team winning 1st place at SwampHacks XI.",
     links: {
       live: "https://case-forward-ai.vercel.app/",
@@ -85,6 +87,8 @@ export const hackathons: HackathonProject[] = [
       "Supabase",
     ],
     imageUrl: "/subscriptos/team.jpg",
+    cover: "/subscriptos/hero.jpg",
+    coverAlt: "The Subscriptos extension.",
     imageAlt:
       "The four-person Subscriptos team at SASEHacks 2026 with the app on a laptop.",
     links: {

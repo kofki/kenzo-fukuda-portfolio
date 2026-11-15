@@ -1,90 +1,81 @@
 import Image from "next/image";
 import { Footer } from "@/components/layout/Footer";
-import { Reveal } from "@/components/fx/Reveal";
-import { WaveDivider } from "@/components/fx/WaveDivider";
+import { PhotoPrint } from "@/components/home/PhotoPrint";
+import { ScrollLayer } from "@/components/home/ScrollLayer";
+import { Eyebrow, Underwater } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
-import { IconLink } from "@/components/ui/IconLink";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { icons } from "@/lib/icons";
 import { profile } from "@/data/profile";
 
-// The only contact path on the site is LinkedIn: no email address is published.
+// LinkedIn is the only contact path on the site; no email is published.
 const linkedin = profile.socials.find((social) => social.label === "LinkedIn");
 
+/**
+ * Transition 4, "the reef city lights up": the bottom of the dive. A dark
+ * veil over the city lifts as Contact arrives, so its windows come up.
+ */
 export function Contact() {
   const LinkedIn = icons.linkedin;
-  const ArrowUpRight = icons.arrowUpRight;
 
   return (
-    <section className="relative">
-      <WaveDivider className="-mb-px text-sand" height={80} />
-
-      {/* The anchor is on the content, not the section: the 80px wave divider
-          above it is decorative, and counting it made the jump land 80px higher
-          than every other section. Scrollspy resolves this id too. */}
-      <div id="contact" className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, color-mix(in oklab, var(--deep-bottom) 30%, transparent) 0%, color-mix(in oklab, var(--deep-bottom) 6%, transparent) 60%)",
-          }}
-        />
-        <Container className="relative z-10 py-20 sm:py-28">
-          <Reveal>
-            <div className="grid items-center gap-10 md:grid-cols-[1.05fr_0.95fr]">
-              <div className="relative mx-auto aspect-[4/3] w-full max-w-md rotate-[-2deg] overflow-hidden rounded-2xl border border-deep-ink/20 shadow-2xl md:mx-0">
-                <Image
-                  src="/kenzo_suit.jpeg"
-                  alt="Kenzo at a conference by the river"
-                  fill
-                  sizes="(max-width: 768px) 85vw, 480px"
-                  className="-translate-x-8 scale-[1.75] object-cover"
-                />
-              </div>
-
-              <div>
-                <SectionHeading
-                  tone="deep"
-                  eyebrow="Say hi"
-                  title="Let's make something."
-                  description="I'm always down to chat, whatever it's about. I'm in it for the love of the game, so don't be a stranger."
-                />
-
-                <div className="mt-8 flex flex-col items-start gap-5">
-                  {linkedin ? (
-                    <a
-                      href={linkedin.href}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="inline-flex items-center gap-2 rounded-full bg-deep-ink px-7 py-3.5 text-sm font-medium text-deep-bottom transition-transform duration-300 hover:-translate-y-0.5"
-                    >
-                      <LinkedIn size={18} weight="fill" />
-                      Message me on LinkedIn
-                      <ArrowUpRight size={14} weight="bold" aria-hidden />
-                    </a>
-                  ) : null}
-
-                  <div className="flex items-center gap-3">
-                    {profile.socials.map((social) => (
-                      <IconLink
-                        key={social.label}
-                        href={social.href}
-                        label={social.label}
-                        icon={social.icon}
-                        tone="deep"
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
+    <Underwater
+      id="contact"
+      label="Contact"
+      background="linear-gradient(180deg,#0b1d3a 0%,#061932 40%,#061932 100%)"
+      scenery={
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center">
+          <div className="relative aspect-[3/2] w-[max(100%,62rem)]">
+            <Image src="/scenes/city.webp" alt="" fill sizes="100vw" className="object-cover object-bottom" />
+            <div className="absolute inset-x-0 top-0 h-1/3 bg-[linear-gradient(180deg,#061932,transparent)]" />
+            <ScrollLayer
+              className="absolute inset-0 bg-[#030a18]"
+              opacity={[0.75, 0]}
+              range={[0.05, 0.45]}
+            />
+          </div>
+        </div>
+      }
+    >
+      <Container className="pt-24 sm:pt-28">
+        <div className="grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:items-start">
+          <div className="reveal">
+            <Eyebrow>say hi</Eyebrow>
+            <h2 className="mt-2 font-display text-[clamp(2.3rem,6vw,3.6rem)] leading-[1.06] text-cream">
+              Let&apos;s make
+              <br />
+              something.
+            </h2>
+            <p className="mt-4 max-w-md text-base text-cream/90">
+              I&apos;m always down to chat, whatever it&apos;s about.
+            </p>
+            {linkedin ? (
+              <a
+                href={linkedin.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="mt-7 inline-flex min-h-11 items-center gap-2 rounded-full bg-coral-soft px-6 py-3 text-sm font-bold text-navy transition-transform duration-300 hover:-translate-y-0.5"
+              >
+                <LinkedIn size={18} weight="fill" />
+                Message me on LinkedIn
+                <span aria-hidden>→</span>
+              </a>
+            ) : null}
+          </div>
+          <div className="reveal flex justify-center md:justify-end">
+            <PhotoPrint
+              src="/kenzo_suit.jpeg"
+              alt="Kenzo at a conference by the river"
+              ratio={0.75}
+              rotate={3}
+              sizes="(max-width: 768px) 240px, 300px"
+              className="w-60 md:w-72"
+            />
+          </div>
+        </div>
+        <div className="pt-[clamp(14rem,30vw,22rem)]">
           <Footer />
-        </Container>
-      </div>
-    </section>
+        </div>
+      </Container>
+    </Underwater>
   );
 }

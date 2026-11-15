@@ -29,7 +29,6 @@ All copy lives in `data/*.ts` as typed objects (`profile`, `projects`, `hackatho
 
 `lib/work.ts` is the unified content model: it merges `projects` + `hackathons` into `allWork` and exposes `isHackathon()`, `allWorkSlugs()`, and `getWorkBySlug()`. It feeds **both** the Projects section (`components/sections/Work.tsx`) and the dynamic detail route `app/projects/[slug]/page.tsx` (which uses `generateStaticParams` + `generateMetadata`). To add a project, add a data object — the card and its `/projects/<slug>` page follow automatically.
 
-> Note: `components/sections/Projects.tsx` and `Hackathons.tsx` are legacy/unused — `app/page.tsx` renders `Work.tsx` (titled "Projects"). Don't edit the unused ones.
 
 ### Icons are abstracted by name
 Data references icons by semantic key, not component. `lib/icons.ts` maps an `IconName` union → Phosphor components; `lib/brandIcon.tsx` maps a `simple-icons` slug → `<BrandIcon slug=…>` brand marks. Skills/socials specify a `brand?` (simple-icons) with an `icon?` (Phosphor) fallback.
@@ -37,18 +36,23 @@ Data references icons by semantic key, not component. `lib/icons.ts` maps an `Ic
 ### Theming: CSS-variable palette flipped by a `.dark` class
 - Modes are `auto | light | dark`. An inline no-flash script in `app/layout.tsx` sets `.dark` on `<html>` before paint, reading `localStorage['theme-mode']` or falling back to the local hour (7am–7pm = light).
 - `app/providers.tsx` `ThemeProvider` tracks/cycles the mode via `useSyncExternalStore` and re-evaluates `auto` every 60s.
-- **Colors are CSS custom properties** defined twice in `app/globals.css` — once in `:root` (light) and once in `.dark` (night) — then exposed as Tailwind utilities via the `@theme inline` block (`--color-ink` → `text-ink`, etc.). There is **no `tailwind.config.js`**; Tailwind v4 config is CSS-first. Use the semantic tokens (`text-ink`, `bg-sand`, `text-coral`, `--dive-*`, `--sky-*`) so both themes stay correct.
+- **Colors are CSS custom properties** defined twice in `app/globals.css` — once in `:root` (light) and once in `.dark` (night) — then exposed as Tailwind utilities via the `@theme inline` block (`--color-ink` → `text-ink`, etc.). There is **no `tailwind.config.js`**; Tailwind v4 config is CSS-first. Use the semantic tokens (`text-ink`, `bg-sand`, `text-coral`, `text-hand`, `bg-tape`) so both themes stay correct.
 
-### The scroll-driven "dive world" background
-`components/world/WorldBackground.tsx` is a single `fixed inset-0 -z-10` backdrop behind all page content. One `useScroll()` `scrollYProgress` (0 = top of the whole page, 1 = bottom) drives every visual layer. The page descends beach → shallows → deep water → glowing reef city as you scroll.
+### The home page: one continuous dive, woodblock style
+The design was signed off in Figma first (file `jh20R5gRJFmD11fNGMV1We`, pages 14 and 15). Keep changes faithful to it.
 
-Each layer is a `DepthLayer` given an `opacity` and optional `parallax` **ramp** — `{ at: number[], to: number[] }` keyed in normalized page-progress space. Tune a layer's appearance by editing its ramp in `WorldBackground.tsx`.
+`app/page.tsx` stacks Hero, Work (titled "Projects"), About, Experience, Logbook and Contact. Each section paints its own scenery from flat woodblock-print images in `public/scenes/`, and neighbouring sections share edge colours so they meet without seams. There is no global fixed background any more.
 
-**Critical gotcha:** `DepthLayer` (`components/world/DepthLayer.tsx`) interpolates ramps with its own clamped piecewise-linear helper (`rampValue`), **not** motion's array-form `useTransform(progress, at, to)`. The array form (in this motion version) mis-extrapolates ramps that don't start and end at the same value, which previously made the dive *rewind to the beach at the bottom of the page*. Keep using `rampValue`/the `Ramp` shape; values clamp (not extrapolate) outside `[at[0], at[last]]`.
+- **Hero** (`components/sections/Hero.tsx`, `components/home/HeroDive.tsx`, `BeachScene.tsx`): a pinned beach scene that cross-fades day and night images on the `.dark` class. A sea overlay rises over it as you scroll, carrying the reader underwater into Projects. The tappable props are transparent WebP cut-outs in `public/props/{day,night}/`. Only the crab, umbrella and guitar show on phones.
+- **Underwater sections** use `components/home/Underwater.tsx` for the background, eyebrow and title. `ScrollLayer.tsx` is the generic scroll-linked layer (y, x and opacity ramps) used for the reef, jellyfish and city-lights veil.
+- **Doodles** (`components/home/Doodles.tsx`) are the only hand-drawn SVGs: the name underline and the "that's me" arrow, drawn with the `.doodle-draw` class.
+- **Photos** use `components/home/PhotoPrint.tsx`, a paper print with one washi tape.
 
-When `prefers-reduced-motion` is set (`lib/useReducedMotion.ts`), `WorldBackground` renders a single static gradient and all the animated layers are skipped. Keep that branch working when changing the background.
+**Critical gotcha:** use the function form of motion's `useTransform` with a clamped ramp, as `ScrollLayer` and `HeroDive` do. The array form mis-extrapolates ramps that do not start and end at the same value.
 
-Hero atmosphere (`components/hero/`: `ParallaxSky`, `Sun`, `MoonPhase`, `WeatherLayer`, `AmbientEvents`) reacts to theme (day/night) and live weather from `lib/useWeather.ts` (client-side Open-Meteo fetch, graceful fallback). World scenery decomposes into `components/world/props/` (static SVG objects) and `components/world/sprites/` (animated characters); animations are CSS keyframes registered as `--animate-*` tokens in `globals.css`.
+**Content must be visible without JavaScript.** Section entrances use the CSS `.reveal` class (scroll-driven `animation-timeline: view()` behind `@supports`), never inline `opacity: 0` from a client component. With `prefers-reduced-motion` (`lib/useReducedMotion.ts`) the hero does not pin, the sea does not rise, and every `ScrollLayer` renders its end state.
+
+Fonts are Dela Gothic One (`font-display`, name and titles), Zen Kaku Gothic New (`font-sans`, body) and Gochi Hand (`font-hand`, notes), set up in `app/fonts.ts`.
 
 ### Navigation / scrollspy contract
 `data/nav.ts` defines both the nav order and the scrollspy targets: each item's `sectionId` must match the `id` attribute on the corresponding `<section>` in its `components/sections/*` component. Changing one without the other breaks the active-link highlighting and the hero CTA anchors.

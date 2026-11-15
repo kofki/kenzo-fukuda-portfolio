@@ -53,3 +53,13 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
 ];
+
+/**
+ * The dozen shown on the home page, in three groups of four. The full lists
+ * above stay for the about page and the resume.
+ */
+export const featuredSkills: { title: string; skills: string[] }[] = [
+  { title: "Languages", skills: ["TypeScript", "Python", "Swift", "SQL"] },
+  { title: "Frameworks", skills: ["React", "Next.js", "React Native", "FastAPI"] },
+  { title: "Infrastructure", skills: ["AWS", "Docker", "PostgreSQL", "Supabase"] },
+];
