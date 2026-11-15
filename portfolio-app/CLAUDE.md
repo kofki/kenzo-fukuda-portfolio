@@ -45,6 +45,8 @@ The design was signed off in Figma first (file `jh20R5gRJFmD11fNGMV1We`, pages 1
 
 - **Hero** (`components/sections/Hero.tsx`, `components/home/HeroDive.tsx`, `BeachScene.tsx`): a pinned beach scene that cross-fades day and night images on the `.dark` class. A sea overlay rises over it as you scroll, carrying the reader underwater into Projects. The tappable props are transparent WebP cut-outs in `public/props/{day,night}/`. Only the crab, umbrella and guitar show on phones.
 - **Underwater sections** use `components/home/Underwater.tsx` for the background, eyebrow and title. `ScrollLayer.tsx` is the generic scroll-linked layer (y, x and opacity ramps) used for the reef, jellyfish and city-lights veil.
+- **Living layers:** the breakers, glints and shoreline foam are cut out of the beach prints (`public/scenes/waves/`, laid out by `waveLayers.ts`), and the jellyfish, kelp and fish are cut out of their prints (`public/scenes/creatures/`, `creatureLayers.ts`). Both beach prints share one horizon (75.4% down) and sand line (92.6%). `LiveScene` pauses a scene's CSS loops while it is off screen.
+- **Seamless water:** each underwater section's background starts with the colour the previous one ends with, and every scene image is faded at its edges with `fadeEdges()`. Keep both rules when changing a section, or a hard line comes back.
 - **Doodles** (`components/home/Doodles.tsx`) are the only hand-drawn SVGs: the name underline and the "that's me" arrow, drawn with the `.doodle-draw` class.
 - **Photos** use `components/home/PhotoPrint.tsx`, a paper print with one washi tape.
 

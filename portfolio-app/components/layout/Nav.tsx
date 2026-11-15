@@ -52,7 +52,7 @@ export function Nav() {
 
   return (
     <header className="fixed inset-x-0 top-3 z-50 flex justify-center px-4 sm:top-4">
-      <div className="relative flex items-center gap-1 rounded-full border border-ink/20 bg-sand/90 py-1.5 pl-1.5 pr-1.5 shadow-[0_8px_24px_-12px_rgba(5,12,28,0.45)] backdrop-blur-sm sm:gap-2 sm:pr-2">
+      <div className="relative flex items-center gap-1 rounded-full border border-ink/20 bg-sand py-1.5 pl-1.5 pr-1.5 shadow-[0_8px_24px_-12px_rgba(5,12,28,0.45)] sm:gap-2 sm:pr-2">
         <a href="#top" aria-label="Back to the top" className="shrink-0 rounded-full">
           <Image
             src={profile.headshot}

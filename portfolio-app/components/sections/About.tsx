@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { PhotoPrint } from "@/components/home/PhotoPrint";
 import { ScrollLayer } from "@/components/home/ScrollLayer";
-import { Eyebrow, SectionTitle, Underwater } from "@/components/home/Underwater";
+import { Eyebrow, SectionTitle, Underwater, fadeEdges } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
 import { profile } from "@/data/profile";
 
@@ -24,14 +24,14 @@ export function About() {
     <Underwater
       id="about"
       label="About"
-      background="linear-gradient(180deg,#0a2244 0%,#123a6e 45%,#163f70 100%)"
+      background="linear-gradient(180deg,#0c2f59 0%,#0c3160 40%,#0c3160 75%,#0b2a4c 100%)"
       scenery={
         <ScrollLayer
           className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center"
           y={[28, 0]}
           range={[0, 0.5]}
         >
-          <div className="relative aspect-[3/2] w-[max(100%,56rem)]">
+          <div className="relative aspect-[3/2] w-[max(100%,56rem)]" style={fadeEdges(30, 90)}>
             <Image
               src="/scenes/reef.webp"
               alt=""
@@ -39,7 +39,6 @@ export function About() {
               sizes="100vw"
               className="object-cover object-bottom"
             />
-            <div className="absolute inset-x-0 top-0 h-1/3 bg-[linear-gradient(180deg,#163f70,transparent)]" />
           </div>
         </ScrollLayer>
       }

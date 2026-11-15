@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { Eyebrow, SectionTitle, Underwater } from "@/components/home/Underwater";
+import { Bubbles } from "@/components/home/Bubbles";
+import { LiveScene } from "@/components/home/LiveScene";
+import { Eyebrow, SectionTitle, Underwater, fadeEdges } from "@/components/home/Underwater";
 import { ProjectCards, type CardData } from "@/components/home/ProjectCards";
 import { Container } from "@/components/ui/Container";
 import { allWork, isHackathon } from "@/lib/work";
@@ -36,15 +38,21 @@ export function Work() {
     <Underwater
       id="projects"
       label="Projects"
-      background="#0f345c"
+      // Starts at the colour the hero's rising sea ends on.
+      background="linear-gradient(180deg,#3f7a90 0%,#1a4a72 22%,#0e3560 55%,#0c2f59 100%)"
       scenery={
-        <Image
-          src="/scenes/sea.webp"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover object-[70%_top]"
-        />
+        <LiveScene className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0" style={fadeEdges(0, 62)}>
+            <Image
+              src="/scenes/sea.webp"
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover object-[70%_top]"
+            />
+          </div>
+          <Bubbles />
+        </LiveScene>
       }
     >
       <Container className="pb-20 pt-[clamp(5rem,12vw,8rem)] sm:pb-28">

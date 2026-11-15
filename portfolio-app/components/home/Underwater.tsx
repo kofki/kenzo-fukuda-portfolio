@@ -1,5 +1,16 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
+
+/**
+ * Fades a scenery layer out at its top and bottom edges, so it melts into the
+ * section's water colour. Each section starts with the colour the previous
+ * one ends with, so with every image faded at its edges there is no line
+ * anywhere in the dive.
+ */
+export function fadeEdges(top = 14, bottom = 86): CSSProperties {
+  const mask = `linear-gradient(180deg, transparent 0%, #000 ${top}%, #000 ${bottom}%, transparent 100%)`;
+  return { maskImage: mask, WebkitMaskImage: mask };
+}
 
 /**
  * Shell for every section below the surface. Text is always cream on deep
@@ -27,7 +38,7 @@ export function Underwater({
     <section
       id={id}
       aria-label={label}
-      className={cn("relative overflow-hidden text-cream", className)}
+      className={cn("relative overflow-clip text-cream", className)}
       style={{ background }}
     >
       {scenery}
@@ -35,7 +46,11 @@ export function Underwater({
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[#050c1c] opacity-0 transition-opacity duration-700 dark:opacity-30"
       />
-      <div className="relative z-10">{children}</div>
+      {/* Taps pass through empty space to the creatures behind; text and
+          controls still catch them. */}
+      <div className="pointer-events-none relative z-10 [&_a]:pointer-events-auto [&_button]:pointer-events-auto [&_dl]:pointer-events-auto [&_figure]:pointer-events-auto [&_h2]:pointer-events-auto [&_h3]:pointer-events-auto [&_li]:pointer-events-auto [&_p]:pointer-events-auto">
+        {children}
+      </div>
     </section>
   );
 }

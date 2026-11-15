@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { ExperienceList } from "@/components/home/ExperienceList";
+import { Bubbles } from "@/components/home/Bubbles";
+import { Jellies } from "@/components/home/Jellies";
+import { LiveScene } from "@/components/home/LiveScene";
 import { ScrollLayer } from "@/components/home/ScrollLayer";
-import { Eyebrow, SectionTitle, Underwater } from "@/components/home/Underwater";
+import { Eyebrow, SectionTitle, Underwater, fadeEdges } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
 import { experiences } from "@/data/experience";
 import { featuredSkills, skillCategories } from "@/data/skills";
@@ -12,25 +15,36 @@ const brandFor = (label: string) =>
 
 /**
  * Transition 3, "deeper": the water darkens a step and the jellyfish drift in
- * from the right edge, then keep slowly bobbing.
+ * from the right edge. They stay in view while you read down the list, each
+ * one drifting on its own, and pulse when tapped.
  */
 export function Experience() {
   return (
     <Underwater
       id="experience"
       label="Experience and skills"
-      background="linear-gradient(180deg,#1b3a64 0%,#10284a 30%,#0c2947 100%)"
+      background="linear-gradient(180deg,#0b2a4c 0%,#0b2848 50%,#0a2442 100%)"
       scenery={
-        <ScrollLayer
-          className="pointer-events-none absolute right-[-12%] top-6 w-[min(64rem,105vw)] max-sm:right-[-58%] max-sm:w-[150vw] sm:right-[-20%] lg:right-[-14%]"
-          x={[22, 0]}
-          opacity={[0, 1]}
-          range={[0, 0.32]}
-        >
-          <div className="animate-jelly relative aspect-[3/2]">
-            <Image src="/scenes/jelly.webp" alt="" fill sizes="80vw" className="object-contain" />
+        <LiveScene className="pointer-events-none absolute inset-0">
+          {/* Plain water with the print's faint current lines. */}
+          <div className="absolute inset-0" style={fadeEdges(10, 90)}>
+            <Image src="/scenes/jelly.webp" alt="" fill sizes="100vw" className="object-cover" />
           </div>
-        </ScrollLayer>
+          <Bubbles count={5} />
+          {/* The jellyfish ride along in a sticky frame for the whole section. */}
+          <div className="absolute inset-0">
+            <div className="sticky top-0 h-[100svh] overflow-hidden">
+              <ScrollLayer
+                className="absolute right-[-30%] top-[4%] w-[min(70rem,110vw)] max-sm:right-[-75%] max-sm:w-[170vw] lg:right-[-20%]"
+                x={[22, 0]}
+                opacity={[0, 1]}
+                range={[0, 0.12]}
+              >
+                <Jellies />
+              </ScrollLayer>
+            </div>
+          </div>
+        </LiveScene>
       }
     >
       <Container className="py-20 sm:py-24">

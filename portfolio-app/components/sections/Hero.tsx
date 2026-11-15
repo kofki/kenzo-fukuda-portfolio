@@ -9,22 +9,24 @@ export function Hero() {
     <section id="top" aria-label="Kenzo Fukuda">
       <HeroDive>
         {/* Bottom padding keeps every line in the sky, above the water. The
-            sea line sits a quarter of the way up the scene, and the scene is
-            at least 66.67vw tall, so 17vw clears it on wide screens. */}
+            horizon is 24.6% up from the bottom of the scene, and the scene is
+            max(100cqh, 66.67cqw) tall, so this clears it with a margin. Units
+            come from the hero frame itself, not the window. The container lets
+            taps through to the props; only its own controls catch them. */}
         <Container
-          className="relative z-10 flex h-full flex-col justify-center pt-24"
-          style={{ paddingBottom: "max(27svh, 17.5vw)" }}
+          className="pointer-events-none relative z-20 flex h-full flex-col justify-center pt-20 [&_a]:pointer-events-auto [&_figure]:pointer-events-auto"
+          style={{ paddingBottom: "calc(max(24.6cqh, 16.4cqw) + 1.75rem)" }}
         >
           <div className="grid items-center gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-6">
             <div>
               <p
-                className="font-hand text-[clamp(1.6rem,3.4vh,2.4rem)] leading-none text-hand animate-rise"
+                className="font-hand text-[clamp(1.4rem,3.4cqh,2.4rem)] leading-none text-hand animate-rise"
                 style={{ rotate: "-3deg", animationDelay: "60ms" }}
               >
                 hi, I&apos;m
               </p>
               <h1
-                className="mt-2 font-display text-[clamp(3rem,min(9vw,11.5vh),6.8rem)] leading-[1.02] text-ink animate-rise"
+                className="mt-2 font-display text-[clamp(2.4rem,min(9cqw,9.5cqh),6.8rem)] leading-[1.02] text-ink animate-rise"
                 style={{ animationDelay: "140ms" }}
               >
                 Kenzo
@@ -33,7 +35,7 @@ export function Hero() {
               </h1>
               <NameUnderline className="mt-2 h-3.5 w-[min(100%,24rem)] text-hand" />
               <p
-                className="mt-4 text-[clamp(0.95rem,2vh,1.15rem)] font-medium text-ink animate-rise"
+                className="mt-4 text-[clamp(0.95rem,2cqh,1.15rem)] font-medium text-ink animate-rise"
                 style={{ animationDelay: "260ms" }}
               >
                 {profile.headline} · CS at UF
@@ -66,7 +68,7 @@ export function Hero() {
                 rotate={3}
                 eager
                 sizes="(max-width: 1024px) 220px, 320px"
-                className="w-[min(58vw,32vh,13rem)] lg:w-[min(22rem,40vh)]"
+                className="w-[min(52cqw,24cqh,13rem)] lg:w-[min(22rem,40cqh)]"
               />
             </div>
           </div>
