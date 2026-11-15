@@ -1,82 +1,114 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Reveal } from "@/components/fx/Reveal";
+import { PhotoPrint } from "@/components/home/PhotoPrint";
+import { ScrollLayer } from "@/components/home/ScrollLayer";
+import { Eyebrow, SectionTitle, Underwater } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { icons } from "@/lib/icons";
 import { profile } from "@/data/profile";
 
+// Flat woodblock icons, cut from the same print as the beach props.
+const HOBBIES = [
+  { key: "surf", label: "Surfing", w: 99, h: 335 },
+  { key: "skate", label: "Skating", w: 102, h: 260 },
+  { key: "volley", label: "Volleyball", w: 160, h: 158 },
+  { key: "guitar", label: "Guitar", w: 140, h: 311 },
+  { key: "cooking", label: "Cooking", w: 209, h: 166 },
+  { key: "games", label: "Games", w: 202, h: 123 },
+];
+
+/**
+ * Transition 2, "the reef rises": the reef strip climbs in from below a
+ * little faster than the page as About arrives.
+ */
 export function About() {
-  const Now = icons.path;
-
   return (
-    <section id="about" className="relative py-16 sm:py-24">
-      <Container>
-        <Reveal>
-          <SectionHeading
-            eyebrow="Who I am"
-            title="Mostly I just like building the thing"
-          />
-        </Reveal>
+    <Underwater
+      id="about"
+      label="About"
+      background="linear-gradient(180deg,#0a2244 0%,#123a6e 45%,#163f70 100%)"
+      scenery={
+        <ScrollLayer
+          className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center"
+          y={[28, 0]}
+          range={[0, 0.5]}
+        >
+          <div className="relative aspect-[3/2] w-[max(100%,56rem)]">
+            <Image
+              src="/scenes/reef.webp"
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover object-bottom"
+            />
+            <div className="absolute inset-x-0 top-0 h-1/3 bg-[linear-gradient(180deg,#163f70,transparent)]" />
+          </div>
+        </ScrollLayer>
+      }
+    >
+      <Container className="pb-[clamp(16rem,34vw,24rem)] pt-20 sm:pt-24">
+        <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+          <div className="reveal">
+            <Eyebrow>who I am</Eyebrow>
+            <SectionTitle className="max-w-xl">
+              Mostly I just like building the thing
+            </SectionTitle>
 
-        <div className="mt-10 grid items-start gap-10 lg:grid-cols-12">
-          <Reveal className="space-y-5 lg:col-span-6">
-            {profile.about.map((paragraph) => (
-              <p key={paragraph} className="text-lg leading-relaxed text-muted">
-                {paragraph}
-              </p>
-            ))}
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-1 font-mono text-sm text-coral-ink transition-colors hover:text-ink"
-            >
-              More about me
-              <span aria-hidden>→</span>
-            </Link>
-
-            <div className="panel relative !mt-8 rounded-2xl p-6">
-              <span className="inline-flex items-center gap-2 text-sm font-medium text-teal-ink">
-                <Now size={15} weight="bold" />
-                Currently
-              </span>
-              <ul className="mt-3 space-y-2">
-                {profile.now.map((line) => (
-                  <li
-                    key={line}
-                    className="relative pl-4 text-sm leading-relaxed text-ink/80 before:absolute before:left-0 before:top-2 before:size-1.5 before:rounded-full before:bg-coral"
-                  >
-                    {line}
-                  </li>
-                ))}
-              </ul>
+            <div className="mt-8 flex justify-center lg:hidden">
+              <PhotoPrint
+                src="/kenzo_sitting.jpeg"
+                alt="Kenzo by a window at golden hour"
+                ratio={1.2}
+                rotate={-3}
+                sizes="240px"
+                className="w-60"
+              />
             </div>
-          </Reveal>
 
-          <Reveal delay={0.1} className="lg:col-span-6 lg:pl-6 lg:-mt-6">
-            <div
-              className="polaroid mx-auto max-w-md rotate-[1.8deg] transition-transform duration-500 hover:rotate-0 lg:mr-0"
-            >
-              <div className="polaroid-window">
-                <Image
-                  src="/kenzo_sitting.jpeg"
-                  alt="Kenzo by a window at golden hour"
-                  fill
-                  sizes="(max-width: 1024px) 80vw, 420px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="polaroid-caption">
-                {/* Inherits the handwriting font from .polaroid-caption. Sized
-                    to fill the ledge, and --ink rather than --muted so it reads
-                    as written on the print (15.8:1 on the cream frame). */}
-                <p className="text-4xl leading-none text-ink">
-                  learn fast, build fast
-                </p>
-              </div>
-            </div>
-          </Reveal>
+            <p className="mt-8 max-w-lg text-base leading-relaxed text-cream/90 lg:mt-5">
+              {profile.tagline}
+            </p>
+
+            <dl className="mt-7 grid max-w-lg grid-cols-2 gap-2.5">
+              {profile.facts.map((fact) => (
+                <div
+                  key={fact.label}
+                  className="rounded-lg border border-cream/20 bg-navy/85 px-3.5 py-2.5"
+                >
+                  <dt className="text-[11px] font-bold text-coral-soft">{fact.label}</dt>
+                  <dd className="text-sm font-medium text-cream">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <ul aria-label="Off the clock" className="mt-8 grid max-w-lg grid-cols-3 gap-y-6 sm:grid-cols-6">
+              {HOBBIES.map((hobby) => (
+                <li key={hobby.key} className="flex flex-col items-center gap-2">
+                  <span className="flex h-14 items-end">
+                    <Image
+                      src={`/hobbies/${hobby.key}.webp`}
+                      alt=""
+                      width={hobby.w}
+                      height={hobby.h}
+                      className="max-h-14 w-auto max-w-14"
+                    />
+                  </span>
+                  <span className="text-xs font-medium text-cream">{hobby.label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="reveal hidden justify-end lg:flex">
+            <PhotoPrint
+              src="/kenzo_sitting.jpeg"
+              alt="Kenzo by a window at golden hour"
+              ratio={1.2}
+              rotate={-3}
+              sizes="340px"
+              className="mt-10 w-[21rem]"
+            />
+          </div>
         </div>
       </Container>
-    </section>
+    </Underwater>
   );
 }

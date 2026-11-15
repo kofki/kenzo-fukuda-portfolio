@@ -12,6 +12,7 @@ import type { Post } from "@/types";
 export const posts: Post[] = [
   {
     slug: "how-i-became-cto-of-beachlens",
+    project: "beachlens",
     title: "How I became Co-Founder and CTO of BeachLens as a UF sophomore",
     description:
       "The story of how Kenzo Fukuda, a computer science student at the University of Florida, co-founded BeachLens and grew it to 20,000+ users as CTO.",
@@ -49,6 +50,7 @@ export const posts: Post[] = [
   },
   {
     slug: "scaling-react-native-app-to-20000-users",
+    project: "beachlens",
     title: "Scaling a React Native app to 20,000 users on a student budget",
     description:
       "How BeachLens CTO Kenzo Fukuda keeps 11+ live environmental data feeds agreeing with each other in real time using a serverless ELT pipeline, without a DevOps team.",
@@ -92,6 +94,7 @@ export const posts: Post[] = [
   },
   {
     slug: "what-winning-swamphacks-xi-taught-me",
+    project: "caseforward-ai",
     title: "What winning SwampHacks XI taught me about shipping",
     description:
       "Kenzo Fukuda on leading the four-person team behind CaseForward AI to first place out of 100+ projects at SwampHacks XI, the University of Florida's hackathon.",

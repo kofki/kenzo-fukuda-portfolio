@@ -15,6 +15,12 @@ export const profile: Profile = {
   updated: "2026-11-04",
   businessEmail: "kenzo@beachlens.net",
   resumeUrl: "/Kenzo_Resume.pdf",
+  facts: [
+    { label: "Based in", value: "Gainesville, Florida" },
+    { label: "Studying", value: "CS at UF, class of 2028" },
+    { label: "Building", value: "BeachLens, 20,000+ users" },
+    { label: "Right now", value: "SWE intern at Vobile" },
+  ],
   about: [
     "I'm Kenzo Fukuda, a CS student at the University of Florida and the co-founder and CTO of BeachLens. I develop full-stack and mobile apps, and I love making software that helps people. Off the clock I'm on the volleyball court, in the water surfing, on a board, or back home cooking, gaming, and playing guitar.",
     "I ship under tight deadlines and learn by doing. This year I cut cost and latency out of media pipelines at Vobile, co-founded and deployed BeachLens to 20,000+ users, and led the team at SASE to successfully ship our semester project. I'm usually the one who volunteers and is always down to try something new.",
