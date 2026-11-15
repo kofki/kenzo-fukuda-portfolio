@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BubbleTrail } from "@/components/home/BubbleTrail";
 import { Nav } from "@/components/layout/Nav";
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
@@ -31,6 +32,7 @@ export default function Home() {
         <Logbook />
         <Contact />
       </main>
+      <BubbleTrail />
     </>
   );
 }
