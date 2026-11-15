@@ -37,13 +37,17 @@ export function Contact() {
       scenery={
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center">
           {/* The city rises up off the seabed as you reach the bottom. */}
-          <ScrollLayer className="relative aspect-[3/2] w-[max(100%,62rem)]" style={fadeEdges(28, 100)} y={[34, 0]} range={[0, 0.5]}>
-            <Image src="/scenes/city.webp" alt="" fill sizes="100vw" className="object-cover object-bottom" />
-            <ScrollLayer
-              className="absolute inset-0 bg-[#030a18]"
-              opacity={[0.75, 0]}
-              range={[0.05, 0.45]}
-            />
+          <ScrollLayer className="relative aspect-[3/2] w-[max(100%,62rem)]" y={[34, 0]} range={[0, 0.5]}>
+            {/* Only the still print is masked; the moving pieces sit on top
+                unmasked, as masked movers can leave ghosts in some browsers. */}
+            <div className="absolute inset-0" style={fadeEdges(28, 100)}>
+              <Image src="/scenes/city.webp" alt="" fill sizes="100vw" className="object-cover object-bottom" />
+              <ScrollLayer
+                className="absolute inset-0 bg-[#030a18]"
+                opacity={[0.75, 0]}
+                range={[0.05, 0.45]}
+              />
+            </div>
             <FishSchool fish={cityFish} drift={10} />
             <CityLights />
             <SwayLayers layers={cityCoral} />
@@ -82,8 +86,8 @@ export function Contact() {
               alt="Kenzo at a conference by the river"
               ratio={0.75}
               rotate={3}
-              sizes="(max-width: 768px) 240px, 300px"
-              className="w-60 md:w-72"
+              sizes="(max-width: 768px) 300px, 420px"
+              className="w-72 md:w-[26rem]"
             />
           </div>
         </div>

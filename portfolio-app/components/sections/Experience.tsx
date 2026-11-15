@@ -38,7 +38,7 @@ export function Experience() {
           <div className="absolute inset-0">
             <div className="sticky top-0 h-[100svh] overflow-hidden">
               <ScrollLayer
-                className="absolute right-[-30%] top-[4%] w-[min(70rem,110vw)] max-sm:right-[-75%] max-sm:w-[170vw] lg:right-[-20%]"
+                className="absolute right-[-12%] top-[4%] w-[min(70rem,110vw)] max-sm:right-[-62%] max-sm:w-[170vw] lg:right-[-3%]"
                 x={[22, 0]}
                 opacity={[0, 1]}
                 range={[0, 0.12]}

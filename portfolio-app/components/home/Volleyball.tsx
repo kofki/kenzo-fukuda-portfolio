@@ -59,7 +59,7 @@ export function Volleyball() {
     // Ball positions as % of the scene: x from the left, y up from the ground.
     const at = (x: number, y: number) => ({ x: () => (x / 100) * W(), y: () => (-y / 100) * Hh() });
     const spike = { x: A_LEFT + 4.2, y: 14.2 };
-    const bump = { x: B_LEFT + 0.6, y: 4.6 };
+    const bump = { x: B_LEFT + 0.9, y: 8.2 };
     const show = (on: Element, off: Element) => [gsap.set(on, { opacity: 1 }), gsap.set(off, { opacity: 0 })];
 
     const tl = gsap.timeline({ repeat: -1, repeatRefresh: true, defaults: { ease: "none" } });
@@ -92,7 +92,7 @@ export function Volleyball() {
   };
 
   return (
-    <div ref={root} aria-hidden className="pointer-events-none absolute inset-0 max-sm:hidden">
+    <div ref={root} aria-hidden data-vball-court className="pointer-events-none absolute inset-0 max-sm:hidden">
       <button type="button" tabIndex={-1} onClick={cheer} className="pointer-events-auto absolute inset-0 cursor-pointer" style={{ clipPath: `inset(84% ${100 - A_LEFT - 6}% 0 ${A_LEFT - 2}%)` }}>
         <span className="absolute inset-0">
           <Frame name="a-idle" left={A_LEFT} />

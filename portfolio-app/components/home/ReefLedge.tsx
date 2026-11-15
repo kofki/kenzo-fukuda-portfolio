@@ -6,31 +6,23 @@ import { FishSchool, SwayLayers } from "@/components/home/SeaLife";
 
 const box = (l: Layer) => ({ left: `${l.left}%`, top: `${l.top}%`, width: `${l.width}%`, height: `${l.height}%` });
 
-// Each rock carries the coral and seaweed that grow on it, so they move as one.
-const CLUSTERS: { rock: Layer; coral: Layer[]; to: "left" | "down" | "right"; lag: number }[] = [
-  { rock: reefRocks[0], coral: reefCoral.slice(0, 5), to: "left", lag: 0 },
-  { rock: reefRocks[1], coral: reefCoral.slice(5, 9), to: "down", lag: 0.08 },
-  { rock: reefRocks[2], coral: reefCoral.slice(9), to: "right", lag: 0.04 },
-];
-
 /**
- * The reef along the bottom of About: three rocks, each with its own coral
- * and seaweed swaying on it, and a school of fish. It stands on the sea floor
- * (see `Grounded`), and as you keep going the rocks pass you, left, under
- * and right.
+ * The reef along the bottom of About: the rocks with coral and seaweed
+ * swaying on them, and a school of fish. It stands on the sea floor
+ * (see `Grounded`). As you keep going it stays a while, then drifts slowly
+ * away to the side as we swim on past it.
  */
 export function ReefLedge() {
   return (
     <Grounded className="flex justify-center">
-      <div className="relative aspect-[3/2] w-[max(100%,56rem)] shrink-0">
-        {CLUSTERS.map(({ rock, coral, to, lag }) => (
-          <Pass key={rock.src} to={to} lag={lag}>
-            <SwayLayers layers={coral} imgClassName="dark:brightness-75" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={rock.src} alt="" decoding="async" draggable={false} className="absolute max-w-none select-none dark:brightness-75" style={box(rock)} />
-          </Pass>
-        ))}
-        <Pass to="right" lag={0.02}>
+      <div className="relative aspect-[3/2] w-[max(118%,64rem)] shrink-0">
+        {/* The reef is one piece of sea floor, so it moves as one. */}
+        <Pass to="left" hold={0.3}>
+          <SwayLayers layers={reefCoral} imgClassName="dark:brightness-75" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={reefRocks.src} alt="" decoding="async" draggable={false} className="absolute max-w-none select-none dark:brightness-75" style={box(reefRocks)} />
+        </Pass>
+        <Pass to="right" hold={0.3} lag={0.04}>
           <FishSchool fish={reefFish} drift={9} />
         </Pass>
       </div>

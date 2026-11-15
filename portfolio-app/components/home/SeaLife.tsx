@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import { useRef, type CSSProperties } from "react";
 import type { Layer } from "@/components/home/liveLayers";
+import { SwimSprite, facesRight } from "@/components/home/SwimSprite";
 import { prefersReducedMotion, useSceneGsap } from "@/lib/useSceneGsap";
 import { playChime, playSwish } from "@/lib/worldSound";
 
@@ -60,7 +61,7 @@ export function FishSchool({ fish, drift = 6 }: { fish: Layer[]; drift?: number 
   return (
     <div ref={root} className="absolute inset-0">
       <div data-school className="absolute inset-0">
-        {fish.map((f) => (
+        {fish.map((f, i) => (
           <button
             key={f.src}
             type="button"
@@ -70,7 +71,7 @@ export function FishSchool({ fish, drift = 6 }: { fish: Layer[]; drift?: number 
             className="pointer-events-auto absolute cursor-pointer"
             style={box(f)}
           >
-            <Sprite layer={{ ...f, left: 0, top: 0, width: 100, height: 100 }} mark="fish" />
+            <SwimSprite src={f.src} mark="fish" className="h-full w-full" beat={1.5 + ((i * 0.7) % 1.1)} kick={0.45 + ((i * 0.37) % 0.4)} delay={-i * 0.53} />
           </button>
         ))}
       </div>
@@ -153,19 +154,14 @@ export function CityLights({ groups = 10 }: { groups?: number }) {
       .to(glow, { opacity: 0.75, duration: 1.2, ease: "sine.out" }, "<0.2");
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { arrive.play(); io.disconnect(); } }, { threshold: 0.35 });
     if (root.current) io.observe(root.current);
-    // Blocks of windows switch fully off and back on at random, with a
-    // stutter on the way, so the city looks lived in. Never more than a
-    // few dark at once.
+    // Blocks of windows go dark and light up again slowly, each in its own
+    // time, like rooms where someone turns a lamp off and later on again.
     const loops: gsap.core.Animation[] = lights.map((l) =>
-      gsap.timeline({ repeat: -1, repeatRefresh: true, delay: r(2.5, 9) })
-        .to(l, { opacity: 1, duration: () => r(3, 8) })
-        .to(l, { opacity: 0.35, duration: 0.06, ease: "steps(1)" })
-        .to(l, { opacity: 1, duration: 0.08, ease: "steps(1)" })
-        .to(l, { opacity: 0.04, duration: 0.18, ease: "power2.in" })
-        .to(l, { opacity: 0.04, duration: () => r(0.8, 3) })
-        .to(l, { opacity: 0.6, duration: 0.05, ease: "steps(1)" })
-        .to(l, { opacity: 0.1, duration: 0.07, ease: "steps(1)" })
-        .to(l, { opacity: 1, duration: 0.25, ease: "power2.out" }),
+      gsap.timeline({ repeat: -1, repeatRefresh: true, delay: r(3, 10) })
+        .to(l, { opacity: 1, duration: () => r(5, 11) })
+        .to(l, { opacity: 0.08, duration: () => r(1.4, 2.4), ease: "sine.inOut" })
+        .to(l, { opacity: 0.08, duration: () => r(2.5, 6) })
+        .to(l, { opacity: 1, duration: () => r(1.4, 2.4), ease: "sine.inOut" }),
     );
     loops.push(gsap.fromTo(glow, { opacity: 0.55, scale: 1 }, { opacity: 0.95, scale: 1.03, duration: 3.2, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 3 }));
     surgeRef.current = contextSafe(() => {
@@ -240,9 +236,6 @@ export function SwayLayers({ layers, imgClassName = "" }: { layers: Layer[]; img
  * Fish crossing a whole section, each at its own depth and pace, gliding
  * with a gentle wave. Tap one and it darts ahead.
  */
-// The prints draw almost every fish facing left; these few face right.
-const FACES_RIGHT = new Set(["/scenes/live/city-fish-1.webp"]);
-
 export function Swimmers({ fish, flip = false }: { fish: Layer[]; flip?: boolean }) {
   const root = useRef<HTMLDivElement>(null);
   useSceneGsap(root, (q) => {
@@ -263,7 +256,7 @@ export function Swimmers({ fish, flip = false }: { fish: Layer[]; flip?: boolean
   const dart = (event: { currentTarget: HTMLElement }) => {
     playSwish();
     if (prefersReducedMotion()) return;
-    const img = event.currentTarget.querySelector("img");
+    const img = event.currentTarget.querySelector("[data-swim]");
     gsap.fromTo(img, { x: 0 }, { x: flip ? -90 : 90, duration: 0.35, ease: "power3.out", yoyo: true, repeat: 1 });
   };
   return (
@@ -279,12 +272,59 @@ export function Swimmers({ fish, flip = false }: { fish: Layer[]; flip?: boolean
           style={{ top: `${14 + ((i * 37) % 70)}%`, width: `clamp(44px, ${4 + (i % 3)}vw, 96px)`, aspectRatio: `${f.width * 1.5} / ${f.height}` }}
         >
           <span className="block h-full w-full">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={f.src} alt="" decoding="async" draggable={false} className="block h-full w-full" // Head first: mirror the sprite when it faces away from where it swims.
-                style={{ transform: !flip !== FACES_RIGHT.has(f.src) ? "scaleX(-1)" : undefined }} />
+            {/* Head first: mirror the fish when it faces away from where it swims. */}
+            <SwimSprite
+              src={f.src}
+              className="h-full w-full"
+              beat={0.7 + (i % 3) * 0.18}
+              kick={0.9 + (i % 2) * 0.25}
+              delay={-i * 0.41}
+              style={{ transform: !flip !== facesRight(f.src) ? "scaleX(-1)" : undefined }}
+            />
           </span>
         </button>
       ))}
+    </div>
+  );
+}
+
+/**
+ * A ray gliding slowly across open water, head first (the print draws it
+ * heading up and to the left), with its wings rising and falling. Tap it and
+ * it beats its wings and pulls away.
+ */
+export function RayGlide({ top = "18%" }: { top?: string }) {
+  const root = useRef<HTMLDivElement>(null);
+  useSceneGsap(root, (q) => {
+    const ray = q("[data-ray-glide]")[0];
+    const wing = q("[data-ray-wing]")[0];
+    const width = () => root.current?.clientWidth ?? window.innerWidth;
+    gsap.set(ray, { left: "100%" });
+    return [
+      gsap.fromTo(ray, { x: 0, y: 0 }, { x: () => -(width() * 1.25), y: () => -gsap.utils.random(40, 110), duration: () => gsap.utils.random(34, 46), ease: "none", repeat: -1, repeatRefresh: true, delay: -12 }),
+      gsap.to(wing, { scaleY: 0.86, skewX: -4, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1 }),
+    ];
+  });
+  const flap = (event: { currentTarget: HTMLElement }) => {
+    playSwish();
+    if (prefersReducedMotion()) return;
+    const wing = event.currentTarget.querySelector("[data-ray-wing]");
+    gsap.fromTo(wing, { scaleY: 1 }, { scaleY: 0.7, duration: 0.22, ease: "power2.inOut", yoyo: true, repeat: 3 });
+    gsap.to(event.currentTarget, { xPercent: "-=60", duration: 1.2, ease: "power2.out" });
+  };
+  return (
+    <div ref={root} aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      <button
+        type="button"
+        tabIndex={-1}
+        data-ray-glide
+        onClick={flap}
+        className="pointer-events-auto absolute w-[clamp(110px,15vw,230px)] cursor-pointer"
+        style={{ top, aspectRatio: "284 / 223" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img data-ray-wing src="/scenes/creatures/jelly-ray-2.webp" alt="" draggable={false} className="block h-full w-full origin-center brightness-[1.8] saturate-[0.8] dark:brightness-125" />
+      </button>
     </div>
   );
 }

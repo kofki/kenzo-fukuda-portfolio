@@ -25,7 +25,9 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main className="relative">
+      {/* Clip: scenery that follows the screen out of a section must never
+          make the page longer. */}
+      <main className="relative overflow-clip">
         {/* The dive, Projects and About share one body of water. */}
         <div className="relative">
           <SeaBackdrop />

@@ -392,9 +392,5 @@ export const cityCoral: Layer[] = [
   },
 ];
 
-// The reef's rocks, cut into three so each can carry its own coral.
-export const reefRocks: Layer[] = [
-  { src: "/scenes/live/reef-rock-0.webp", left: 0.0, top: 82.42, width: 38.87, height: 17.58 },
-  { src: "/scenes/live/reef-rock-1.webp", left: 36.0, top: 88.87, width: 31.18, height: 11.13 },
-  { src: "/scenes/live/reef-rock-2.webp", left: 64.32, top: 95.9, width: 19.14, height: 4.1 },
-];
+// The reef's rocks, cut out of the print in one piece.
+export const reefRocks: Layer = { src: "/scenes/live/reef-rocks.webp", left: 0, top: 82.42, width: 83.46, height: 17.58 };

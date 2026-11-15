@@ -33,6 +33,9 @@ export function Work() {
     <Underwater
       id="projects"
       label="Projects"
+      // Rise up under the waterline during the dive, instead of waiting a
+      // whole screen of open water after it.
+      className="-mt-[40svh] max-sm:-mt-[24svh]"
       // The water and its light come from SeaBackdrop, shared with the end
       // of the dive and About.
       background="transparent"
