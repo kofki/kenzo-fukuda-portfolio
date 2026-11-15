@@ -2,9 +2,10 @@ import Image from "next/image";
 import { ExperienceList } from "@/components/home/ExperienceList";
 import { Bubbles } from "@/components/home/Bubbles";
 import { Jellies } from "@/components/home/Jellies";
-import { reefFish, seaFish } from "@/components/home/liveLayers";
+import { cityFish, seaFish } from "@/components/home/liveLayers";
 import { Swimmers } from "@/components/home/SeaLife";
 import { LiveScene } from "@/components/home/LiveScene";
+import { SwimAway } from "@/components/home/SwimAway";
 import { ScrollLayer } from "@/components/home/ScrollLayer";
 import { Eyebrow, SectionTitle, Underwater, fadeEdges } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
@@ -33,9 +34,11 @@ export function Experience() {
             <Image src="/scenes/jelly.webp" alt="" fill sizes="100vw" className="object-cover" />
           </div>
           <Bubbles count={5} />
-          <Swimmers fish={[seaFish[0], seaFish[2], reefFish[1]]} />
-          {/* The jellyfish ride along in a sticky frame for the whole section. */}
-          <div className="absolute inset-0">
+          <Swimmers fish={[seaFish[0], seaFish[2], cityFish[2]]} />
+          {/* The jellyfish ride along in a sticky frame for the whole section,
+              then swim up and away to the side before its bottom edge, so the
+              next section's water never cuts across them. */}
+          <SwimAway className="absolute inset-0">
             <div className="sticky top-0 h-[100svh] overflow-hidden">
               <ScrollLayer
                 className="absolute right-[-12%] top-[4%] w-[min(70rem,110vw)] max-sm:right-[-62%] max-sm:w-[170vw] lg:right-[-3%]"
@@ -46,7 +49,7 @@ export function Experience() {
                 <Jellies />
               </ScrollLayer>
             </div>
-          </div>
+          </SwimAway>
         </LiveScene>
       }
     >

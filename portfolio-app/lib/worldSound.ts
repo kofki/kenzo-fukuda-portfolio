@@ -18,6 +18,14 @@ function audio(): AudioContext | null {
   return ctx;
 }
 
+/**
+ * True once sound has been started by a tap or click. Scroll alone cannot
+ * start audio in browsers, so scroll-driven sounds check this first.
+ */
+export function soundAwake(): boolean {
+  return ctx?.state === "running";
+}
+
 export function getAudioCtx(): AudioContext | null {
   return audio();
 }

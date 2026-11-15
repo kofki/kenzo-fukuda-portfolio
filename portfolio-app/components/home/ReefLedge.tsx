@@ -9,20 +9,20 @@ const box = (l: Layer) => ({ left: `${l.left}%`, top: `${l.top}%`, width: `${l.w
 /**
  * The reef along the bottom of About: the rocks with coral and seaweed
  * swaying on them, and a school of fish. It stands on the sea floor
- * (see `Grounded`). As you keep going it stays a while, then drifts slowly
- * away to the side as we swim on past it.
+ * (see `Grounded`). As you move on it glides a little to the side and fades,
+ * gone before the Experience heading is far up the screen.
  */
 export function ReefLedge() {
   return (
     <Grounded className="flex justify-center">
       <div className="relative aspect-[3/2] w-[max(118%,64rem)] shrink-0">
         {/* The reef is one piece of sea floor, so it moves as one. */}
-        <Pass to="left" hold={0.3}>
+        <Pass to="left" hold={0.02} span={0.33} distance={22} grow={false}>
           <SwayLayers layers={reefCoral} imgClassName="dark:brightness-75" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={reefRocks.src} alt="" decoding="async" draggable={false} className="absolute max-w-none select-none dark:brightness-75" style={box(reefRocks)} />
         </Pass>
-        <Pass to="right" hold={0.3} lag={0.04}>
+        <Pass to="right" hold={0.02} span={0.33} distance={22} lag={0.03} grow={false}>
           <FishSchool fish={reefFish} drift={9} />
         </Pass>
       </div>

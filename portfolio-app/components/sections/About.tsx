@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { PhotoPrint } from "@/components/home/PhotoPrint";
 import { Bubbles } from "@/components/home/Bubbles";
-import { reefFish, seaFish } from "@/components/home/liveLayers";
+import { cityFish } from "@/components/home/liveLayers";
 import { ReefLedge } from "@/components/home/ReefLedge";
 import { Swimmers } from "@/components/home/SeaLife";
 import {
@@ -40,13 +40,13 @@ export function About() {
           {/* Open water on the way down (the water and light are SeaBackdrop):
               fish cross until the reef comes up from below. */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-[60%]">
-            <Swimmers fish={[seaFish[1], seaFish[3], reefFish[2]]} flip />
+            <Swimmers fish={[cityFish[1], cityFish[0]]} flip />
           </div>
           <ReefLedge />
         </>
       }
     >
-      <Container className="pb-[clamp(16rem,34vw,24rem)] pt-20 sm:pt-24">
+      <Container className="pb-[clamp(6rem,11vw,9rem)] pt-10 sm:pt-12">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
           <div className="reveal">
             <Eyebrow>who I am</Eyebrow>

@@ -69,7 +69,7 @@ export function PlungeBubbles({ line, plunge }: { line: MotionValue<number>; plu
             ref={(el) => {
               refs.current[i] = el;
             }}
-            className="absolute top-0 rounded-full border-2 border-[#f1f7f3]/90 bg-[radial-gradient(circle_at_32%_30%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.2)_26%,rgba(220,240,240,0.1)_60%,rgba(220,240,240,0.3)_100%)] shadow-[0_0_6px_rgba(220,245,245,0.35)] opacity-0 will-change-transform"
+            className="absolute top-0 rounded-full border-[1.5px] border-[#efe4cb]/85 bg-[#efe4cb]/10 opacity-0 will-change-transform"
             style={{ left: `${b.x}%`, width: b.size, height: b.size }}
           />
         ))}

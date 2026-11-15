@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { KelpBed, KelpFish } from "@/components/home/KelpForest";
+import { KelpFish } from "@/components/home/KelpForest";
 import { cityFish, seaFish } from "@/components/home/liveLayers";
 import { Swimmers } from "@/components/home/SeaLife";
 import { LiveScene } from "@/components/home/LiveScene";
@@ -27,7 +27,6 @@ export function Logbook() {
           <KelpFish />
           <Swimmers fish={[seaFish[4], cityFish[0]]} flip />
         </LiveScene>
-        <KelpBed />
       </>
       }
     >

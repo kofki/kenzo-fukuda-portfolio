@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { PhotoPrint } from "@/components/home/PhotoPrint";
 import { cityCoral, cityFish } from "@/components/home/liveLayers";
 import { CityLights, FishSchool, SwayLayers } from "@/components/home/SeaLife";
+import { CityKelp } from "@/components/home/KelpForest";
 import { ScrollLayer } from "@/components/home/ScrollLayer";
 import { Eyebrow, Underwater, fadeEdges } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
@@ -23,6 +24,8 @@ export function Contact() {
     <Underwater
       id="contact"
       label="Contact"
+      // The kelp grows up past the top of this section into Logbook.
+      spill
       background="linear-gradient(180deg,#081e3a 0%,#061932 35%,#061932 100%)"
       glow={
         // At night the city shines through the dark water: a second copy of
@@ -51,11 +54,12 @@ export function Contact() {
             <FishSchool fish={cityFish} drift={10} />
             <CityLights />
             <SwayLayers layers={cityCoral} />
+            <CityKelp />
           </ScrollLayer>
         </div>
       }
     >
-      <Container className="pt-24 sm:pt-28">
+      <Container className="pt-28 sm:pt-36">
         <div className="grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:items-start">
           <div className="reveal">
             <Eyebrow>say hi</Eyebrow>
@@ -91,7 +95,7 @@ export function Contact() {
             />
           </div>
         </div>
-        <div className="pt-[clamp(14rem,30vw,22rem)]">
+        <div className="pt-[clamp(8rem,16vw,13rem)]">
           <Footer />
         </div>
       </Container>
