@@ -14,6 +14,8 @@ export const projects: Project[] = [
     // Kept in step with the BeachLens entry in data/experience.ts.
     tech: ["React Native", "iOS", "Android", "TypeScript"],
     imageUrl: "/beachlens/team.jpg",
+    cover: "/beachlens/map.jpg",
+    coverAlt: "The BeachLens map of Florida beaches.",
     imageAlt:
       "Kenzo and his co-founder presenting BeachLens on stage at The Lab Miami.",
     logo: "/beachlens_logo.png",
@@ -107,6 +109,8 @@ export const projects: Project[] = [
       "PostgreSQL",
     ],
     imageUrl: "/ai-advisor/landing.jpg",
+    cover: "/ai-advisor/planner.png",
+    coverAlt: "The AI Advisor semester planner with degree audit and weekly schedule.",
     imageAlt: "The AI Advisor landing page: create your dream schedule.",
     links: {
       live: "https://ai-advisor-psi.vercel.app/",

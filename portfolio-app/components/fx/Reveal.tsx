@@ -1,31 +1,20 @@
-"use client";
-
-import { motion } from "motion/react";
 import type { ReactNode } from "react";
-import { useReducedMotion } from "@/lib/useReducedMotion";
+import { cn } from "@/lib/cn";
 
 interface RevealProps {
   children: ReactNode;
   className?: string;
+  /** Kept for call-site compatibility; the CSS reveal is driven by scroll. */
   delay?: number;
 }
 
-export function Reveal({ children, className, delay = 0 }: RevealProps) {
-  const reduced = useReducedMotion();
-
-  if (reduced) {
-    return <div className={className}>{children}</div>;
-  }
-
-  return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-12% 0px" }}
-      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+/**
+ * Content is always in the HTML at full opacity. The `.reveal` class adds a
+ * short rise as the block scrolls into view, but only in browsers that support
+ * scroll-driven animations and only when the visitor allows motion. The old
+ * version rendered `opacity: 0` on the server, so every section stayed blank
+ * until JavaScript loaded.
+ */
+export function Reveal({ children, className }: RevealProps) {
+  return <div className={cn("reveal", className)}>{children}</div>;
 }

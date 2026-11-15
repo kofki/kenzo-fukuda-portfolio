@@ -93,6 +93,8 @@ export interface Profile {
    */
   businessEmail: string;
   resumeUrl: string;
+  /** Four short facts for the About section: a label and a value. */
+  facts: { label: string; value: string }[];
 }
 
 export interface PostSection {
@@ -109,6 +111,11 @@ export interface Post {
   publishedAt: string;
   updatedAt?: string;
   tags: string[];
+  /**
+   * Slug of the project this post tells the story of. Project stories link from
+   * that project's card; posts without one are logbook entries.
+   */
+  project?: string;
   sections: PostSection[];
 }
 
@@ -189,6 +196,12 @@ export interface Project {
   tech: string[];
   imageUrl: string;
   imageAlt: string;
+  /**
+   * A product screenshot for the project card. Cards show the product, not the
+   * team; imageUrl stays the photo used on the detail page and link previews.
+   */
+  cover?: string;
+  coverAlt?: string;
   logo?: string;
   links: ProjectLinks;
   backedBy?: Backer[];

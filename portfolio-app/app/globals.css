@@ -5,29 +5,31 @@
 :root {
   color-scheme: light;
 
-  /* Archivo's width axis. 100 is normal, 125 is the widest the family goes.
-     Started at 120 (full Expanded), which set the name far too wide. 102 keeps
-     Archivo's character without the poster stretch. Single knob for all display
-     type — tune here rather than per-heading. */
-  --display-wdth: 102;
 
-  --sand: #f5efe3;
-  --surface: #fbf7ee;
-  --ink: #0e2e2c;
-  --muted: #5c6b66;
-  --border: rgba(14, 46, 44, 0.12);
+  /* Woodblock palette, 60/30/10. Cream paper and sunset tints are the 60,
+     indigo is the 30, vermilion is the one accent. */
+  --sand: #f4ecd8;
+  --surface: #fbf6ea;
+  --ink: #16264a;
+  --muted: #5b6680;
+  --border: rgba(22, 38, 74, 0.14);
 
-  --coral: #e8643c;
-  --teal: #0e7c7b;
+  --coral: #c8402a;
+  --teal: #1f3460;
   --amber: #e8b04b;
-  --foam: #cfe7e2;
+  --foam: #e6dcc4;
+
+  /* Marker notes and photo tape follow the theme: ink and coral tape by
+     day, coral notes and cream tape at night. */
+  --hand: #16264a;
+  --tape: #e3957a;
 
   /* Text-safe accents. The plain accents above are tuned for the beach
      illustration and fall to 1.7-2.9:1 on --sand, so they fail WCAG AA at
      small sizes. Use these wherever an accent carries text or an icon; each
      clears 4.5:1 on --sand, --surface, and its own /15-/20 tint. */
-  --coral-ink: #af3815;
-  --teal-ink: #0c6a69;
+  --coral-ink: #a8321e;
+  --teal-ink: #1f3460;
   --palm-ink: #157048;
   --amber-ink: #865c11;
 
@@ -69,16 +71,19 @@
 .dark {
   color-scheme: dark;
 
-  --sand: #0a1f26;
-  --surface: #0f2a32;
-  --ink: #eaf2ef;
-  --muted: #8fa8a6;
-  --border: rgba(234, 242, 239, 0.14);
+  --sand: #0f1c38;
+  --surface: #14254a;
+  --ink: #f4ecd8;
+  --muted: #a9b3c7;
+  --border: rgba(244, 236, 216, 0.14);
 
-  --coral: #ff7a4d;
-  --teal: #2fb8ae;
+  --coral: #f08a6e;
+  --teal: #8fb0d8;
   --amber: #f2c45a;
-  --foam: #16323a;
+  --foam: #1f3460;
+
+  --hand: #f08a6e;
+  --tape: #f4ecd8;
 
   /* Night accents already clear 6.2-6.9:1 on --sand, so text reuses them. */
   --coral-ink: var(--coral);
@@ -143,10 +148,22 @@
   --color-deep-bottom: var(--deep-bottom);
   --color-deep-ink: var(--deep-ink);
 
-  --font-display: var(--font-archivo);
-  --font-sans: var(--font-instrument);
+  --font-display: var(--font-dela);
+  --font-sans: var(--font-zen);
   --font-mono: var(--font-jetbrains);
-  --font-hand: var(--font-caveat);
+  --font-hand: var(--font-gochi);
+
+  /* Fixed underwater colours: below the surface text is always cream on
+     indigo, whatever the theme. */
+  --color-cream: #f4ecd8;
+  --color-paper: #f4ecd8;
+  --color-indigo: #16264a;
+  --color-sea: #1f3460;
+  --color-navy: #0f1c38;
+  --color-vermilion: #c8402a;
+  --color-coral-soft: #f08a6e;
+  --color-hand: var(--hand);
+  --color-tape: var(--tape);
 
   --animate-float: float 7s ease-in-out infinite;
   --animate-bob: bob 4s ease-in-out infinite;
@@ -332,19 +349,16 @@
 
   body {
     color: var(--ink);
-    font-family: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-zen), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     transition: color 0.6s ease;
   }
 
-  /* Tailwind's font-display utility sets font-family only; this adds the width
-     axis on top, so "Archivo Expanded" comes through everywhere display type is
-     used without needing a second class at every call site. Wide letterforms
-     also need the optical tightening — at 120 wdth the default spacing reads
-     loose above ~40px. */
+  /* Dela Gothic One is a single heavy weight with generous built-in spacing,
+     so display type only needs a slightly tighter leading and no tracking. */
   .font-display {
-    font-variation-settings: "wdth" var(--display-wdth);
-    letter-spacing: -0.025em;
+    font-weight: 400;
+    letter-spacing: 0;
   }
 
   /* The default UA ring disappears against the animated world backdrop, so
@@ -461,7 +475,7 @@
     min-height: 0;
     overflow: hidden;
     padding: 6% 1% 0;
-    font-family: var(--font-caveat), ui-rounded, cursive;
+    font-family: var(--font-gochi), ui-rounded, cursive;
     font-size: 1.0625rem;
     line-height: 1.25;
   }
@@ -519,3 +533,54 @@
     text-wrap: balance;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Woodblock redesign (Nov 2026)
+   --------------------------------------------------------------------------- */
+
+/* Marker notes draw themselves in once, on load. Each path sets --len to its
+   own length so the dash covers it exactly. Reduced motion collapses the
+   duration globally, and `forwards` leaves the stroke fully drawn. */
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+.doodle-draw {
+  stroke-dasharray: var(--len, 600);
+  stroke-dashoffset: var(--len, 600);
+  animation: draw 0.9s cubic-bezier(0.65, 0, 0.35, 1) var(--delay, 0.6s) forwards;
+}
+
+@keyframes jelly-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.animate-jelly { animation: jelly-bob 9s ease-in-out infinite; }
+
+@keyframes umbrella-fold {
+  0%, 100% { transform: scaleX(1); }
+  45% { transform: scaleX(0.35); }
+}
+@keyframes skate-roll {
+  0%, 100% { transform: translateX(0); }
+  40% { transform: translateX(18%); }
+}
+
+/* Reveal: content is always visible in the HTML. Browsers that support
+   scroll-driven animations get a short rise as each block enters view;
+   everything else just shows it. No JavaScript involved. */
+@keyframes reveal-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

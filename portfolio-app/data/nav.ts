@@ -1,9 +1,10 @@
 import type { NavItem } from "@/types";
 
+// Order matches the page. Each sectionId must match the id on its <section>.
+// Logbook is the writing: one section and one link for everything Kenzo writes.
 export const navItems: NavItem[] = [
-  { label: "About", sectionId: "about" },
-  { label: "Skills", sectionId: "skills" },
-  { label: "Experience", sectionId: "experience" },
   { label: "Projects", sectionId: "projects" },
-  { label: "Contact", sectionId: "contact" },
+  { label: "About", sectionId: "about" },
+  { label: "Experience", sectionId: "experience" },
+  { label: "Logbook", sectionId: "logbook" },
 ];

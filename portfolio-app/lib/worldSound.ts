@@ -162,3 +162,33 @@ export function playSplash() {
   osc.start(t);
   osc.stop(t + 0.24);
 }
+
+const STRUM_NOTES = [392.0, 440.0, 493.88, 587.33, 659.25];
+
+/** A quick five-note strum, for the guitar on the beach. */
+export function playStrum() {
+  const c = audio();
+  if (!c) return;
+  const master = c.createGain();
+  master.gain.value = 0.7;
+  const tone = c.createBiquadFilter();
+  tone.type = "lowpass";
+  tone.frequency.value = 2400;
+  master.connect(tone);
+  tone.connect(c.destination);
+  const start = c.currentTime + 0.03;
+  STRUM_NOTES.forEach((freq, i) => {
+    const t = start + i * 0.08;
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(freq, t);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.22, t + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
+    osc.connect(gain);
+    gain.connect(master);
+    osc.start(t);
+    osc.stop(t + 0.45);
+  });
+}
