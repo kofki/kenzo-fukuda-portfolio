@@ -64,7 +64,10 @@ export function Pass({
   to,
   lag = 0,
   hold = 0.04,
+  span,
+  distance = 90,
   enter = false,
+  grow = true,
   children,
   className = "",
   style,
@@ -73,7 +76,13 @@ export function Pass({
   lag?: number;
   /** How much of the way out it stays put before it starts to move (0-1). */
   hold?: number;
-  /** Also drift in from that same side as the section arrives. */
+  /** How much of the way out it takes to leave (0-1); the rest by default. */
+  span?: number;
+  /** How far it slides sideways, in % of its width. */
+  distance?: number;
+  /** Grow a little on the way out, as if swimming towards it. */
+  grow?: boolean;
+  /** Also drift in from that same side (or up from below) as the section arrives. */
   enter?: boolean;
   children: ReactNode;
   className?: string;
@@ -84,16 +93,18 @@ export function Pass({
   const source = leave ?? still;
   const coming = arrive ?? still;
   // Hold still for the first stretch of the way out, then drift off slowly.
-  const t = (v: number) => Math.pow(clamp01((v - hold - lag) / (1 - hold)), 1.3);
+  const t = (v: number) => Math.pow(clamp01((v - hold - lag) / (span ?? 1 - hold)), 1.3);
   const side = to === "left" ? -1 : 1;
   // Arriving: in from the side, easing to a stop as the section settles.
   const inX = (a: number) => (enter && to !== "down" ? side * 55 * Math.pow(1 - clamp01(a / 0.85), 2) : 0);
-  const x = useTransform([source, coming], ([v, a]: number[]) => `${(to === "down" ? 0 : side * t(v) * 90) + inX(a)}%`);
-  const y = useTransform(source, (v) => (to === "down" ? `${t(v) * 140}%` : `${t(v) * 12}%`));
-  const scale = useTransform(source, (v) => 1 + t(v) * 0.35);
+  const x = useTransform([source, coming], ([v, a]: number[]) => `${(to === "down" ? 0 : side * t(v) * distance) + inX(a)}%`);
+  // Arriving from below: up into place, easing to a stop.
+  const inY = (a: number) => (enter && to === "down" ? 30 * Math.pow(1 - clamp01(a / 0.85), 2) : 0);
+  const y = useTransform([source, coming], ([v, a]: number[]) => `${(to === "down" ? t(v) * 70 : t(v) * 12) + inY(a)}%`);
+  const scale = useTransform(source, (v) => (grow ? 1 + t(v) * 0.35 : 1));
   // Once a piece is gone it stays gone, even after the section stops
   // following the screen.
-  const opacity = useTransform(source, (v) => 1 - clamp01((t(v) - 0.8) / 0.2));
+  const opacity = useTransform(source, (v) => 1 - clamp01((t(v) - 0.45) / 0.55));
   const origin = to === "left" ? "0% 100%" : to === "right" ? "100% 100%" : "50% 100%";
 
   if (!leave) {

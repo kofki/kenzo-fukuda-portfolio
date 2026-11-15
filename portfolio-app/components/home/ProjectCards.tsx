@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { cn } from "@/lib/cn";
+import { DOMAINS, type Domain } from "@/types";
 
 export interface CardData {
   slug: string;
@@ -12,6 +14,7 @@ export interface CardData {
   cover: string;
   coverAlt: string;
   featured: boolean;
+  domains: Domain[];
   story?: { title: string; href: string };
 }
 
@@ -53,22 +56,45 @@ function ProjectCard({ card, eager }: { card: CardData; eager: boolean }) {
 }
 
 /**
- * Featured projects first, the rest one tap away. On phones the cards are a
+ * Featured projects first, the rest one tap away, with a filter by
+ * discipline (frontend, backend and so on). On phones the cards are a
  * swipeable row with the next card peeking in from the edge.
  */
 export function ProjectCards({ cards }: { cards: CardData[] }) {
   const [all, setAll] = useState(false);
+  const [active, setActive] = useState<Domain | null>(null);
   const featured = cards.filter((card) => card.featured);
-  const shown = all ? cards : featured;
+  const available = DOMAINS.filter((d) => cards.some((card) => card.domains.includes(d)));
+  // A discipline shows every project in it, not just the featured few.
+  const shown = active ? cards.filter((card) => card.domains.includes(active)) : all ? cards : featured;
 
   return (
     <>
-      <div className="no-scrollbar -mx-6 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
+      <div role="group" aria-label="Filter by discipline" className="mt-6 flex flex-wrap gap-2">
+        {[null, ...available].map((domain) => {
+          const on = active === domain;
+          return (
+            <button
+              key={domain ?? "all"}
+              type="button"
+              aria-pressed={on}
+              onClick={() => setActive(domain)}
+              className={cn(
+                "min-h-9 rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors",
+                on ? "border-coral-soft bg-coral-soft text-navy" : "border-cream/40 text-cream hover:border-cream",
+              )}
+            >
+              {domain ?? "All"}
+            </button>
+          );
+        })}
+      </div>
+      <div className="no-scrollbar -mx-6 mt-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0">
         {shown.map((card, index) => (
           <ProjectCard key={card.slug} card={card} eager={index === 0} />
         ))}
       </div>
-      {cards.length > featured.length ? (
+      {!active && cards.length > featured.length ? (
         <button
           type="button"
           onClick={() => setAll((open) => !open)}

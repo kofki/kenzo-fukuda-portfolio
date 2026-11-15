@@ -19,7 +19,7 @@ export function WaterMood() {
     <LiveScene className="pointer-events-none absolute inset-0 overflow-hidden">
       {/* Day */}
       <div className="absolute inset-0 dark:hidden">
-        <div className="absolute inset-0 bg-[#5fd6cf] opacity-45 mix-blend-soft-light" />
+        <div className="absolute inset-0 bg-[#5fd6cf] opacity-20 mix-blend-soft-light" />
       </div>
 
       {/* Night */}

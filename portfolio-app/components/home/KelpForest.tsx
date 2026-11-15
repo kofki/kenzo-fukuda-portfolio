@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { fish, kelp } from "@/components/home/creatureLayers";
 import { SwimSprite } from "@/components/home/SwimSprite";
-import { Grounded, Pass } from "@/components/home/Grounded";
 import { playSwish } from "@/lib/worldSound";
 
 function Fish({ index }: { index: number }) {
@@ -41,41 +40,48 @@ function Fish({ index }: { index: number }) {
   );
 }
 
+// Kelp growing from the rocky slopes on either side of Atlantis, placed in
+// % of the city print's frame: where each clump stands on the rock (its
+// base), how tall it is, and its own sway. All from the clean right-hand kelp
+// in the kelp print (the left one has stray ink stuck to it).
+const CITY_KELP: { side: "left" | "right"; at: number; base: number; height: number; mirror: boolean; secs: number }[] = [
+  // The two big clumps reach right up out of Contact into Logbook's water.
+  { side: "left", at: 0.5, base: 34, height: 155, mirror: true, secs: 12 },
+  { side: "left", at: 7.5, base: 20, height: 62, mirror: false, secs: 8.6 },
+  { side: "right", at: 1.5, base: 26, height: 150, mirror: false, secs: 13 },
+  { side: "right", at: 9, base: 15, height: 58, mirror: true, secs: 9.4 },
+];
+
 /**
- * The kelp bed under Logbook: two tall clumps rooted on the sea floor at the
- * edges, swaying slowly. They drift in from the sides as Logbook arrives and
- * part to either side again as we swim on past them.
+ * Kelp on the rocks of Atlantis, in front of the city print and moving with
+ * it. The tallest clumps grow up past the top of Contact into Logbook, so the
+ * two sections share one kelp forest. Each fades into the rock at its foot
+ * and into the water at its tip, and sways slowly in the current.
  */
-export function KelpBed() {
+export function CityKelp() {
   return (
-    <Grounded className="h-[130%]">
-      {/* Both clumps are the clean right-hand kelp from the print; the left
-          one is its mirror image (the left one in the print has stray ink
-          stuck to it). */}
-      {[0, 1].map((i) => (
-        <Pass key={i} to={i === 0 ? "left" : "right"} lag={i * 0.05} enter>
-          <span
-            className="absolute bottom-0 block h-full"
-            style={{ [i === 0 ? "left" : "right"]: "-1%", transform: i === 0 ? "scaleX(-1)" : undefined }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={kelp[1].src}
-              alt=""
-              decoding="async"
-              className="block h-full w-auto max-w-none origin-bottom brightness-[2.2] saturate-[0.85] dark:brightness-[1.5]"
-              style={{
-                animation: `kelp-sway ${11 + i * 2}s ease-in-out ${-i * 4}s infinite`,
-                // The print cut the fronds off at the top; let them fade into
-                // the water above instead.
-                maskImage: "linear-gradient(180deg,transparent 0%,#000 28%)",
-                WebkitMaskImage: "linear-gradient(180deg,transparent 0%,#000 28%)",
-              }}
-            />
-          </span>
-        </Pass>
+    <div aria-hidden className="pointer-events-none absolute inset-0">
+      {CITY_KELP.map((c, i) => (
+        <span
+          key={i}
+          className="absolute block"
+          style={{ [c.side]: `${c.at}%`, bottom: `${c.base}%`, height: `${c.height}%`, transform: c.mirror ? "scaleX(-1)" : undefined }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={kelp[1].src}
+            alt=""
+            decoding="async"
+            className="block h-full w-auto max-w-none origin-bottom brightness-[2.5] saturate-[0.8] dark:brightness-[1.7]"
+            style={{
+              animation: `kelp-wave ${c.secs}s ease-in-out ${-i * 1.7}s infinite`,
+              maskImage: "linear-gradient(180deg,transparent 0%,#000 14%,#000 90%,transparent 100%)",
+              WebkitMaskImage: "linear-gradient(180deg,transparent 0%,#000 14%,#000 90%,transparent 100%)",
+            }}
+          />
+        </span>
       ))}
-    </Grounded>
+    </div>
   );
 }
 

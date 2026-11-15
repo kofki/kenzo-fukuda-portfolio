@@ -23,6 +23,7 @@ const cards: CardData[] = allWork.map((item) => {
     cover: item.cover ?? item.imageUrl,
     coverAlt: item.coverAlt ?? item.imageAlt,
     featured: Boolean(item.featured),
+    domains: item.domains ?? [],
     story: story ? { title: story.title, href: `/writing/${story.slug}` } : undefined,
   };
 });
@@ -35,14 +36,14 @@ export function Work() {
       label="Projects"
       // Rise up under the waterline during the dive, instead of waiting a
       // whole screen of open water after it.
-      className="-mt-[40svh] max-sm:-mt-[24svh]"
+      className="-mt-[88svh] max-sm:-mt-[61svh]"
       // The water and its light come from SeaBackdrop, shared with the end
       // of the dive and About.
       background="transparent"
       mood={false}
       scenery={<Bubbles />}
     >
-      <Container className="pb-20 pt-[clamp(5rem,12vw,8rem)] sm:pb-28">
+      <Container className="pb-6 pt-6 sm:pb-8">
         <Eyebrow>things I&apos;ve built</Eyebrow>
         <SectionTitle>Projects</SectionTitle>
         <ProjectCards cards={cards} />

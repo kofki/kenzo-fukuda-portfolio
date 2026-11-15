@@ -721,3 +721,42 @@
    rather than leave a ball hanging in the sky. */
 [data-vball-court] { transition: opacity 0.6s ease; }
 [data-diving] [data-vball-court] { opacity: 0; }
+/* Droplets clinging to the lens at the waterline (HeroDive). */
+@keyframes drop-wobble {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(1.5px) scale(0.94, 1.06); }
+}
+
+/* Home page: the dive ends on the sea floor, so anything past the last
+   section is the same deep water, never the sand page colour, and the page
+   does not bounce past its ends. Other pages keep the sand background. */
+html:has(main section[data-underwater]) {
+  background-color: #061932;
+  overscroll-behavior-y: none;
+}
+/* Kelp in the current (KelpBed): leans one way, then the other. */
+@keyframes kelp-wave {
+  0%, 100% { transform: skewX(0deg) rotate(0deg); }
+  25% { transform: skewX(-5deg) rotate(1deg); }
+  75% { transform: skewX(4deg) rotate(-0.8deg); }
+}
+/* The moon's path on the night sea: a slow, soft shimmer. */
+@keyframes moon-glint {
+  0%, 100% { opacity: 0.7; transform: scaleX(0.97); }
+  50% { opacity: 0.9; transform: scaleX(1.02); }
+}
+/* Jellyfish (JellyBody): the bell swells and contracts, the tentacles trail
+   and sway in the current. */
+@keyframes bell-pulse {
+  0%, 100% { transform: scale(1, 1); }
+  40% { transform: scale(1.05, 0.95); }
+  70% { transform: scale(0.98, 1.03); }
+}
+@keyframes tentacle-sway {
+  0%, 100% { transform: skewX(0deg) scaleY(1); }
+  30% { transform: skewX(-4deg) scaleY(1.03); }
+  65% { transform: skewX(3.5deg) scaleY(0.98); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [style*="tentacle-sway"], [style*="bell-pulse"] { animation: none !important; }
+}

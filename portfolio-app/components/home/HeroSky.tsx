@@ -24,7 +24,7 @@ const SPARKLES = [
   [18, 44, 0], [27, 55, 0], [43, 52, 1], [57, 60, 0],
 ] as const;
 
-// Three aurora curtains: a wavy top edge, a softer bottom edge.
+// Three aurora curtains: the shapes they are cut to, and their ink colour.
 const CURTAINS = [
   { d: "M0 140 C 120 60, 220 120, 340 70 S 560 40, 700 90 S 900 50, 1000 80 L1000 260 C 860 300, 700 250, 520 290 S 200 250, 0 300 Z", color: "#7be3c0" },
   { d: "M0 190 C 160 120, 300 170, 450 120 S 700 110, 820 150 S 950 120, 1000 140 L1000 300 C 820 330, 640 290, 470 320 S 160 300, 0 330 Z", color: "#5cc6d6" },
@@ -53,7 +53,12 @@ function Img({ layer, mark, className = "", style }: { layer: Layer; mark: strin
  * glitter sliding across the sea. Tap the sky for a gust (day) or a shooting
  * star and an aurora flare (night); tap the sea for a splash.
  */
-export function HeroSky() {
+/**
+ * Which depth layer to draw: the sky (clouds, aurora, stars, sun and moon
+ * glow, wind), the sea (its glitter and the tap-to-ripple zone), or the palm
+ * crown, which stands on the sand with its trunk.
+ */
+export function HeroSky({ part = "sky" }: { part?: "sky" | "sea" | "palm" }) {
   const root = useRef<HTMLDivElement>(null);
 
   useSceneGsap(root, (q) => {
@@ -163,45 +168,57 @@ export function HeroSky() {
   };
 
   return (
-    <div ref={root} className="absolute inset-0">
-      {/* Clouds and the palm crown, per theme */}
+    <div ref={root} className="pointer-events-none absolute inset-0">
+      {/* Clouds per theme, or the palm crown per theme */}
       {(["day", "night"] as const).map((t) => (
         <div key={t} className={`pointer-events-none absolute inset-0 ${t === "day" ? "dark:hidden" : "hidden dark:block"}`}>
-          {sky[t].clouds.map((c) => (
-            <Img key={c.src} layer={c} mark="cloud" className="will-change-transform" />
-          ))}
-          <Img
-            layer={sky[t].palm}
-            mark="palm"
-            className="will-change-transform"
-            style={{ transformOrigin: `${sky[t].palm.pivotX ?? 20}% 100%` }}
-          />
+          {part === "sky"
+            ? sky[t].clouds.map((c) => <Img key={c.src} layer={c} mark="cloud" className="will-change-transform" />)
+            : null}
+          {part === "palm" ? (
+            <Img
+              layer={sky[t].palm}
+              mark="palm"
+              className="will-change-transform"
+              style={{ transformOrigin: `${sky[t].palm.pivotX ?? 20}% 100%` }}
+            />
+          ) : null}
         </div>
       ))}
 
+      {part === "sky" ? (
+      <>
       {/* Night: aurora, stars, shooting star, moon glow */}
       <div className="pointer-events-none absolute inset-0 hidden dark:block">
-        <svg data-aurora viewBox="0 0 1000 400" preserveAspectRatio="none" className="absolute left-0 top-[4%] h-[52%] w-full origin-bottom mix-blend-screen max-sm:opacity-55" style={{ maskImage: "linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent)", WebkitMaskImage: "linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent)" }} aria-hidden>
-          <defs>
-            {CURTAINS.map((c, i) => (
-              <linearGradient key={i} id={`aurora-${i}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor={c.color} stopOpacity="0" />
-                <stop offset="0.5" stopColor={c.color} stopOpacity="0.14" />
-                <stop offset="0.86" stopColor={c.color} stopOpacity="0.42" />
-                <stop offset="1" stopColor={c.color} stopOpacity="0" />
-              </linearGradient>
-            ))}
-            <pattern id="aurora-hatch" width="9" height="400" patternUnits="userSpaceOnUse">
-              <rect width="1.2" height="400" fill="#e9f7ef" opacity="0.12" />
-            </pattern>
-          </defs>
-          {CURTAINS.map((c, i) => (
-            <g key={i} data-curtain style={{ transformOrigin: "50% 100%", transformBox: "fill-box" }}>
-              <path d={c.d} fill={`url(#aurora-${i})`} />
-              <path d={c.d} fill="url(#aurora-hatch)" opacity="0.5" />
-            </g>
-          ))}
-        </svg>
+        {/* Printed-ink aurora: each curtain is a band of colour cut to a
+            wavy shape, brightest along its lower edge and fading upward, with
+            a wide faint halo. Screen-blended, so the sky's paper grain shows
+            through it like ink on the same sheet. */}
+        <div
+          data-aurora
+          aria-hidden
+          className="absolute left-0 top-[2%] h-[56%] w-full origin-bottom mix-blend-screen max-sm:opacity-60"
+          style={{ maskImage: "linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent)", WebkitMaskImage: "linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent)" }}
+        >
+          {CURTAINS.map((c, i) => {
+            const shape = `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 400' preserveAspectRatio='none'><path d='${c.d}' fill='white'/></svg>`)}")`;
+            return (
+              <div key={i} data-curtain className="absolute inset-0 will-change-transform" style={{ transformOrigin: "50% 100%" }}>
+                <div className="absolute inset-[-14%]" style={{ background: `radial-gradient(55% 40% at 50% 64%, ${c.color}38, ${c.color}12 45%, transparent 72%)` }} />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `linear-gradient(180deg, transparent 6%, ${c.color}14 28%, ${c.color}4d 52%, ${c.color}99 66%, #e6fff0aa 72%, ${c.color}55 79%, transparent 90%)`,
+                    maskImage: shape,
+                    WebkitMaskImage: shape,
+                    maskSize: "100% 100%",
+                    WebkitMaskSize: "100% 100%",
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
         {SPARKLES.map(([x, y, big], i) => (
           <span
             key={i}
@@ -220,6 +237,18 @@ export function HeroSky() {
       {/* Day: sun glow */}
       <span data-glow className="pointer-events-none absolute rounded-full dark:hidden" style={{ left: "79%", top: "68%", width: "14%", height: "15%", background: "radial-gradient(closest-side, rgba(255,214,150,0.55), rgba(255,170,110,0))" }} />
 
+      {/* Wind streaks */}
+      <svg viewBox="0 0 1000 600" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 top-[6%] h-[60%] w-full" aria-hidden>
+        {["M60 180 C 220 150, 360 200, 520 170", "M380 300 C 520 270, 650 320, 820 290", "M200 420 C 330 400, 470 440, 600 415"].map((d, i) => (
+          <path key={i} data-streak d={d} fill="none" stroke="#f7ead2" strokeWidth="2.2" strokeLinecap="round" opacity="0" vectorEffect="non-scaling-stroke" />
+        ))}
+      </svg>
+      <div aria-hidden className="pointer-events-auto absolute inset-x-0 top-0" style={{ height: `${HORIZON}%` }} onPointerDown={tapSky} />
+      </>
+      ) : null}
+
+      {part === "sea" ? (
+      <>
       {/* Glitter on the sea: offset copies of each print's water */}
       {(["day", "night"] as const).map((t) => (
         <div
@@ -239,17 +268,10 @@ export function HeroSky() {
         </div>
       ))}
 
-      {/* Wind streaks */}
-      <svg viewBox="0 0 1000 600" preserveAspectRatio="none" className="pointer-events-none absolute inset-x-0 top-[6%] h-[60%] w-full" aria-hidden>
-        {["M60 180 C 220 150, 360 200, 520 170", "M380 300 C 520 270, 650 320, 820 290", "M200 420 C 330 400, 470 440, 600 415"].map((d, i) => (
-          <path key={i} data-streak d={d} fill="none" stroke="#f7ead2" strokeWidth="2.2" strokeLinecap="round" opacity="0" vectorEffect="non-scaling-stroke" />
-        ))}
-      </svg>
-
-      {/* Tap zones: sky and sea. Props sit above these. */}
-      <div aria-hidden className="absolute inset-x-0 top-0" style={{ height: `${HORIZON}%` }} onPointerDown={tapSky} />
-      <div aria-hidden className="absolute inset-x-0" style={{ top: `${HORIZON}%`, height: `${SAND - HORIZON}%` }} onPointerDown={tapSea} />
+      <div aria-hidden className="pointer-events-auto absolute inset-x-0" style={{ top: `${HORIZON}%`, height: `${SAND - HORIZON}%` }} onPointerDown={tapSea} />
       <span data-ripple className="pointer-events-none absolute -ml-10 -mt-3 h-6 w-20 rounded-[50%] border-2 border-[#f4ecd8] opacity-0" />
+      </>
+      ) : null}
     </div>
   );
 }

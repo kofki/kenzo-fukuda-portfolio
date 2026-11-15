@@ -12,8 +12,10 @@ export function Footer() {
   const ArrowUp = icons.arrowDown;
 
   return (
-    <footer className="border-t border-cream/15 pb-10 pt-8">
-      <div className="flex flex-col items-center justify-between gap-4 text-xs text-cream/70 sm:flex-row">
+    // A full-width band of deeper water behind the footer, so its text stays
+    // readable over the lit city.
+    <footer className="relative border-t border-cream/20 pb-10 pt-8 before:absolute before:inset-y-0 before:left-1/2 before:-z-10 before:w-screen before:-translate-x-1/2 before:bg-[linear-gradient(180deg,rgba(3,10,24,0.55),rgba(3,10,24,0.9))]">
+      <div className="flex flex-col items-center justify-between gap-4 text-sm text-cream/90 sm:flex-row">
         <span>© 2026 Kenzo Fukuda</span>
         <nav aria-label="Pages" className="flex items-center gap-5">
           {PAGES.map((page) => (

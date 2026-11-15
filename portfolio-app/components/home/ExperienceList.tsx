@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/cn";
-import { DOMAINS, type Domain, type Experience } from "@/types";
+import type { Experience } from "@/types";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -55,10 +55,9 @@ function RoleRow({ role }: { role: Experience }) {
 /**
  * Every role visible in one list, newest first and grouped by the year it
  * started. Roles with no engineering discipline (mentoring, chapter work)
- * fold into "earlier roles". The discipline filter is kept from the old site.
+ * fold into "earlier roles". (The discipline filter lives on Projects.)
  */
 export function ExperienceList({ experiences }: { experiences: Experience[] }) {
-  const [active, setActive] = useState<Domain | null>(null);
   const [showEarlier, setShowEarlier] = useState(false);
 
   const sorted = useMemo(
@@ -67,9 +66,7 @@ export function ExperienceList({ experiences }: { experiences: Experience[] }) {
   );
   const main = sorted.filter((role) => role.domains?.length);
   const earlier = sorted.filter((role) => !role.domains?.length);
-  const available = DOMAINS.filter((d) => main.some((role) => role.domains?.includes(d)));
-  const visible = active ? main.filter((role) => role.domains?.includes(active)) : main;
-  const rows = showEarlier && !active ? [...visible, ...earlier] : visible;
+  const rows = showEarlier ? [...main, ...earlier] : main;
 
   const years: { year: string; roles: Experience[] }[] = [];
   for (const role of rows) {
@@ -81,27 +78,7 @@ export function ExperienceList({ experiences }: { experiences: Experience[] }) {
 
   return (
     <div>
-      <div role="group" aria-label="Filter by discipline" className="mt-6 flex flex-wrap gap-2">
-        {[null, ...available].map((domain) => {
-          const on = active === domain;
-          return (
-            <button
-              key={domain ?? "all"}
-              type="button"
-              aria-pressed={on}
-              onClick={() => setActive(domain)}
-              className={cn(
-                "min-h-9 rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors",
-                on ? "border-coral-soft bg-coral-soft text-navy" : "border-cream/40 text-cream hover:border-cream",
-              )}
-            >
-              {domain ?? "All"}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="mt-4 max-w-2xl">
+      <div className="mt-6 max-w-2xl">
         {years.map((group) => (
           <div key={group.year}>
             <p className="mt-5 flex items-center gap-2 font-display text-sm text-coral-soft">
@@ -115,7 +92,7 @@ export function ExperienceList({ experiences }: { experiences: Experience[] }) {
             </ul>
           </div>
         ))}
-        {earlier.length && !active ? (
+        {earlier.length ? (
           <button
             type="button"
             onClick={() => setShowEarlier((open) => !open)}
