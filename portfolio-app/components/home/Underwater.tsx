@@ -1,3 +1,4 @@
+import { WaterMood } from "@/components/home/WaterMood";
 import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
@@ -21,6 +22,8 @@ export function Underwater({
   id,
   label,
   background,
+  spill = false,
+  glow,
   scenery,
   children,
   className,
@@ -29,6 +32,10 @@ export function Underwater({
   label?: string;
   /** CSS background for the water itself, usually a gradient. */
   background: string;
+  /** Let grounded scenery reach down past the bottom edge (clips sideways only). */
+  spill?: boolean;
+  /** Lights that shine through the night water, drawn above it. */
+  glow?: ReactNode;
   /** Images and moving layers behind the content. */
   scenery?: ReactNode;
   children: ReactNode;
@@ -39,14 +46,14 @@ export function Underwater({
       id={id}
       data-underwater
       aria-label={label}
-      className={cn("relative overflow-clip text-cream", className)}
+      className={cn("relative text-cream", spill ? "overflow-x-clip" : "overflow-clip", className)}
       style={{ background }}
     >
       {scenery}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[#050c1c] opacity-0 transition-opacity duration-700 dark:opacity-30"
-      />
+      <div aria-hidden>
+        <WaterMood />
+      </div>
+      {glow}
       {/* Taps pass through empty space to the creatures behind; text and
           controls still catch them. */}
       <div className="pointer-events-none relative z-10 [&_a]:pointer-events-auto [&_button]:pointer-events-auto [&_dl]:pointer-events-auto [&_figure]:pointer-events-auto [&_h2]:pointer-events-auto [&_h3]:pointer-events-auto [&_li]:pointer-events-auto [&_p]:pointer-events-auto">

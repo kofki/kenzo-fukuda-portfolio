@@ -203,7 +203,7 @@ export function CityLights({ groups = 10 }: { groups?: number }) {
  * Coral and seaweed cut from a print, swaying from where they are rooted.
  * Tall, thin clumps (seaweed) sway further than the stiff coral.
  */
-export function SwayLayers({ layers }: { layers: Layer[] }) {
+export function SwayLayers({ layers, imgClassName = "" }: { layers: Layer[]; imgClassName?: string }) {
   const root = useRef<HTMLDivElement>(null);
   useSceneGsap(root, (q) =>
     q("[data-sway]").map((el, i) => {
@@ -228,7 +228,7 @@ export function SwayLayers({ layers }: { layers: Layer[] }) {
           alt=""
           decoding="async"
           draggable={false}
-          className="absolute max-w-none origin-bottom select-none will-change-transform"
+          className={`absolute max-w-none origin-bottom select-none will-change-transform ${imgClassName}`}
           style={box(l)}
         />
       ))}

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { fish, kelp } from "@/components/home/creatureLayers";
+import { Grounded, Pass } from "@/components/home/Grounded";
 import { playSwish } from "@/lib/worldSound";
 
 function Fish({ index }: { index: number }) {
@@ -45,24 +46,40 @@ function Fish({ index }: { index: number }) {
   );
 }
 
-/** Kelp swaying up both edges of Logbook, with two fish swimming between. */
-export function KelpForest() {
+/**
+ * The kelp bed under Logbook: two tall clumps rooted on the sea floor at the
+ * edges, swaying, which part to either side as we swim on past them.
+ */
+export function KelpBed() {
+  return (
+    <Grounded className="h-[150%]">
+      {kelp.map((k, i) => (
+        <Pass key={k.src} to={i === 0 ? "left" : "right"} lag={i * 0.05}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={k.src}
+            alt=""
+            decoding="async"
+            className="absolute bottom-0 h-full w-auto max-w-none origin-bottom brightness-[2.2] saturate-[0.85] dark:brightness-[1.5]"
+            style={{
+              [i === 0 ? "left" : "right"]: "-1%",
+              animation: `kelp-sway ${8 + i * 1.5}s ease-in-out ${-i * 3}s infinite`,
+              // The print cut the fronds off at the top; let them fade into the
+              // water above instead.
+              maskImage: "linear-gradient(180deg,transparent 0%,#000 28%)",
+              WebkitMaskImage: "linear-gradient(180deg,transparent 0%,#000 28%)",
+            }}
+          />
+        </Pass>
+      ))}
+    </Grounded>
+  );
+}
+
+/** Two fish swimming through the kelp. */
+export function KelpFish() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0">
-      {kelp.map((k, i) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={k.src}
-          src={k.src}
-          alt=""
-          decoding="async"
-          className="absolute bottom-[-8%] h-[118%] w-auto max-w-none origin-bottom brightness-[2.2] saturate-[0.85]"
-          style={{
-            [i === 0 ? "left" : "right"]: "-1%",
-            animation: `kelp-sway ${8 + i * 1.5}s ease-in-out ${-i * 3}s infinite`,
-          }}
-        />
-      ))}
       {fish.map((f, i) => (
         <Fish key={f.src} index={i} />
       ))}

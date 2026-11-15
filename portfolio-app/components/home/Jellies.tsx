@@ -38,13 +38,17 @@ function Jelly({ c, index }: { c: Creature; index: number }) {
         } as CSSProperties
       }
     >
+      {/* At night the jellyfish glow. */}
+      {isRay ? null : (
+        <span className="absolute -inset-[30%] hidden animate-[glow-breathe_5s_ease-in-out_infinite] rounded-full bg-[radial-gradient(closest-side,rgba(160,235,255,0.55),rgba(120,200,255,0.18)_55%,transparent)] dark:block" />
+      )}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={c.src}
         alt=""
         decoding="async"
         onAnimationEnd={() => setPulse(false)}
-        className="block h-full w-full origin-top"
+        className="relative block h-full w-full origin-top dark:brightness-125"
         style={{ animation: pulse ? `${isRay ? "fish-dart" : "jelly-pulse"} 900ms ease-out` : undefined }}
       />
     </button>

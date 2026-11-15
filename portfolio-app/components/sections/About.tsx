@@ -1,14 +1,13 @@
 import Image from "next/image";
 import { PhotoPrint } from "@/components/home/PhotoPrint";
 import { Bubbles } from "@/components/home/Bubbles";
-import { reefCoral, reefFish } from "@/components/home/liveLayers";
-import { FishSchool, LightRays, SwayLayers } from "@/components/home/SeaLife";
-import { ScrollLayer } from "@/components/home/ScrollLayer";
+import { reefFish, seaFish } from "@/components/home/liveLayers";
+import { ReefLedge } from "@/components/home/ReefLedge";
+import { LightRays, Swimmers } from "@/components/home/SeaLife";
 import {
   Eyebrow,
   SectionTitle,
   Underwater,
-  fadeEdges,
 } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
 import { profile } from "@/data/profile";
@@ -24,39 +23,26 @@ const HOBBIES = [
 ];
 
 /**
- * Transition 2, "the reef rises": the reef strip climbs in from below a
- * little faster than the page as About arrives.
+ * Transition 2, the reef: open water with fish and light, then the reef on
+ * the sea floor along the bottom, which passes us as we keep swimming.
  */
 export function About() {
   return (
     <Underwater
       id="about"
       label="About"
+      spill
       background="linear-gradient(180deg,#0c2f59 0%,#0c3160 40%,#0c3160 75%,#0b2a4c 100%)"
       scenery={
         <>
           <Bubbles count={5} />
-          <ScrollLayer
-            className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center"
-            y={[28, 0]}
-            range={[0, 0.5]}
-          >
-            <div
-              className="relative aspect-[3/2] w-[max(100%,56rem)]"
-              style={fadeEdges(30, 90)}
-            >
-              <Image
-                src="/scenes/reef.webp"
-                alt=""
-                fill
-                sizes="100vw"
-                className="object-cover object-bottom"
-              />
-              <LightRays side="left" />
-            <SwayLayers layers={reefCoral} />
-              <FishSchool fish={reefFish} drift={9} />
-            </div>
-          </ScrollLayer>
+          {/* Open water on the way down: the light and the fish from
+              Projects carry on until the reef comes up from below. */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[60%]">
+            <LightRays side="right" />
+            <Swimmers fish={[seaFish[1], seaFish[3], reefFish[2]]} flip />
+          </div>
+          <ReefLedge />
         </>
       }
     >

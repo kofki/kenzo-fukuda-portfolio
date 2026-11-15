@@ -24,9 +24,20 @@ export function Contact() {
       id="contact"
       label="Contact"
       background="linear-gradient(180deg,#081e3a 0%,#061932 35%,#061932 100%)"
+      glow={
+        // At night the city shines through the dark water: a second copy of
+        // its glow, above the night veil, moving with the city.
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 hidden justify-center dark:flex">
+          <ScrollLayer className="relative aspect-[3/2] w-[max(100%,62rem)]" style={fadeEdges(40, 100)} y={[34, 0]} range={[0, 0.5]}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/scenes/live/city-glow.webp" alt="" draggable={false} className="absolute inset-0 h-full w-full animate-[glow-pulse_6s_ease-in-out_infinite] mix-blend-screen" />
+          </ScrollLayer>
+        </div>
+      }
       scenery={
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center">
-          <div className="relative aspect-[3/2] w-[max(100%,62rem)]" style={fadeEdges(28, 100)}>
+          {/* The city rises up off the seabed as you reach the bottom. */}
+          <ScrollLayer className="relative aspect-[3/2] w-[max(100%,62rem)]" style={fadeEdges(28, 100)} y={[34, 0]} range={[0, 0.5]}>
             <Image src="/scenes/city.webp" alt="" fill sizes="100vw" className="object-cover object-bottom" />
             <ScrollLayer
               className="absolute inset-0 bg-[#030a18]"
@@ -36,7 +47,7 @@ export function Contact() {
             <FishSchool fish={cityFish} drift={10} />
             <CityLights />
             <SwayLayers layers={cityCoral} />
-          </div>
+          </ScrollLayer>
         </div>
       }
     >

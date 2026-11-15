@@ -674,3 +674,21 @@
   0%, 100% { transform: rotate(0deg); }
   50% { transform: rotate(0.8deg); }
 }
+
+/* Underwater night (WaterMood). */
+@keyframes plankton {
+  0%, 100% { opacity: 0.15; transform: translate3d(0, 0, 0) scale(0.7); }
+  45% { opacity: 1; transform: translate3d(6px, -14px, 0) scale(1); }
+  70% { opacity: 0.4; transform: translate3d(-4px, -22px, 0) scale(0.85); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-[plankton"] { animation: none !important; }
+}
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(0.94); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
