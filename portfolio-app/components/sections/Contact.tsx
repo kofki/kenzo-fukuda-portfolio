@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { Footer } from "@/components/layout/Footer";
 import { PhotoPrint } from "@/components/home/PhotoPrint";
-import { cityFish } from "@/components/home/liveLayers";
-import { CityLights, FishSchool } from "@/components/home/SeaLife";
+import { cityCoral, cityFish } from "@/components/home/liveLayers";
+import { CityLights, FishSchool, SwayLayers } from "@/components/home/SeaLife";
 import { ScrollLayer } from "@/components/home/ScrollLayer";
 import { Eyebrow, Underwater, fadeEdges } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
@@ -35,6 +35,7 @@ export function Contact() {
             />
             <FishSchool fish={cityFish} drift={10} />
             <CityLights />
+            <SwayLayers layers={cityCoral} />
           </div>
         </div>
       }

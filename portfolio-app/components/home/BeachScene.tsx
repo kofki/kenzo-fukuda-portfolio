@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { HeroSky } from "@/components/home/HeroSky";
+import { Volleyball } from "@/components/home/Volleyball";
 import { dayWaves, nightWaves, type WaveLayer } from "@/components/home/waveLayers";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import {
@@ -15,6 +16,8 @@ import {
 
 interface Prop {
   key: string;
+  /** Image file name when it differs from the key. */
+  file?: string;
   label: string;
   /** Position inside the 3:2 scene, in % of its width / height. */
   left: number;
@@ -38,8 +41,8 @@ interface Prop {
 const PROPS: Prop[] = [
   { key: "skateboard", label: "Roll the skateboard", left: 0.9, bottom: 3.9, height: 3.7, animation: "skate-roll", duration: 700, sound: playKnock, day: [293, 75], night: [283, 72], desktopOnly: true },
   { key: "surfboard", label: "Wobble the surfboard", left: 15.6, bottom: 0.5, height: 13.1, animation: "surf-wobble", duration: 900, idle: "surf-idle 5s ease-in-out infinite", sound: playKnock, day: [94, 340], night: [99, 323], desktopOnly: true },
-  { key: "net", label: "Bounce the volleyball", left: 32.4, bottom: 0.5, height: 10.4, animation: "ball-bounce", duration: 700, sound: playBounce, day: [352, 246], night: [329, 212], desktopOnly: true },
-  { key: "crab", label: "Poke the crab", left: 54.7, bottom: 0.5, height: 5.7, animation: "crab-poke", duration: 1400, idle: "crab-idle 7s ease-in-out infinite", sound: playDig, day: [184, 129], night: [170, 126] },
+  { key: "net", file: "net-open", label: "Bounce the volleyball", left: 32.4, bottom: 0.5, height: 10.4, animation: "ball-squash", duration: 500, sound: playBounce, day: [352, 246], night: [329, 212], desktopOnly: true },
+  { key: "crab", label: "Poke the crab", left: 55.2, bottom: 0.5, height: 3.6, animation: "crab-poke", duration: 1400, idle: "crab-idle 7s ease-in-out infinite", sound: playDig, day: [184, 129], night: [170, 126] },
   { key: "umbrella", label: "Open and close the umbrella", left: 70.3, bottom: 0.5, height: 14.1, animation: "umbrella-fold", duration: 800, idle: "umbrella-idle 6s ease-in-out infinite", sound: playWhoosh, day: [302, 313], night: [84, 328] },
   { key: "guitar", label: "Strum the guitar", left: 82.8, bottom: 0.7, height: 12.4, animation: "guitar-strum", duration: 700, sound: playStrum, day: [130, 316], night: [121, 285] },
 ];
@@ -71,7 +74,7 @@ function PropButton({ prop }: { prop: Prop }) {
     >
       <span className="block h-full transition-transform duration-200 group-hover:-translate-y-[4%] group-active:scale-95">
         <Image
-          src={`/props/day/${prop.key}.webp`}
+          src={`/props/day/${prop.file ?? prop.key}.webp`}
           alt=""
           width={prop.day[0]}
           height={prop.day[1]}
@@ -79,7 +82,7 @@ function PropButton({ prop }: { prop: Prop }) {
           sizes="160px"
         />
         <Image
-          src={`/props/night/${prop.key}.webp`}
+          src={`/props/night/${prop.file ?? prop.key}.webp`}
           alt=""
           width={prop.night[0]}
           height={prop.night[1]}
@@ -186,6 +189,7 @@ export function BeachScene() {
       {PROPS.map((prop) => (
         <PropButton key={prop.key} prop={prop} />
       ))}
+      <Volleyball />
     </div>
   );
 }

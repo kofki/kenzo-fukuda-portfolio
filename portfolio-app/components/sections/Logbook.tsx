@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { KelpForest } from "@/components/home/KelpForest";
+import { cityFish, seaFish } from "@/components/home/liveLayers";
+import { Swimmers } from "@/components/home/SeaLife";
 import { LiveScene } from "@/components/home/LiveScene";
 import { Underwater, fadeEdges } from "@/components/home/Underwater";
 import { Container } from "@/components/ui/Container";
@@ -25,6 +27,7 @@ export function Logbook() {
           <div className="absolute inset-0" style={fadeEdges(8, 82)}>
             <KelpForest />
           </div>
+          <Swimmers fish={[seaFish[4], cityFish[0]]} flip />
         </LiveScene>
       }
     >

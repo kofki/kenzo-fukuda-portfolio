@@ -2,6 +2,8 @@ import Image from "next/image";
 import { ExperienceList } from "@/components/home/ExperienceList";
 import { Bubbles } from "@/components/home/Bubbles";
 import { Jellies } from "@/components/home/Jellies";
+import { reefFish, seaFish } from "@/components/home/liveLayers";
+import { Swimmers } from "@/components/home/SeaLife";
 import { LiveScene } from "@/components/home/LiveScene";
 import { ScrollLayer } from "@/components/home/ScrollLayer";
 import { Eyebrow, SectionTitle, Underwater, fadeEdges } from "@/components/home/Underwater";
@@ -31,6 +33,7 @@ export function Experience() {
             <Image src="/scenes/jelly.webp" alt="" fill sizes="100vw" className="object-cover" />
           </div>
           <Bubbles count={5} />
+          <Swimmers fish={[seaFish[0], seaFish[2], reefFish[1]]} />
           {/* The jellyfish ride along in a sticky frame for the whole section. */}
           <div className="absolute inset-0">
             <div className="sticky top-0 h-[100svh] overflow-hidden">

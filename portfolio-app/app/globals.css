@@ -612,7 +612,7 @@
 }
 @keyframes kelp-sway {
   0%, 100% { transform: skewX(0deg) rotate(0deg); }
-  50% { transform: skewX(-3deg) rotate(0.6deg); }
+  50% { transform: skewX(-7deg) rotate(1.4deg); }
 }
 @keyframes fish-swim {
   0%   { transform: translateX(0) translateY(0); }
