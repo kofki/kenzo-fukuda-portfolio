@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { PhotoPrint } from "@/components/home/PhotoPrint";
 import { Bubbles } from "@/components/home/Bubbles";
-import { reefFish } from "@/components/home/liveLayers";
-import { FishSchool, LightRays } from "@/components/home/SeaLife";
+import { reefCoral, reefFish } from "@/components/home/liveLayers";
+import { FishSchool, LightRays, SwayLayers } from "@/components/home/SeaLife";
 import { ScrollLayer } from "@/components/home/ScrollLayer";
 import {
   Eyebrow,
@@ -53,6 +53,7 @@ export function About() {
                 className="object-cover object-bottom"
               />
               <LightRays side="left" />
+            <SwayLayers layers={reefCoral} />
               <FishSchool fish={reefFish} drift={9} />
             </div>
           </ScrollLayer>

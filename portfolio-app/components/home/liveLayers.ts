@@ -272,3 +272,122 @@ export const cityFish: Layer[] = [
     height: 4.79,
   },
 ];
+
+// Coral and seaweed clumps, cut so they can sway from their base.
+export const reefCoral: Layer[] = [
+  {
+    src: "/scenes/live/reef-coral-0.webp",
+    left: 0.0,
+    top: 67.09,
+    width: 13.02,
+    height: 20.31,
+  },
+  {
+    src: "/scenes/live/reef-coral-1.webp",
+    left: 13.02,
+    top: 63.67,
+    width: 8.66,
+    height: 25.39,
+  },
+  {
+    src: "/scenes/live/reef-coral-2.webp",
+    left: 19.6,
+    top: 81.84,
+    width: 8.53,
+    height: 9.38,
+  },
+  {
+    src: "/scenes/live/reef-coral-3.webp",
+    left: 26.04,
+    top: 86.43,
+    width: 6.18,
+    height: 7.32,
+  },
+  {
+    src: "/scenes/live/reef-coral-4.webp",
+    left: 32.1,
+    top: 76.86,
+    width: 6.32,
+    height: 19.34,
+  },
+  {
+    src: "/scenes/live/reef-coral-5.webp",
+    left: 36.78,
+    top: 85.94,
+    width: 7.62,
+    height: 7.81,
+  },
+  {
+    src: "/scenes/live/reef-coral-6.webp",
+    left: 48.31,
+    top: 88.87,
+    width: 5.34,
+    height: 7.13,
+  },
+  {
+    src: "/scenes/live/reef-coral-7.webp",
+    left: 55.34,
+    top: 80.08,
+    width: 6.84,
+    height: 14.84,
+  },
+  {
+    src: "/scenes/live/reef-coral-8.webp",
+    left: 58.92,
+    top: 91.02,
+    width: 7.16,
+    height: 5.86,
+  },
+  {
+    src: "/scenes/live/reef-coral-9.webp",
+    left: 66.73,
+    top: 84.86,
+    width: 5.01,
+    height: 12.01,
+  },
+  {
+    src: "/scenes/live/reef-coral-10.webp",
+    left: 70.64,
+    top: 93.07,
+    width: 5.01,
+    height: 4.59,
+  },
+];
+
+export const cityCoral: Layer[] = [
+  {
+    src: "/scenes/live/city-coral-0.webp",
+    left: 0.98,
+    top: 71.29,
+    width: 5.47,
+    height: 16.11,
+  },
+  {
+    src: "/scenes/live/city-coral-1.webp",
+    left: 8.33,
+    top: 78.61,
+    width: 11.98,
+    height: 16.6,
+  },
+  {
+    src: "/scenes/live/city-coral-2.webp",
+    left: 32.23,
+    top: 84.96,
+    width: 8.92,
+    height: 11.72,
+  },
+  {
+    src: "/scenes/live/city-coral-3.webp",
+    left: 86.59,
+    top: 78.61,
+    width: 13.41,
+    height: 18.07,
+  },
+  {
+    src: "/scenes/live/city-coral-4.webp",
+    left: 95.7,
+    top: 66.02,
+    width: 4.23,
+    height: 7.62,
+  },
+];

@@ -138,7 +138,7 @@ export function LightRays({ side = "right" }: { side?: "left" | "right" }) {
  * Atlantis lighting up: the windows come on block by block as you arrive,
  * then flicker like old lamps. Tap the city and every light surges.
  */
-export function CityLights({ groups = 4 }: { groups?: number }) {
+export function CityLights({ groups = 10 }: { groups?: number }) {
   const root = useRef<HTMLDivElement>(null);
   const surgeRef = useRef<(() => void) | null>(null);
 
@@ -149,18 +149,25 @@ export function CityLights({ groups = 4 }: { groups?: number }) {
     gsap.set([...lights, ...glow], { opacity: 0 });
     // Arrival: blocks switch on one after another.
     const arrive = gsap.timeline({ paused: true })
-      .to(lights, { opacity: 1, duration: 0.25, ease: "power1.in", stagger: 0.35 })
+      .to(lights, { opacity: 1, duration: 0.2, ease: "steps(2)", stagger: { each: 0.18, from: "random" } })
       .to(glow, { opacity: 0.75, duration: 1.2, ease: "sine.out" }, "<0.2");
     const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { arrive.play(); io.disconnect(); } }, { threshold: 0.35 });
     if (root.current) io.observe(root.current);
-    // Flicker: each block dips at random, mostly staying lit.
+    // Blocks of windows switch fully off and back on at random, with a
+    // stutter on the way, so the city looks lived in. Never more than a
+    // few dark at once.
     const loops: gsap.core.Animation[] = lights.map((l) =>
-      gsap.timeline({ repeat: -1, repeatRefresh: true, delay: r(2, 5) })
-        .to(l, { opacity: () => r(0.25, 0.7), duration: () => r(0.05, 0.15), ease: "steps(2)" })
-        .to(l, { opacity: 1, duration: () => r(0.05, 0.2) })
-        .to(l, { opacity: () => r(0.8, 1), duration: () => r(1.5, 4), ease: "sine.inOut" }),
+      gsap.timeline({ repeat: -1, repeatRefresh: true, delay: r(2.5, 9) })
+        .to(l, { opacity: 1, duration: () => r(3, 8) })
+        .to(l, { opacity: 0.35, duration: 0.06, ease: "steps(1)" })
+        .to(l, { opacity: 1, duration: 0.08, ease: "steps(1)" })
+        .to(l, { opacity: 0.04, duration: 0.18, ease: "power2.in" })
+        .to(l, { opacity: 0.04, duration: () => r(0.8, 3) })
+        .to(l, { opacity: 0.6, duration: 0.05, ease: "steps(1)" })
+        .to(l, { opacity: 0.1, duration: 0.07, ease: "steps(1)" })
+        .to(l, { opacity: 1, duration: 0.25, ease: "power2.out" }),
     );
-    loops.push(gsap.to(glow, { scale: 1.02, duration: 3, ease: "sine.inOut", yoyo: true, repeat: -1 }));
+    loops.push(gsap.fromTo(glow, { opacity: 0.55, scale: 1 }, { opacity: 0.95, scale: 1.03, duration: 3.2, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 3 }));
     surgeRef.current = contextSafe(() => {
       gsap.timeline()
         .to(lights, { opacity: 1, duration: 0.1, stagger: 0.05 })
@@ -188,6 +195,92 @@ export function CityLights({ groups = 4 }: { groups?: number }) {
           <img key={i} data-lights src={`/scenes/live/city-lights-${i}.webp`} alt="" draggable={false} className="absolute inset-0 h-full w-full" />
         ))}
       </div>
+    </div>
+  );
+}
+
+/**
+ * Coral and seaweed cut from a print, swaying from where they are rooted.
+ * Tall, thin clumps (seaweed) sway further than the stiff coral.
+ */
+export function SwayLayers({ layers }: { layers: Layer[] }) {
+  const root = useRef<HTMLDivElement>(null);
+  useSceneGsap(root, (q) =>
+    q("[data-sway]").map((el, i) => {
+      const tall = Number((el as HTMLElement).dataset.ratio) > 1.2;
+      const amp = tall ? 7 : 2.5;
+      return gsap.fromTo(
+        el,
+        { skewX: -amp, rotation: -amp / 4 },
+        { skewX: amp, rotation: amp / 4, duration: () => gsap.utils.random(2.6, 4.2) * (tall ? 1 : 1.3), ease: "sine.inOut", yoyo: true, repeat: -1, repeatRefresh: true, delay: -i * 0.7 },
+      );
+    }),
+  );
+  return (
+    <div ref={root} aria-hidden className="pointer-events-none absolute inset-0">
+      {layers.map((l) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={l.src}
+          data-sway
+          data-ratio={(l.height / l.width) * (2 / 3)}
+          src={l.src}
+          alt=""
+          decoding="async"
+          draggable={false}
+          className="absolute max-w-none origin-bottom select-none will-change-transform"
+          style={box(l)}
+        />
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Fish crossing a whole section, each at its own depth and pace, gliding
+ * with a gentle wave. Tap one and it darts ahead.
+ */
+export function Swimmers({ fish, flip = false }: { fish: Layer[]; flip?: boolean }) {
+  const root = useRef<HTMLDivElement>(null);
+  useSceneGsap(root, (q) => {
+    const r = gsap.utils.random;
+    const loops: gsap.core.Animation[] = [];
+    q("[data-swimmer]").forEach((el, i) => {
+      const from = flip ? 110 : -15;
+      const to = flip ? -15 : 110;
+      const width = () => root.current?.clientWidth ?? window.innerWidth;
+      gsap.set(el, { left: `${from}%` });
+      loops.push(
+        gsap.fromTo(el, { x: 0 }, { x: () => ((to - from) / 100) * width(), duration: () => r(26, 42), ease: "none", repeat: -1, repeatRefresh: true, delay: -i * 9 }),
+        gsap.to(el.firstElementChild, { y: () => r(-26, 26), rotation: () => r(-5, 5), duration: () => r(2.5, 4), ease: "sine.inOut", yoyo: true, repeat: -1, repeatRefresh: true }),
+      );
+    });
+    return loops;
+  });
+  const dart = (event: { currentTarget: HTMLElement }) => {
+    playSwish();
+    if (prefersReducedMotion()) return;
+    const img = event.currentTarget.querySelector("img");
+    gsap.fromTo(img, { x: 0 }, { x: flip ? -90 : 90, duration: 0.35, ease: "power3.out", yoyo: true, repeat: 1 });
+  };
+  return (
+    <div ref={root} aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      {fish.map((f, i) => (
+        <button
+          key={`${f.src}-${i}`}
+          type="button"
+          tabIndex={-1}
+          data-swimmer
+          onClick={dart}
+          className="pointer-events-auto absolute cursor-pointer"
+          style={{ top: `${14 + ((i * 37) % 70)}%`, width: `clamp(44px, ${4 + (i % 3)}vw, 96px)`, aspectRatio: `${f.width * 1.5} / ${f.height}` }}
+        >
+          <span className="block h-full w-full">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={f.src} alt="" decoding="async" draggable={false} className="block h-full w-full" style={{ transform: flip ? "scaleX(-1)" : undefined }} />
+          </span>
+        </button>
+      ))}
     </div>
   );
 }
