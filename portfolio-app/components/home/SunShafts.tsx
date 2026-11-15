@@ -8,12 +8,14 @@ import { useSceneGsap } from "@/lib/useSceneGsap";
 // how far down it reaches (% of the layer). They lean the same way as the
 // shafts drawn in the sea print, top right to bottom left.
 const SHAFTS = [
-  { left: 44, width: 4.5, reach: 78 },
-  { left: 52, width: 7, reach: 100 },
-  { left: 61, width: 3.5, reach: 70 },
-  { left: 67, width: 6, reach: 92 },
-  { left: 77, width: 4, reach: 84 },
-  { left: 86, width: 5.5, reach: 64 },
+  { left: 8, width: 6, reach: 62 },
+  { left: 21, width: 9, reach: 80 },
+  { left: 36, width: 5, reach: 70 },
+  { left: 45, width: 8, reach: 96 },
+  { left: 56, width: 6, reach: 74 },
+  { left: 64, width: 10, reach: 100 },
+  { left: 76, width: 6, reach: 86 },
+  { left: 86, width: 8, reach: 66 },
 ];
 
 /**
@@ -44,7 +46,10 @@ export function SunShafts() {
             width: `${s.width}%`,
             height: `${s.reach}%`,
             transform: "skewX(-9deg)",
-            background: "linear-gradient(180deg, rgba(215,240,238,0.34) 0%, rgba(215,240,238,0.16) 45%, rgba(215,240,238,0) 100%)",
+            // Soft on both sides and fading downwards, like light, not stripes.
+            background: "linear-gradient(90deg, rgba(215,240,238,0) 0%, rgba(215,240,238,0.36) 50%, rgba(215,240,238,0) 100%)",
+            maskImage: "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.5) 45%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.5) 45%, transparent 100%)",
           }}
         />
       ))}

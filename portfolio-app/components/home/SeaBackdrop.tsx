@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { LiveScene } from "@/components/home/LiveScene";
-import { seaBubbles, seaFish } from "@/components/home/liveLayers";
-import { FishSchool, PrintBubbles } from "@/components/home/SeaLife";
+import { cityFish, reefFish, seaBubbles, seaFish } from "@/components/home/liveLayers";
+import { FishSchool, PrintBubbles, RayGlide, Swimmers } from "@/components/home/SeaLife";
 import { SunShafts } from "@/components/home/SunShafts";
 import { fadeEdges } from "@/components/home/Underwater";
 import { WaterMood } from "@/components/home/WaterMood";
@@ -25,11 +25,24 @@ export function SeaBackdrop() {
         {/* The print fills at least one screen, cropped like the beach. */}
         <div className="absolute left-[70%] top-0 aspect-[3/2] h-[max(100svh,620px,66.67vw)] -translate-x-[70%]" style={fadeEdges(0, 80)}>
           <Image src="/scenes/sea.webp" alt="" fill sizes="(max-width: 640px) 260vw, 100vw" className="object-cover" />
+        </div>
+        {/* Same frame, but unmasked: moving things under a mask can leave
+            ghost copies behind in some browsers. */}
+        <div className="absolute left-[70%] top-0 aspect-[3/2] h-[max(100svh,620px,66.67vw)] -translate-x-[70%]">
           <PrintBubbles bubbles={seaBubbles} />
           <FishSchool fish={seaFish} />
         </div>
-        <div className="absolute inset-x-0 top-0 h-[78%]">
+        {/* The shafts fade in below the surface instead of starting at it. */}
+        <div
+          className="absolute inset-x-0 top-0 h-[78%]"
+          style={{ maskImage: "linear-gradient(180deg,transparent 0%,#000 14%)", WebkitMaskImage: "linear-gradient(180deg,transparent 0%,#000 14%)" }}
+        >
           <SunShafts />
+        </div>
+        {/* Life across the open water right under the surface. */}
+        <div className="absolute inset-x-0 top-[6%] h-[min(110svh,40%)]">
+          <RayGlide top="34%" />
+          <Swimmers fish={[reefFish[0], seaFish[5], cityFish[2], reefFish[2]]} flip />
         </div>
       </LiveScene>
       <WaterMood />
